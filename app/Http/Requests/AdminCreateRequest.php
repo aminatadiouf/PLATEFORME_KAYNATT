@@ -28,7 +28,9 @@ class AdminCreateRequest extends FormRequest
         return [
             'name_admin'=>'required|string|max:55',
             'email_admin'=>'required|string|email|unique:admins',
-            'password'=>'required|min:4'
+            'password'=>'required|min:4',
+            'role'=>'required|admin',
+
            ];
     }
 
@@ -63,6 +65,8 @@ class AdminCreateRequest extends FormRequest
         
      
 
+        'role.required'=>'le role doit être fourni',
+        'role.admin' => 'Le role doit être admin',
         ];
     }
 }

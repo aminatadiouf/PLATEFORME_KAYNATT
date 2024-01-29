@@ -3,10 +3,11 @@
 use App\Models\GestionCycle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\UserController;
+
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\TontineController;
-use App\Http\Controllers\api\PayementController;
 use App\Http\Controllers\Api\GestionCycleController;
 use App\Http\Controllers\Api\CotisationTontineController;
 use App\Http\Controllers\Api\ParticipationTontineController;
@@ -113,15 +114,15 @@ Route::GET('ListeCotisationParTontine/{tontines}',[TontineController::class,'all
 
 //public function notificationCotisation(GestionCycle $cycles,Tontine $tontines)
 //mail pour date de notification
-Route::POST('notifierDateNotification',[GestionCycleController::class,'notificationCotisation']);
+Route::GET('notifierDateNotification/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
 
 
 
 
-Route::get('/payment', [PayementController::class, 'index'])->name('payment.index');
-Route::post('/checkout', [PayementController::class, 'payment'])->name('payment.submit');
-Route::get('ipn', [PayementController::class, 'ipn'])->name('paytech-ipn');
-Route::get('payment-success/{code}', [PayementController::class, 'success'])->name('payment.success');
-Route::get('payment/{code}/success', [PayementController::class, 'paymentSuccessView'])->name('payment.success.view');
-Route::get('payment-cancel', [PayementController::class, 'cancel'])->name('paytech.cancel');
+Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::post('/checkout', [PaymentController::class, 'payment'])->name('payment.submit');
+Route::get('ipn', [PaymentController::class, 'ipn'])->name('paytech-ipn');
+Route::get('payment-success/{code}', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('payment/{code}/success', [PaymentController::class, 'paymentSuccessView'])->name('payment.success.view');
+Route::get('payment-cancel', [PaymentController::class, 'cancel'])->name('paytech.cancel');

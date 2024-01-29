@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Tontine;
+use App\Models\GestionCycle;
 use Illuminate\Http\Request;
 use App\Models\CotisationTontine;
 use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateCotisationTontineRequest;
-use App\Models\GestionCycle;
 
 class CotisationTontineController extends Controller
 {
@@ -159,6 +160,30 @@ class CotisationTontineController extends Controller
 
 
     }
+
+    
+
+    public function faireTirage(User $user)
+    {
+        // Récupérer la liste des utilisateurs non-gagnants
+        $nonGagnants = User::where('gagnant', false)->get();
+
+        if ($nonGagnants->isEmpty()) {
+            return response()->json(['message' => 'Il n\'y a pas de non-gagnants pour le moment.'], 404);
+        }
+
+        // Effectuer le tirage au sort
+        $gagnant = $nonGagnants->random();
+
+        // Mettre à jour le statut du gagnant dans la base de données
+        $gagnant->update(['gagnant' => true]);
+
+        // Notifier le gagnant (vous devrez implémenter la logique de notification)
+        $this->notifierGagnant($gagnant);
+
+        return response()->json(['gagnant' => $gagnant, 'message' => 'Le tirage au sort a été effectué avec succès.']);
+    }
+
 
    
 

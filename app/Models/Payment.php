@@ -18,10 +18,9 @@ class Payment extends Model
     protected $fillable = [
         'participation_Tontine_id',
         'gestion_cycle_id',
-        'montant_paiement',
-        'date_paiement',
+        'amount',
         'token',
-        'statut'
+       
     ];
 
     protected $table = 'payments';

@@ -142,25 +142,15 @@
                         <form class="login-form" action="{{ route('payment.submit') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input type="text" name="product_name" value="HP EliteBook 1030 G5" class="form-control" placeholder="Nom du produit">
+                                <input type="number" name="participation_tontine_id"  class="form-control" placeholder="Participant">
                             </div>
                             <div class="form-group">
-                                <input type="number" name="montant_paiement" value="" class="form-control" placeholder="cotisation tontine">
-                            </div>
-                            {{-- <div class="form-group">
-                                <input type="number" name="qty" value="1" class="form-control" placeholder="Quantité">
-                            </div> --}}
-                            <div class="form-group">
-                                <input type="string" name="statut" class="form-control" placeholder="statutUser">
+                                <input type="number" name="price"  class="form-control" placeholder="Montant">
                             </div>
                             <div class="form-group">
-                                <input type="hidden" name="participation_Tontine_id" id="participation_Tontine_id" value="{{ $participationTontine }}">
-                                <input type="hidden" name="gestion_cycle_id" id="gestion_cycle_id" value="{{  $participationTontine->tontine->gestion_cycles()
-                                    ->orderBy('id', 'asc')
-                                        ->first()
-                                        ->id}}">
-
-
+                                <input type="number" name="gestion_cycle_id"  class="form-control" placeholder="gestion_cycle">
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Effectuer le Paiement</button>
                             </div>
                         </form>

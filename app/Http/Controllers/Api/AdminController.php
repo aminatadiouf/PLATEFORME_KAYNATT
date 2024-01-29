@@ -43,7 +43,7 @@ class AdminController extends Controller
             $admins->name_admin = $request->name_admin;
             $admins->email_admin = $request->email_admin;
             $admins->password = Hash::make($request->password);
-
+            $admins->role = $request->role;
             $admins->save();
        
             return response()->json([
@@ -71,6 +71,8 @@ class AdminController extends Controller
  *             required={"email_admin", "password"},
  *             @OA\Property(property="email_admin", type="string", example="admin@example.com"),
  *             @OA\Property(property="password", type="string", example="password")
+ *  *          @OA\Property(property="role", type="string", example="admin")
+
  *         )
  *     ),
  *     @OA\Response(
