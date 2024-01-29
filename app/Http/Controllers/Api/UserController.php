@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UserCreateRequest;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
@@ -176,13 +177,19 @@ class UserController extends Controller
         ]);
 
         if(!empty($token)){
+        $user = Auth::user();
+
 
             return response()->json([
                 "status" => true,
 
                 "message" => "vous vous êtes connectés avec succés",
+                'data'=>$user,
                 "token" => $token
+                
+             
             ]);
+
         }
         return response()->json([
                 "status" => false,
