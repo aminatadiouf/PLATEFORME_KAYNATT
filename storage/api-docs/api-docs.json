@@ -1,0 +1,909 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kaynatt API",
+        "description": "Mon API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api"
+        },
+        {
+            "url": "http://localhost:8000/api"
+        },
+        {
+            "url": "http://localhost:8000/api"
+        },
+        {
+            "url": "http://localhost:8000/api"
+        },
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "paths": {
+        "/loginAdmin": {
+            "post": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Connexion en tant qu'administrateur",
+                "description": "Login as an admin and obtain a token.",
+                "operationId": "7885f88d6ec6a08e83bfe4a1e112d633",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email_admin",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email_admin": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "vous vous êtes connecté avec succès"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "JWT token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email ou mot de passe incorrect"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/logoutAdmin": {
+            "post": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Déconnexion de l'administrateur",
+                "description": "Logout the admin.",
+                "operationId": "016996c7bd362cda55c9d5e0be934981",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Déconnexion réussie"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/auth/ParticiperTontine": {
+            "post": {
+                "tags": [
+                    "ParticipationTontines"
+                ],
+                "summary": "Demander à participer à une tontine",
+                "description": "Demander à participer à une tontine.",
+                "operationId": "feaa79a2163a7d71a3043a20e8e04a94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tontine_id",
+                                    "date"
+                                ],
+                                "properties": {
+                                    "tontine_id": {
+                                        "description": "ID de la tontine à laquelle participer",
+                                        "type": "integer"
+                                    },
+                                    "date": {
+                                        "description": "Date de participation",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demande de participation à la tontine effectuée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Votre demande de participation sera approuvée ou déclinée par le créateur de cette tontine. Vous recevrez une notification bientôt."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Vous avez déjà participé à cette tontine",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Vous avez déjà participé à cette tontine."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "/auth/ajouterTontine": {
+            "post": {
+                "tags": [
+                    "Tontines"
+                ],
+                "summary": "Demande de creation d'une tontine",
+                "description": "Demander la création d'une tontine.",
+                "operationId": "881aef2034c3bc9723755b28fd59686f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "libelle": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "montant": {
+                                        "type": "number"
+                                    },
+                                    "regles": {
+                                        "type": "string"
+                                    },
+                                    "date_de_debut": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "periode": {
+                                        "type": "string"
+                                    },
+                                    "etat": {
+                                        "type": "string",
+                                        "example": "en_attente"
+                                    },
+                                    "statutTontine": {
+                                        "type": "string",
+                                        "example": "en_attente"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demande de création de tontine soumise avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "string",
+                                            "example": "200"
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Votre demande de création sera approuvée ou déclinée par l'administrateur de ce site. Vous recevrez une notification"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/ListeTontine": {
+            "get": {
+                "tags": [
+                    "Tontines"
+                ],
+                "summary": " la liste de toutes les tontines",
+                "description": "Obtenir la liste de toutes les tontines.",
+                "operationId": "f6d46ca092b5a56d94cf71a9b4ba028e",
+                "responses": {
+                    "200": {
+                        "description": "Liste de toutes les tontines récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "La liste de tous les tontines"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/createur_tontine/ListeTontineparCreateur/{user}": {
+            "get": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Obtenir la liste de toutes les tontines créées par un créateur_tontine",
+                "operationId": "0be9e6ee2714d13c905e104e7e5589c1",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID de l'utilisateur créateur des tontines",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de toutes les tontines créées par l'utilisateur récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "La liste de toutes les tontines créées par l'utilisateur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilisateur non trouvé"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "admin/AcceptedTontine/{tontines}": {
+            "post": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Accepter la création d'une tontine et notifier le createur",
+                "description": "Accepter la création d'une tontine.",
+                "operationId": "05f2b0480297fb36921cb7f19b5354e7",
+                "parameters": [
+                    {
+                        "name": "tontines",
+                        "in": "path",
+                        "description": "ID de la tontine à accepter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La demande de création de tontine a été acceptée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La demande de création de tontine a été acceptée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "La tontine a déjà été acceptée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La tontine a déjà été acceptée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tontine non trouvée"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "admin/RefuseTontine/{tontine}": {
+            "post": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Refuser la création d'une tontine et notifier le createur ",
+                "description": "Refuser la création d'une tontine.",
+                "operationId": "c0588cac9573138858b0734d55a693b2",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine à refuser",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La demande de création de tontine a été refusée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La demande de création de tontine a été refusée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "La tontine a déjà été refusée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La tontine a déjà été refusée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tontine non trouvée"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "admin/ListeTontineAccepte": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "La liste de toutes les tontines acceptées",
+                "description": "Obtenir la liste de toutes les tontines acceptées.",
+                "operationId": "2646a926bac51303654450ef7a05898e",
+                "responses": {
+                    "200": {
+                        "description": "Liste de toutes les tontines acceptées récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "La liste de toutes les tontines acceptées"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "admin/ListeTontineEnAttente": {
+            "get": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "La liste de toutes les tontines en attente",
+                "description": "Obtenir la liste de toutes les tontines en attente.",
+                "operationId": "fb24928085888980e7523f33ec5adf1a",
+                "responses": {
+                    "200": {
+                        "description": "Liste de toutes les tontines en attente récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "La liste de toutes les tontines en attente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "/registerUser": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Inscription d'un utilisateur",
+                "description": "Register a new user.",
+                "operationId": "bb19fb21e211a7b024e9ffd7783825cf",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "adresse": {
+                                        "type": "string"
+                                    },
+                                    "num_carte_d_identite": {
+                                        "type": "string"
+                                    },
+                                    "telephone": {
+                                        "type": "string"
+                                    },
+                                    "telephone_d_un_proche": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "participant_tontine",
+                                            "createur_tontine"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur inscrit avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "vous vous êtes inscrits"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de validation des données"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/loginUser": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Authentification utilisateur ",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "vous vous êtes connectés avec succès"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logoutUser": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Déconnexion de l'utilisateur",
+                "description": "Logout user and invalidate the token.",
+                "operationId": "b4cd4349f3492ffd7015df4326209629",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Déconnexion réussie"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/modifierUser": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Mise à jour des informations de l'utilisateur que ce soit participant ou createur",
+                "description": "Update user information.",
+                "operationId": "c216d4d722627b505420c516ed822c29",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "adresse": {
+                                        "type": "string"
+                                    },
+                                    "num_carte_d_identite": {
+                                        "type": "string"
+                                    },
+                                    "telephone": {
+                                        "type": "string"
+                                    },
+                                    "telephone_d_un_proche": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "participant_tontine",
+                                            "createur_tontine"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Informations de l'utilisateur mises à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Les informations de l'utilisateur ont été modifiées avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de validation des données"
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                }
+            }
+        },
+        "/admin/supprimerUser": {
+            "delete": {
+                "tags": [
+                    "Admins"
+                ],
+                "summary": "Supprimer un utilisateur ",
+                "description": "Delete a user.",
+                "operationId": "3d5f517bf439709b56655f1696e783e0",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "query",
+                        "description": "ID de l'utilisateur à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "L'utilisateur a été supprimé avec succès"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        }
+    }
+}

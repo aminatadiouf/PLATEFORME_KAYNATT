@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('montant_paiement');
             $table->date('date_paiement');
             $table->timestamps();
+            $table->enum('statut',['gagnant','pas_gagnant'])->default('pas_gagnant');
+
         });
     }
 

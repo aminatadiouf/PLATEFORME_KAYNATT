@@ -12,6 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AdminCreateRequest;
 use App\Notifications\AccepteCreationTontine;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *      title="Kaynatt API",
+ *      version="1.0",
+ *      description="Mon API"
+ * )
+ * 
+ * @OA\Server(
+ *      url="http://localhost:8000/api"
+ * )
+ */
+
 
 class AdminController extends Controller
 {
@@ -41,6 +55,43 @@ class AdminController extends Controller
            return response()->json($e);
         } 
     }
+/**
+ * Login as an admin and obtain a token.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return \Illuminate\Http\Response
+ *
+ * @OA\Post(
+ *     path="/loginAdmin",
+ *     summary="Connexion en tant qu'administrateur",
+ *     tags={"Admins"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"email_admin", "password"},
+ *             @OA\Property(property="email_admin", type="string", example="admin@example.com"),
+ *             @OA\Property(property="password", type="string", example="password")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Connexion réussie",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status_message", type="string", example="vous vous êtes connecté avec succès"),
+ *             @OA\Property(property="token", type="string", example="JWT token")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Email ou mot de passe incorrect"
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Erreur interne du serveur"
+ *     )
+ * )
+ */
 
 
     public function loginAdmin(Request $request)
@@ -62,6 +113,29 @@ class AdminController extends Controller
     return response()->json($e);
     }
     }
+/**
+ * Logout the admin.
+ *
+ * @return \Illuminate\Http\Response
+ *
+ * @OA\Post(
+ *     path="/logoutAdmin",
+ *     summary="Déconnexion de l'administrateur",
+ *     tags={"Admins"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Déconnexion réussie",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Déconnexion réussie")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Erreur interne du serveur"
+ *     )
+ * )
+ */
 
     public function logoutAdmin()
     {

@@ -59,16 +59,14 @@ Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'
 
 
 Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'createur_tontine'], function () {
-
-
-    });
+    Route::GET('ListeTontineparCreateur/{user}',[TontineController::class,'alltontineparcreateur']);
+ });
     Route::GET('ListeparticipationPartontine/{tontines}',[TontineController::class,'allParticipationParTontine']);
     Route::GET('ListeparticipationAlltontine',[ParticipationTontineController::class,'allParticipation']);
 
 
 
 
-Route::GET('ListeTontineparCreateur/{user}',[TontineController::class,'alltontineparcreateur']);
 
 Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
 

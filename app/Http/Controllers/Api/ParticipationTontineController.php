@@ -10,6 +10,20 @@ use App\Models\ParticipationTontine;
 use App\Http\Requests\ParticipationCreateRequest;
 use App\Notifications\RefuseParticipationTontine;
 use App\Notifications\AcceptedParticipationTontine;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *      title="Kaynatt API",
+ *      version="1.0",
+ *      description="Mon API"
+ * )
+ * 
+ * @OA\Server(
+ *      url="http://localhost:8000/api"
+ * )
+ */
+
 
 class ParticipationTontineController extends Controller
 {
@@ -32,9 +46,54 @@ class ParticipationTontineController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+     /**
+ * Demander à participer à une tontine.
+ *
+ * @param  \App\Http\Requests\ParticipationCreateRequest  $request
+ * @return \Illuminate\Http\Response
+ *
+ * @OA\Post(
+ *     path="/auth/ParticiperTontine",
+ *     summary="Demander à participer à une tontine",
+ *     tags={"ParticipationTontines"},
+ *     security={{"jwt_token":{}}},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"tontine_id", "date"},
+ *             @OA\Property(property="tontine_id", type="integer", description="ID de la tontine à laquelle participer"),
+ *             @OA\Property(property="date", type="string", format="date", description="Date de participation")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Demande de participation à la tontine effectuée avec succès",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="status_message", type="string", example="Votre demande de participation sera approuvée ou déclinée par le créateur de cette tontine. Vous recevrez une notification bientôt."),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Vous avez déjà participé à cette tontine",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="status_message", type="string", example="Vous avez déjà participé à cette tontine.")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Erreur interne du serveur"
+ *     )
+ * )
+ */
+
+
     public function demandeParticipationTontine(ParticipationCreateRequest $request)
     {
-        //dd(auth()->user()->id);
         try {
             //code...
      

@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kaynatt API",
+        "description": "Mon API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "paths": {
+        "/auth/ParticiperTontine": {
+            "post": {
+                "tags": [
+                    "ParticipationTontines"
+                ],
+                "summary": "Demander à participer à une tontine",
+                "description": "Demander à participer à une tontine.",
+                "operationId": "feaa79a2163a7d71a3043a20e8e04a94",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tontine_id",
+                                    "date"
+                                ],
+                                "properties": {
+                                    "tontine_id": {
+                                        "description": "ID de la tontine à laquelle participer",
+                                        "type": "integer"
+                                    },
+                                    "date": {
+                                        "description": "Date de participation",
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Demande de participation à la tontine effectuée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Votre demande de participation sera approuvée ou déclinée par le créateur de cette tontine. Vous recevrez une notification bientôt."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Vous avez déjà participé à cette tontine",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "Vous avez déjà participé à cette tontine."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur interne du serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
+            }
+        }
+    }
+}
