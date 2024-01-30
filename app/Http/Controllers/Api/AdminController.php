@@ -71,7 +71,6 @@ class AdminController extends Controller
  *             required={"email_admin", "password"},
  *             @OA\Property(property="email_admin", type="string", example="admin@example.com"),
  *             @OA\Property(property="password", type="string", example="password"),
- *  *          @OA\Property(property="role", type="string", example="admin")
 
  *         )
  *     ),
@@ -99,18 +98,21 @@ class AdminController extends Controller
     public function loginAdmin(Request $request)
 {
     try {
-        //code...
+    
    
     $credentials = $request->only('email_admin', 'password');
 
     if (!$token = Auth::guard('admin_api')->attempt($credentials)) {
         return response()->json(['message' => 'Invalid email or password'], 401);
     }
+    $admin = Auth::guard('admin_api')->user(); 
 
         return response()->json([
             'status_message'=>'vous vous êtes connectés avec succés',
                 
-                'token' => $token]);
+                'token' => $token,
+                'data' => $admin 
+            ]);
     } catch (Exception $e) {
     return response()->json($e);
     }
