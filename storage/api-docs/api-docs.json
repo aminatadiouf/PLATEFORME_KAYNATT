@@ -361,14 +361,14 @@
                 }
             }
         },
-        "admin/AcceptedTontine/{tontines}": {
+        "AcceptedTontine/{tontines}": {
             "post": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "Accepter la création d'une tontine et notifier le createur",
                 "description": "Accepter la création d'une tontine.",
-                "operationId": "05f2b0480297fb36921cb7f19b5354e7",
+                "operationId": "50f321d024a43240d56da351ad7d4bce",
                 "parameters": [
                     {
                         "name": "tontines",
@@ -427,12 +427,7 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                },
-                "security": [
-                    {
-                        "jwt_token": []
-                    }
-                ]
+                }
             }
         },
         "admin/RefuseTontine/{tontine}": {

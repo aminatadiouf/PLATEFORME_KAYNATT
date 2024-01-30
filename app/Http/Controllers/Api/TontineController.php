@@ -304,10 +304,9 @@ class TontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="admin/AcceptedTontine/{tontines}",
+ *     path="AcceptedTontine/{tontines}",
  *     summary="Accepter la création d'une tontine et notifier le createur",
  *     tags={"Admins"},
- *   security={{"jwt_token":{}}},
 
  *     @OA\Parameter(
  *         name="tontines",
