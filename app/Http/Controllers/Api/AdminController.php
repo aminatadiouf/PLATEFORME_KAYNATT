@@ -70,7 +70,7 @@ class AdminController extends Controller
  *         @OA\JsonContent(
  *             required={"email_admin", "password"},
  *             @OA\Property(property="email_admin", type="string", example="admin@example.com"),
- *             @OA\Property(property="password", type="string", example="password")
+ *             @OA\Property(property="password", type="string", example="password"),
  *  *          @OA\Property(property="role", type="string", example="admin")
 
  *         )
