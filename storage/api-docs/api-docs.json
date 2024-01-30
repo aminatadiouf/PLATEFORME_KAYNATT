@@ -48,10 +48,6 @@
                                     "password": {
                                         "type": "string",
                                         "example": "password"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "admin"
                                     }
                                 },
                                 "type": "object"
@@ -245,6 +241,9 @@
                                     "statutTontine": {
                                         "type": "string",
                                         "example": "en_attente"
+                                    },
+                                    "nombre_participant": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"

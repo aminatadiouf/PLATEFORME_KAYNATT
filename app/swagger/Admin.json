@@ -36,10 +36,6 @@
                                     "password": {
                                         "type": "string",
                                         "example": "password"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "admin"
                                     }
                                 },
                                 "type": "object"

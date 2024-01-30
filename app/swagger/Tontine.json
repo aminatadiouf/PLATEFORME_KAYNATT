@@ -51,6 +51,9 @@
                                     "statutTontine": {
                                         "type": "string",
                                         "example": "en_attente"
+                                    },
+                                    "nombre_participant": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -234,7 +237,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         },
         "admin/RefuseTontine/{tontine}": {
@@ -303,7 +311,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         },
         "admin/ListeTontineAccepte": {
@@ -338,7 +351,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         },
         "admin/ListeTontineEnAttente": {
@@ -373,7 +391,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         }
     }

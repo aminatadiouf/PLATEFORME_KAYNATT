@@ -15,7 +15,7 @@ class Tontine extends Model
         'libelle',
         'description',
         'montant',
-        // 'nombre_participant',
+        'nombre_participant',
         'regles',
         'date_de_debut',
         'periode',
