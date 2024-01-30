@@ -43,7 +43,7 @@ class TontineCreateRequest extends FormRequest
             'description'=>'required|string|',
             'montant'=>'required|string',
 
-            // 'nombre_participant' => 'required|integer',
+            'nombre_participant' => 'required|integer',
             'regles' => 'required|',
             'date_de_debut' => 'required|date',
             'periode'=>'required|in:hebdomaire,mensuel,quotidien,annuel', 
@@ -79,8 +79,8 @@ class TontineCreateRequest extends FormRequest
         'montant.string'=>'le montant doit être une chaîne de caractére',
 
         
-        // 'nombre_participant.required'=>'le nombre de participant doit être fourni',
-        // 'nombre_participant.integer'=>'le nombre de participant  doit être un nombre',
+        'nombre_participant.required'=>'le nombre de participant doit être fourni',
+        'nombre_participant.integer'=>'le nombre de participant  doit être un nombre',
 
 
         'regles.required' => 'Les régles doivent être fournis',

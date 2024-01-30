@@ -72,6 +72,8 @@ class TontineController extends Controller
  *             @OA\Property(property="periode", type="string"),
  *              @OA\Property(property="etat", type="string", example="en_attente"),
  *             @OA\Property(property="statutTontine", type="string", example="en_attente"),
+ *  *           @OA\Property(property="nombre_participant", type="integer"),
+
  *         
  *         )
  *     ),
@@ -105,6 +107,8 @@ class TontineController extends Controller
         $tontines->regles = $request->regles;
         $tontines->date_de_debut = $request->date_de_debut;
         $tontines->periode = $request->periode;
+        $tontines->nombre_participant = $request->nombre_participant;
+
         $tontines->etat = 'en_attente';
         $tontines->statutTontine = 'en_attente';
 
@@ -247,7 +251,7 @@ class TontineController extends Controller
         $tontines->libelle = $request->libelle;
         $tontines->description = $request->description;
         $tontines->montant = $request->montant;
-        // $tontines->nombre_participant = $request->nombre_participant;
+        $tontines->nombre_participant = $request->nombre_participant;
         $tontines->regles = $request->regles;
         $tontines->date_de_debut = $request->date_de_debut;
         $tontines->periode = $request->periode;
