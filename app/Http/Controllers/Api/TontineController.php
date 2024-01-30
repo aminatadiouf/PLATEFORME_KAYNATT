@@ -389,10 +389,9 @@ class TontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="admin/RefuseTontine/{tontine}",
+ *     path="RefuseTontine/{tontine}",
  *     summary="Refuser la création d'une tontine et notifier le createur ",
  *     tags={"Admins"},
-  *     security={{"jwt_token":{}}},
 
  *     @OA\Parameter(
  *         name="tontine",
@@ -500,10 +499,9 @@ public function allCotisationParTontine(Tontine $tontines)
  * @return \Illuminate\Http\Response
  *
  * @OA\Get(
- *     path="admin/ListeTontineAccepte",
+ *     path="ListeTontineAccepte",
  *     summary="La liste de toutes les tontines acceptées",
  *     tags={"Admins"},
- *   security={{"jwt_token":{}}},
 *     @OA\Response(
  *         response=200,
  *         description="Liste de toutes les tontines acceptées récupérée avec succès",

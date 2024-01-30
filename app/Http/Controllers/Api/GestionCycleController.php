@@ -137,6 +137,9 @@ $nbre_participantTontine = $tontines->participationTontines()
 ->where('statutParticipation','accepte')
 ->count(); 
 
+
+
+
 // dd($nbre_participantTontine);
 if($tontine->statutTontine === 'accepte')
    {  
@@ -175,29 +178,34 @@ if($tontine->statutTontine === 'accepte')
     }
 
 
-    public function notificationCotisation(GestionCycle $cycles,Tontine $tontines)
+    public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)
     {
        
-        $tontine = Tontine::FindOrFail($tontines->id);
-        $participationTontines =$tontine->participationTontines()->Where('statutParticipation','accepte');
-        $participationTontines->user_id->get();
+        $tontine = Tontine::FindOrFail(9);
+      
+        $participationTontines =$tontine->participationTontines()->Where('statutParticipation','accepte')
+        ->get();
+        // foreach($participationTontines as $participationTontine){
+        //     $participationTontine->users;
+        // }
+       
+        $gestions= $tontine->gestion_cycles[0];
+        // dd($gestions);
 
-        $gestion_cycles = $tontines->gestion_cycles[0];
-        
-
-        $nbreCycle = $gestion_cycles ->nombre_de_cycle[0];
-        foreach($gestion_cycles as $gestion_cycle)
+        //$nbreCycle = $gestions ->nombre_de_cycle[0];
+        foreach($gestions as $gestion)
         {
-            For($i=1 ; $i<=$nbreCycle; $i++)
-            {
-                if($dateNotification = $gestion_cycle->date_cycle->subday(5))
+            $dateNotification = $gestion->date_cycle->subDays(5);
+            dd($dateNotification);
+            
+                if($dateNotification = $gestion->date_cycle->subday(5))
                 {
                     foreach($participationTontines as $participationTontine)
-                    $participationTontine->notify(new RappelCotisation);
+                    $participationTontine->user->notify(new RappelCotisation);
 
                 }
             
-            }
+            
         }
 
     }
