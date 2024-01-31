@@ -361,14 +361,14 @@
                 }
             }
         },
-        "AcceptedTontine/{tontines}": {
+        "/admin/AcceptedTontine/{tontines}": {
             "post": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "Accepter la création d'une tontine et notifier le createur",
                 "description": "Accepter la création d'une tontine.",
-                "operationId": "50f321d024a43240d56da351ad7d4bce",
+                "operationId": "55547ef8dc3977600e51191c766fd9f0",
                 "parameters": [
                     {
                         "name": "tontines",
@@ -427,17 +427,22 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         },
-        "RefuseTontine/{tontine}": {
+        "/admin/RefuseTontine/{tontine}": {
             "post": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "Refuser la création d'une tontine et notifier le createur ",
                 "description": "Refuser la création d'une tontine.",
-                "operationId": "20bdc468a9488c768a4f11a66c4abb27",
+                "operationId": "c1917fa6442c94f76c64fcc023496568",
                 "parameters": [
                     {
                         "name": "tontine",
@@ -496,17 +501,22 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt_token": []
+                    }
+                ]
             }
         },
-        "ListeTontineAccepte": {
+        "/ListeTontineAccepte": {
             "get": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "La liste de toutes les tontines acceptées",
                 "description": "Obtenir la liste de toutes les tontines acceptées.",
-                "operationId": "37ba105f1b1d733c68a4319145633dc9",
+                "operationId": "d2c492bbdb7b31c34372c5d96fabd24e",
                 "responses": {
                     "200": {
                         "description": "Liste de toutes les tontines acceptées récupérée avec succès",
@@ -534,14 +544,14 @@
                 }
             }
         },
-        "admin/ListeTontineEnAttente": {
+        "/admin/ListeTontineEnAttente": {
             "get": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "La liste de toutes les tontines en attente",
                 "description": "Obtenir la liste de toutes les tontines en attente.",
-                "operationId": "fb24928085888980e7523f33ec5adf1a",
+                "operationId": "a9a7b4b51c265f6cb2f485f17992393d",
                 "responses": {
                     "200": {
                         "description": "Liste de toutes les tontines en attente récupérée avec succès",
@@ -891,6 +901,15 @@
                         "jwt_token": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     }

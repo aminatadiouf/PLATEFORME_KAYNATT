@@ -22,8 +22,15 @@ use OpenApi\Annotations as OA;
  * @OA\Server(
  *      url="http://localhost:8000/api"
  * )
- */
+ 
 
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 
 
 
@@ -304,9 +311,10 @@ class TontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="AcceptedTontine/{tontines}",
+ *     path="/admin/AcceptedTontine/{tontines}",
  *     summary="Accepter la création d'une tontine et notifier le createur",
  *     tags={"Admins"},
+ *     security={{"jwt_token":{}}},
 
  *     @OA\Parameter(
  *         name="tontines",
@@ -389,9 +397,10 @@ class TontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="RefuseTontine/{tontine}",
+ *     path="/admin/RefuseTontine/{tontine}",
  *     summary="Refuser la création d'une tontine et notifier le createur ",
  *     tags={"Admins"},
+ *     security={{"jwt_token":{}}},
 
  *     @OA\Parameter(
  *         name="tontine",
@@ -499,9 +508,10 @@ public function allCotisationParTontine(Tontine $tontines)
  * @return \Illuminate\Http\Response
  *
  * @OA\Get(
- *     path="ListeTontineAccepte",
+ *     path="/ListeTontineAccepte",
  *     summary="La liste de toutes les tontines acceptées",
  *     tags={"Admins"},
+
 *     @OA\Response(
  *         response=200,
  *         description="Liste de toutes les tontines acceptées récupérée avec succès",
@@ -520,7 +530,10 @@ public function allCotisationParTontine(Tontine $tontines)
 
 public function tontineAccepte(Tontine $tontines)
 {
-    $tontines = Tontine ::all()->where('statutTontine','accepte');
+    $tontines = Tontine ::where('statutTontine','accepte')->get();
+   
+   
+    
     return response()->json([
         'status_code'=>200,
         'status_message'=>'la liste des tontines acceptées',
@@ -535,7 +548,7 @@ public function tontineAccepte(Tontine $tontines)
  * @return \Illuminate\Http\Response
  *
  * @OA\Get(
- *     path="admin/ListeTontineEnAttente",
+ *     path="/admin/ListeTontineEnAttente",
  *     summary="La liste de toutes les tontines en attente",
  *     tags={"Admins"},
  *     security={{"jwt_token":{}}},
@@ -556,7 +569,7 @@ public function tontineAccepte(Tontine $tontines)
  */
 public function tontineEnAttente(Tontine $tontines)
 {
-    $tontines = Tontine ::all()->where('statutTontine','en_attente');
+    $tontines = Tontine ::where('statutTontine','en_attente')->get();
     return response()->json([
         'status_code'=>200,
         'status_message'=>'la liste des tontines en attente',

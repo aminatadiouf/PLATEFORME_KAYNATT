@@ -70,12 +70,10 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
 
 
 Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
-
-
-Route::POST('AcceptedTontine/{tontines}',[TontineController::class,'CreationTontineAccepted']);
-
-Route::POST('RefuseTontine/{tontines}',[TontineController::class,'CreationTontineRefuse']);
 Route::GET('ListeTontineAccepte',[TontineController::class,'tontineAccepte']);
+
+
+
 
 Route::group(['middleware' => [ 'jwt.auth','acces:admin'],'prefix'=>'admin'], function () {
     Route::delete('supprimerUser',[UserController::class,'destroy']);
@@ -86,6 +84,9 @@ Route::group(['middleware' => [ 'jwt.auth','acces:admin'],'prefix'=>'admin'], fu
 
 
     Route::GET('ListeTontineEnAttente',[TontineController::class,'tontineEnAttente']);
+    Route::POST('AcceptedTontine/{tontines}',[TontineController::class,'CreationTontineAccepted']);
+
+    Route::POST('RefuseTontine/{tontines}',[TontineController::class,'CreationTontineRefuse']);
 });
 
 Route::POST('AcceptedParticipationUser/{participeTontine}',[ParticipationTontineController::class,'accepteParticipation']);
