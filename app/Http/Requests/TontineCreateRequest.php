@@ -49,6 +49,7 @@ class TontineCreateRequest extends FormRequest
             'periode'=>'required|in:hebdomaire,mensuel,quotidien,annuel', 
             'etat'=>'required|in:en_attente,en_cours,termine',
             'statutTontine'=>'|in:en_attente,accepte,refuse',
+            
            ];
     }
 //('statutTontine',['en_attente','accepte','refuse'
