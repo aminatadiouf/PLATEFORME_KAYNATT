@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use Exception;
+use App\Models\User;
 use App\Models\Tontine;
 use Illuminate\Http\Request;
+use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ParticipationCreateRequest;
 use App\Notifications\RefuseParticipationTontine;
 use App\Notifications\AcceptedParticipationTontine;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
@@ -149,30 +151,41 @@ class ParticipationTontineController extends Controller
 
     }
 
-        public function accepteParticipation(ParticipationTontine $participeTontine)
+        public function accepteParticipation(ParticipationTontine $participationTontines)
         {
             try {
-                if ($participeTontine->statutParticipation === 'accepte') {
+
+                $participationTontine = ParticipationTontine::FindOrFail($participationTontines->id);
+                $userCreateur = Auth::user();
+              
+
+                if ($userCreateur->id !== $participationTontine->tontine->user_id) {
+                    
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'vous êtes pas le créateur de cette tontine',
+                    ]);
+                }
+                
+                if ($participationTontine->statutParticipation === 'accepte') {
                     return response()->json([ 
                         "status" => false,
                         "message" => "la tontine a déjà été acceptée "
                     ]);
                 }
-            
-        
-           
-               
-            
-              $participeUser = $participeTontine->update(['statutParticipation' => 'accepte']);
-              $participeUser = $participeTontine->user;
+
+              $participationTontine->update(['statutParticipation' => 'accepte']);
+              $participeUser = User::find($participationTontine->user_id);
+
+                
 
               $participeUser->notify(new AcceptedParticipationTontine());
         
-    
+             
               return response()->json([ 
                   "status" => true,
                   "message" => "la demande de création de tontine a été acceptée",
-                  "data"=>$participeTontine
+                //   "data"=>$participationTontine
               ]);
           } catch (Exception $e) {
               return response()->json($e);
@@ -180,31 +193,41 @@ class ParticipationTontineController extends Controller
         }
    
 
-        public function refuseParticipation(ParticipationTontine $participeTontineRefuse)
+        public function refuseParticipation(ParticipationTontine $participationTontines)
         {
             try {
-                if ($participeTontineRefuse->statutParticipation === 'accepte') {
-                    return response()->json([ 
-                        "status" => false,
-                        "message" => "la tontine a déjà été acceptée "
+
+
+
+                $participationTontine = ParticipationTontine::FindOrFail($participationTontines->id);
+                $userCreateur = Auth::user();
+              
+
+                if ($userCreateur->id !== $participationTontine->tontine->user_id) {
+                    
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'vous êtes pas le créateur de cette tontine',
                     ]);
                 }
-            
-        
-           
-            
-               
-            
-              $participeUser = $participeTontineRefuse->update(['statutParticipation' => 'accepte']);
-              $participeUser = $participeTontineRefuse->user;
 
+                if ($participationTontine->statutParticipation === 'refuse') {
+                    return response()->json([ 
+                        "status" => false,
+                        "message" => "la tontine a déjà été refusée "
+                    ]);
+                }
+              $participationTontine->update(['statutParticipation' => 'accepte']);
+                $participeUser = User::find($participationTontine->user_id);
+  
+                  
               $participeUser->notify(new RefuseParticipationTontine());
         
     
               return response()->json([ 
                   "status" => true,
-                  "message" => "la demande de création de tontine a été acceptée",
-                  "data"=>$participeTontineRefuse
+                  "message" => "la demande de création de tontine a été refusée",
+                
               ]);
           } catch (Exception $e) {
               return response()->json($e);
@@ -221,50 +244,45 @@ class ParticipationTontineController extends Controller
             ]);
         }
    
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-//Si j'ai accepté la demande
+  
 
-    // if($participations->user->role ==='createur_tontine')
-    // {
-    //     $participations->user->update(['role' => 'createur_et_participant_tontine']);
-    // }
+public function allParticipationParTontine(Tontine $tontine)
+{
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-
-
-//     $tontine =Tontine :: FindOrFail($tontine->id);
+    $tontines =Tontine :: FindOrFail($tontine->id);
             
-//     $cotisations = $tontine->participacipationTontines ;
-// Pour lister la participation par tontine
+    $participations = $tontines->participationTontines ;
+
+    return response()->json([
+        'status_code'=>200,
+        'status_message'=>'la liste de tous les participations de cette tontine',
+        'data'=> $participations
+    ]);
+}
+
+public function participationTontineEnAttente(Tontine $tontine)
+{
+    $tontines =Tontine :: FindOrFail($tontine->id);
+    $user = Auth::user();
+
+    if ($user->id !== $tontine->user_id) {
+        return response()->json([
+            'status'=>false,
+            'status_message'=>'vous êtes pas le créateur de cette tontine '
+        ]);
+
+    }
+    $participations = $tontines->participationTontines()->where('statutParticipation','en_attente')->get() ;
+
+
+    return response()->json([
+        'status_code'=>200,
+        'status_message'=>'la liste de tous les cotisations de cette tontine',
+        'data'=> $participations
+    ]);
+
+
+}
 
 }

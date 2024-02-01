@@ -15,6 +15,9 @@ class ParticipationTontine extends Model
         'tontine_id',
         'statutParticipation',
         'date',
+        'statutCotisation',
+        'statutTirage'
+
 ];
 
 public function users()
@@ -22,15 +25,15 @@ public function users()
     return $this->hasMany(User::class);
 }
 
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
-
-// public function cotisationTontines()
+// public function user()
 // {
-//     return $this->hasMany(CotisationTontine::class);
+//     return $this->belongsTo(User::class);
 // }
+
+public function cotisationTontines()
+{
+    return $this->hasMany(CotisationTontine::class);
+}
 
 public function payments()
 {

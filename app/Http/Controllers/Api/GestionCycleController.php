@@ -181,34 +181,54 @@ if($tontine->statutTontine === 'accepte')
     public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)
     {
        
-        $tontine = Tontine::FindOrFail(9);
+        $tontine = Tontine::FindOrFail($tontines->id);
       
         $participationTontines =$tontine->participationTontines()->Where('statutParticipation','accepte')
         ->get();
-        // foreach($participationTontines as $participationTontine){
-        //     $participationTontine->users;
-        // }
+        
        
-        $gestions= $tontine->gestion_cycles[0];
-        // dd($gestions);
-
-        //$nbreCycle = $gestions ->nombre_de_cycle[0];
+       
+        $gestions= $tontine->gestion_cycles;
+       
         foreach($gestions as $gestion)
         {
-            $dateNotification = $gestion->date_cycle->subDays(5);
-            dd($dateNotification);
+            $dateNotification = Carbon::parse($gestion->date_cycle)->subDays(5);
+
             
-                if($dateNotification = $gestion->date_cycle->subday(5))
+                if($dateNotification)
                 {
                     foreach($participationTontines as $participationTontine)
-                    $participationTontine->user->notify(new RappelCotisation);
-
+                   {
+                     $participationTontine->user->notify(new RappelCotisation);
+                    }
                 }
             
-            
+        }
+        return response()->json([
+            'status_code'=>200,
+            'status_message'=>'la tontine est à  5 jours',
+        ]);
+    }
+
+        public function listeUserparCycle(GestionCycle $cycle)
+        {
+            $cycles = GestionCycle::FindOrFail($cycle->id);
+
+           
+          $tontines = $cycles->tontine;
+          foreach($tontines as $tontine)
+         { 
+            $participationTontine = $tontine->participationTontines;
+          dd($participationTontine);
+        }
+          return response()->json([
+            'status_code'=>200,
+            'status_message'=>'la liste des paiements par cycle',
+            'data'=>$participationTontine
+          ]);
         }
 
-    }
+    
           
     
 

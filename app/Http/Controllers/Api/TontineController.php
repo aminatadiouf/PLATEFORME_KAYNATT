@@ -463,25 +463,7 @@ public function CreationTontineRefuse(Tontine $tontines)
 
 
 
-public function allParticipationParTontine(Tontine $tontines)
-{
-   
-    try{
-    $participationparTontine = Tontine :: FindOrFail($tontines->id);
-        
-    $participationTontines = $participationparTontine->participacipationTontines;
-    
-    return response()->json([
-        'status_code'=>200,
-        'status_message'=>'la liste de tous les tontines',
-        'data'=>$participationTontines,
-    ]);
-      
-    } catch (Exception $e) {
-        return response()->json($e);
-    }
 
-}
 
 public function allCotisationParTontine(Tontine $tontines)
 

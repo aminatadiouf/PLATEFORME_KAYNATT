@@ -12,6 +12,8 @@ use App\Models\ParticipationTontine;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateCotisationTontineRequest;
 
+
+
 class CotisationTontineController extends Controller
 {
     /**
@@ -256,7 +258,10 @@ class CotisationTontineController extends Controller
         }
 
         
-
+    // public function userNonCotise(Tontine $tontine)
+    // {
+    //     $to
+    // }
 
 
         public function cotisationParparticipation(ParticipationTontine $participations)
@@ -266,7 +271,6 @@ class CotisationTontineController extends Controller
 
             
             
-           // $participation->cotisationTontines;
 
     
            
@@ -280,35 +284,63 @@ class CotisationTontineController extends Controller
 
 
         
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        public function listerCotisationsEtUtilisateursNonCotises()
+        {
+            // Récupérer tous les cycles
+            $cycles = GestionCycle::all();
+            
+            $result = [];
+            
+            foreach ($cycles as $cycle) {
+                // Récupérer toutes les cotisations pour ce cycle
+                $cotisations = CotisationTontine::where('gestion_cycle_id', $cycle->id)->get();
+                
+                // Récupérer tous les utilisateurs ayant une participation à la tontine mais qui n'ont pas cotisé pour ce cycle
+                $utilisateursNonCotises = ParticipationTontine::where('tontine_id', $cycle->tontine_id)
+                    ->whereNotIn('user_id', $cotisations->pluck('participation_Tontine_id')->toArray())
+                    ->get();
+                
+                $result[] = [
+                    'cycle' => $cycle,
+                    'cotisations' => $cotisations,
+                    'utilisateurs_non_cotises' => $utilisateursNonCotises,
+                ];
+            }
+            
+            return $result;
+        }
+  
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //jghyg 
-    }
+        public function utilisateursCotise(GestionCycle $cycle)
+        {
+            $cycles = GestionCycle::FindOrFail($cycle->id);
+            
+            $userCotiseParCycle = $cycles->CotisationTontines;
+          return response()->json([
+            'status_code'=>200,
+            'status_message'=>'la liste des paiements par cycle',
+            'data'=>$userCotiseParCycle
+          ]);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+        
+
+        public function utilisateursNonCotise(GestionCycle $cycle)
+        {
+            $cycles = GestionCycle::FindOrFail($cycle->id);
+            $userCotiseParCycles = $cycles->tontine;
+
+            foreach($userCotiseParCycles as $userCotiseParCycle)
+            {
+                $userCotiseParCycle->participationTontines->cotisationTontines;
+            }
+
+            return response()->json([
+                'status_code'=>200,
+                'status_message'=>'la liste des paiements par cycle',
+                'data'=>$userCotiseParCycle
+              ]);
+        }
+        
 }

@@ -23,10 +23,10 @@ class GestionCycle extends Model
     }
 
 
-//     public function CotisationTontines()
-// {
-//     return $this->hasMany(CotisationTontine::class );
-// }
+    public function CotisationTontines()
+{
+    return $this->hasMany(CotisationTontine::class );
+}
 
 public function payments()
 {
