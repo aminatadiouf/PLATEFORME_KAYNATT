@@ -240,7 +240,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -314,7 +314,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -389,7 +389,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }

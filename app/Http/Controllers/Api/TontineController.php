@@ -314,8 +314,7 @@ class TontineController extends Controller
  *     path="/admin/AcceptedTontine/{tontines}",
  *     summary="Accepter la création d'une tontine et notifier le createur",
  *     tags={"Admins"},
- *     security={{"jwt_token":{}}},
-
+*      security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="tontines",
  *         in="path",
@@ -400,8 +399,7 @@ class TontineController extends Controller
  *     path="/admin/RefuseTontine/{tontine}",
  *     summary="Refuser la création d'une tontine et notifier le createur ",
  *     tags={"Admins"},
- *     security={{"jwt_token":{}}},
-
+*      security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="tontine",
  *         in="path",
@@ -551,7 +549,7 @@ public function tontineAccepte(Tontine $tontines)
  *     path="/admin/ListeTontineEnAttente",
  *     summary="La liste de toutes les tontines en attente",
  *     tags={"Admins"},
- *     security={{"jwt_token":{}}},
+ *     security={{"bearerAuth":{}}},
 *       @OA\Response(
  *         response=200,
  *         description="Liste de toutes les tontines en attente récupérée avec succès",

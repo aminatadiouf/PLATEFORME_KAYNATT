@@ -62,7 +62,7 @@ class UserController extends Controller
      *             @OA\Property(property="num_carte_d_identite", type="string"),
      *             @OA\Property(property="telephone", type="string"),
      *             @OA\Property(property="telephone_d_un_proche", type="string"),
-     *             @OA\Property(property="role", type="string", enum={"participant_tontine", "createur_tontine"})
+     *             @OA\Property(property="role", type="string", enum={"participant_tontine", "createur_tontine"},example="participant_tontine")
         
      * )
      *     ),
@@ -108,7 +108,7 @@ class UserController extends Controller
             $users->telephone_d_un_proche= $request->telephone_d_un_proche;
 
 
-            $users->role = $request->role;
+            $users->role = 'participant_tontine';
           
                  $users->save();
        

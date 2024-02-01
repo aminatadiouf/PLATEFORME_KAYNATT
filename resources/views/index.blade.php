@@ -142,7 +142,7 @@
                         <form class="login-form" action="{{ route('payment.submit') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input type="number" name="participation_tontine_id"  class="form-control" placeholder="Participant">
+                                <input type="number" name="participation_Tontine_id"  class="form-control" placeholder="Participant">
                             </div>
                             <div class="form-group">
                                 <input type="number" name="price"  class="form-control" placeholder="Montant">

@@ -34,7 +34,7 @@ class UserCreateRequest extends FormRequest
             'telephone' => 'required|string',
             'telephone_d_un_proche' => 'required|string',
             'num_carte_d_identite'=>'required|', 
-            'role'=>'required|in:participant_tontine,createur_tontine',
+            //'role'=>'required|in:participant_tontine,createur_tontine',
           
 
            ];
@@ -79,8 +79,8 @@ class UserCreateRequest extends FormRequest
         'password.required' => 'Le mot de passe doit être fourni',
         'password.min' => 'Le mot de passe doit comporter au moins 4 caractères',
 
-        'role.required'=>'le role doit être fourni',
-        'role.in' => 'Le role doit être l\'un des suivants : participant_tontine,createur_tontine',
+        // 'role.required'=>'le role doit être fourni',
+        //  'role.in' => 'Le role doit être l\'un des suivants : participant_tontine,createur_tontine',
         
         
         ];

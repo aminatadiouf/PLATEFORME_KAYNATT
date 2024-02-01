@@ -57,7 +57,9 @@ class ParticipationTontineController extends Controller
  *     path="/auth/ParticiperTontine",
  *     summary="Demander à participer à une tontine",
  *     tags={"ParticipationTontines"},
- *     security={{"jwt_token":{}}},
+ *  *     security={{"bearerAuth":{}}},
+
+ *    
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
@@ -103,7 +105,12 @@ class ParticipationTontineController extends Controller
         $participations->statutParticipation = 'en_attente';
         $participations->date = $request->date;
 
-        if($participations->user_id)
+
+
+        $existingParticipation = ParticipationTontine::where('user_id', auth()->user()->id)
+        ->where('tontine_id', $request->tontine_id)
+        ->first();
+        if($existingParticipation)
         {
             
         return response()->json([
@@ -202,6 +209,16 @@ class ParticipationTontineController extends Controller
           } catch (Exception $e) {
               return response()->json($e);
           }
+        }
+
+        public function listeUserNonGagnant()
+        {
+            $participations = ParticipationTontine::where('statutTirage','Nongagnant')->get();
+            return response()->json([
+                        'status_code'=>200,
+                        'status_message'=>'la liste des participants non gagnés',
+                        'data'=>$participations
+            ]);
         }
    
     /**

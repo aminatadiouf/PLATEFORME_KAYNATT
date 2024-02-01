@@ -196,7 +196,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -430,7 +430,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -504,7 +504,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -579,7 +579,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -624,7 +624,8 @@
                                         "enum": [
                                             "participant_tontine",
                                             "createur_tontine"
-                                        ]
+                                        ],
+                                        "example": "participant_tontine"
                                     }
                                 },
                                 "type": "object"
