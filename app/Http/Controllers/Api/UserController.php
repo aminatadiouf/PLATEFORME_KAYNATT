@@ -366,7 +366,7 @@ class UserController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Delete(
- *     path="/admin/supprimerUser",
+ *     path="/admin/supprimerUser/{users}",
  *     summary="Supprimer un utilisateur ",
  *     tags={"Admins"},
  *     security={{"jwt_token":{}}},

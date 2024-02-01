@@ -850,14 +850,14 @@
                 }
             }
         },
-        "/admin/supprimerUser": {
+        "/admin/supprimerUser/{users}": {
             "delete": {
                 "tags": [
                     "Admins"
                 ],
                 "summary": "Supprimer un utilisateur ",
                 "description": "Delete a user.",
-                "operationId": "3d5f517bf439709b56655f1696e783e0",
+                "operationId": "20702972fe21124c651f41c9e9f7f605",
                 "parameters": [
                     {
                         "name": "users",
