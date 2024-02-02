@@ -137,11 +137,14 @@ $nbre_participantTontine = $tontines->participationTontines()
 ->where('statutParticipation','accepte')
 ->count(); 
 
+$participantsList = [];
+$participationTontines = $tontines->participationTontines()
+->where('statutParticipation','accepte')->get();
 
 
 
-// dd($nbre_participantTontine);
-if($tontine->statutTontine === 'accepte')
+
+    if($tontine->statutTontine === 'accepte')
    {  
        For($i=1; $i <=$nbre_participantTontine + 1; $i++)
         {
@@ -149,33 +152,43 @@ if($tontine->statutTontine === 'accepte')
            
             $cycles = new GestionCycle();
             $cycles -> tontine_id = $tontine->id;
-            $cycles->date_cycle = $tontine->created_at->addDays($duree * ($i - 1));
+            $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
             $cycles ->nombre_de_cycle = $i;
             $cycles->statut = $request->statut;
 
+    //         $participantsList = [];
+          
+    foreach ($participationTontines as $participationTontine) {
+        $participantsList[] = $participationTontine->toArray(); // Stocker chaque participant dans le tableau
+    }
+            $tontine->update(['etat'=>'en_cours']);
+
             $cycles->save();
 
-            $cyclesList[] = $cycles->fresh()->toArray(); // Ajoutez le cycle au tableau des cycles
+            $cyclesList[] = $cycles->fresh()->toArray(); 
             $datesList[] = $cycles->date_cycle->format('Y-m-d');
 
-}
+
+        } 
     
-       
-       
+
         return response()->json([
             'status_code'=>200,
             'status_message'=>'les cycles du tontine',
-            'cycles' => $cyclesList, // Renvoie le tableau de tous les cycles générés
+            'cycles' => $cyclesList, 
             'dates' => $datesList,
+            'nombre_participants'=>$participantsList
         ]);
-
-    }  else {
+    
+    } else {
         return response()->json([
             'status_code'=> false,
             'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
         ]);
     }
-    }
+
+
+}
 
 
     public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)

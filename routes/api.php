@@ -119,6 +119,7 @@ Route::GET('ListeCotisationParTontine/{tontines}',[TontineController::class,'all
 //mail pour date de notification
 Route::GET('notifierDateNotification/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
+Route::GET('/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
 
 

@@ -11,6 +11,7 @@ class GestionCycle extends Model
     use HasFactory,Notifiable;
 
     protected $fillable = [
+
         'tontine_id',
         'nombre_de_cycle',
         'date_cycle',
@@ -33,4 +34,8 @@ public function payments()
     return $this->hasMany(Payment::class );
 }
 
+// public function participationTontines()
+// {
+//     return $this->hasMany(ParticipationTontine::class );
+// }
 }

@@ -73,4 +73,6 @@ public function participationTontines()
 {
     return $this->hasMany(ParticipationTontine::class);
 }
+
+
 }
