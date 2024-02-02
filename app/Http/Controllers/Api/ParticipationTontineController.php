@@ -151,6 +151,68 @@ class ParticipationTontineController extends Controller
 
     }
 
+
+/**
+ * Accepte la participation d'un utilisateur à une tontine en tant que créateur de la tontine.
+ *
+ * @param  ParticipationTontine $participationTontines
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Post(
+ *     path="/createur_tontine/AcceptedParticipationUser/{participationTontines}",
+ *     summary="Accepter la participation d'un utilisateur à une tontine",
+ *     description="Accepter la participation d'un utilisateur à une tontine par le créateur de la tontine.",
+ *     operationId="accepteParticipation",
+ *  security={{"bearerAuth":{}}},
+ *     tags={"CreateurTontine"},
+ *     @OA\Parameter(
+ *         name="participationTontines",
+ *         in="path",
+ *         description="L'ID de la participation à la tontine à accepter",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - La demande de participation à la tontine a été acceptée",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status",
+ *                 type="boolean",
+ *                 description="Indique si l'opération a réussi ou non"
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 description="Message indiquant le résultat de l'opération"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé - L'utilisateur n'est pas le créateur de la tontine",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status",
+ *                 type="boolean",
+ *                 description="Indique si l'opération a réussi ou non"
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 description="Message d'erreur indiquant l'accès non autorisé"
+ *             )
+ *         )
+ *     ),
+ *    
+ *   
+ * )
+ */
+
+
+
         public function accepteParticipation(ParticipationTontine $participationTontines)
         {
             try {
@@ -193,6 +255,67 @@ class ParticipationTontineController extends Controller
         }
    
 
+
+/**
+ * Refuse la participation d'un utilisateur à une tontine en tant que créateur de la tontine.
+ *
+ * @param  ParticipationTontine $participationTontines
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Post(
+ *     path="/createur_tontine/RefuseParticipationUser/{participationTontines}",
+ *     summary="Refuser la participation d'un utilisateur à une tontine",
+ *     description="Refuser la participation d'un utilisateur à une tontine par le créateur de la tontine.",
+ *     operationId="refuseParticipation",
+ *  security={{"bearerAuth":{}}},
+ *     tags={"CreateurTontine"},
+ *     @OA\Parameter(
+ *         name="participationTontines",
+ *         in="path",
+ *         description="L'ID de la participation à la tontine à accepter",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - La demande de participation à la tontine a été acceptée",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status",
+ *                 type="boolean",
+ *                 description="Indique si l'opération a réussi ou non"
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 description="Message indiquant le résultat de l'opération"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé - L'utilisateur n'est pas le créateur de la tontine",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status",
+ *                 type="boolean",
+ *                 description="Indique si l'opération a réussi ou non"
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 description="Message d'erreur indiquant l'accès non autorisé"
+ *             )
+ *         )
+ *     ),
+ *    
+ *   
+ * )
+ */
+
+        
         public function refuseParticipation(ParticipationTontine $participationTontines)
         {
             try {
@@ -214,7 +337,7 @@ class ParticipationTontineController extends Controller
                 if ($participationTontine->statutParticipation === 'refuse') {
                     return response()->json([ 
                         "status" => false,
-                        "message" => "la tontine a déjà été refusée "
+                        "message" => "la demande de participation à la tontine a déjà été refusée "
                     ]);
                 }
               $participationTontine->update(['statutParticipation' => 'accepte']);
@@ -226,7 +349,7 @@ class ParticipationTontineController extends Controller
     
               return response()->json([ 
                   "status" => true,
-                  "message" => "la demande de création de tontine a été refusée",
+                  "message" => "la demande de participation à la tontine a été refusée",
                 
               ]);
           } catch (Exception $e) {
@@ -261,6 +384,70 @@ public function allParticipationParTontine(Tontine $tontine)
     ]);
 }
 
+/**
+ * Récupérer la liste des participations en attente pour une tontine donnée.
+ *
+ * @param  Tontine $tontine
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Get(
+ *     path="/createur_tontine/ListeparticipationEnattentePartontine/{tontine}",
+ *     summary="Liste des participations en attente pour une tontine",
+ *     description="Récupère la liste des participations en attente pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
+ *     operationId="listeParticipationsEnAttente",
+ *     security={{"bearerAuth":{}}},
+ *     tags={"CreateurTontine"},
+ *     @OA\Parameter(
+ *         name="tontine",
+ *         in="path",
+ *         description="ID de la tontine",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - La liste des participations en attente a été récupérée avec succès",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="integer",
+ *                 example=200
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="la liste de tous les cotisations de cette tontine"
+ *             ),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(
+ *                         property="id",
+ *                         type="integer",
+ *                         example=1
+ *                     ),
+ *                     @OA\Property(
+ *                         property="statutParticipation",
+ *                         type="string",
+ *                         example="en_attente"
+ *                     )
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+ *     )
+ * )
+ */
+
+
+
 public function participationTontineEnAttente(Tontine $tontine)
 {
     $tontines =Tontine :: FindOrFail($tontine->id);
@@ -274,6 +461,95 @@ public function participationTontineEnAttente(Tontine $tontine)
 
     }
     $participations = $tontines->participationTontines()->where('statutParticipation','en_attente')->get() ;
+
+
+    return response()->json([
+        'status_code'=>200,
+        'status_message'=>'la liste de tous les cotisations de cette tontine',
+        'data'=> $participations
+    ]);
+
+
+}
+
+
+/**
+ * Récupérer la liste des participations acceptées pour une tontine donnée.
+ *
+ * @param  Tontine $tontine
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Get(
+ *     path="/createur_tontine/ListeparticipationAcceptePartontine/{tontine}",
+ *     summary="Liste des participations acceptées pour une tontine",
+ *     description="Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
+ *     operationId="listeParticipationsAcceptees",
+ *     security={{"bearerAuth":{}}},
+ *     tags={"CreateurTontine"},
+ *     @OA\Parameter(
+ *         name="tontine",
+ *         in="path",
+ *         description="ID de la tontine",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - La liste des participations acceptées a été récupérée avec succès",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="integer",
+ *                 example=200
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="la liste de tous les cotisations de cette tontine"
+ *             ),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(
+ *                         property="id",
+ *                         type="integer",
+ *                         example=1
+ *                     ),
+ *                     @OA\Property(
+ *                         property="statutParticipation",
+ *                         type="string",
+ *                         example="accepte"
+ *                     )
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+ *     )
+ * )
+ */
+
+
+
+public function participationTontineAccepte(Tontine $tontine)
+{
+    $tontines =Tontine :: FindOrFail($tontine->id);
+    $user = Auth::user();
+
+    if ($user->id !== $tontine->user_id) {
+        return response()->json([
+            'status'=>false,
+            'status_message'=>'vous êtes pas le créateur de cette tontine '
+        ]);
+
+    }
+    $participations = $tontines->participationTontines()->where('statutParticipation','accepte')->get() ;
 
 
     return response()->json([

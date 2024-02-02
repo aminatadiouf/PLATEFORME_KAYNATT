@@ -8,7 +8,30 @@ use App\Models\GestionCycle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
+use Illuminate\Support\Facades\Auth;
 use App\Notifications\RappelCotisation;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *      title="Kaynatt API",
+ *      version="1.0",
+ *      description="Mon API"
+ * )
+ * 
+ * @OA\Server(
+ *      url="http://localhost:8000/api"
+ * )
+ 
+
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
+
 
 class GestionCycleController extends Controller
 {
@@ -32,75 +55,74 @@ class GestionCycleController extends Controller
      * Store a newly created resource in storage.
      */
 
-//      public function gererecheance($id)
-//      {
-//         $tontine = Tontine::findOrFail($id);
-//  //dd($tontine->id);
-//         $echeance = DB::table('echeances')->where('id_tontine','=',$id)->first();
-//  //dd ($echeance);
- 
-//                  if($tontine->periodicite == 'hebdomadaire')
-//                  {
-//                      $periodicite = 7;
-//                  }
-//                  elseif($tontine->periodicite == 'mensuelle')
-//                  {
-//                      $periodicite = 30;
-//                  }
-//                  elseif($tontine->periodicite == 'journalier')
-//                  {
-//                      $periodicite = 1;
-//                  }
-//                  elseif($tontine->periodicite == 'annuelle')
-//                  {
-//                      $periodicite = 365;
-//                  }
- 
-//                  $date_echeance =Carbon::parse($tontine->dateDeb);
- 
-//                  if(!$echeance)
-//                  {
-//                      for($i=1 ; $i<=$tontine->nb_echeance ; $i++ )
-//                      {
- 
- 
-//                        $echeance = new Echeance;
-//                        $echeance->id_tontine = $tontine->id;
- 
-//      $echeance->id_tontine = $tontine->id;
-//                        $echeance->date=$date_echeance;
-//                        $echeance->numero = $i;
-//                        $echeance->save();
- 
-//                        $date_echeance = $date_echeance->addDay($periodicite) ;
-//                      }
- 
-//                      toastr()->success('Echeance generer avec succés');
-//                      return back();
-//                  }
-//                  else{
- 
-//                      toastr()->error('Vous avez deja genere l\'echeance');
-//                      return back();
- 
-//                  }
-//      }
-/*
-  $table->integer('nombre_de_cycle');
-            $table->date('date_cycle');
-            $table->enum('statut',['termine','a_venir']);
 
-*/
+/**
+ * Gérer les cycles d'une tontine.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \App\Models\Tontine  $tontine
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Post(
+ *     path="/createur_tontine/gererCycle/{tontine}",
+ *     summary="Gérer les cycles d'une tontine",
+ *     description="Crée et liste les cycles d'une tontine en fonction de sa période.",
+ *     operationId="gestionCycle",
+ *     tags={"CreateurTontine"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="tontine",
+ *         in="path",
+ *         description="ID de la tontine",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         description="Données requises pour gérer les cycles de la tontine",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="statut",
+ *                 type="string",
+ *                 description="Statut des cycles"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - Les cycles de la tontine ont été gérés avec succès",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="integer",
+ *                 example=200
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="les cycles du tontine"
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Requête incorrecte - La tontine n'est pas dans un état accepté"
+ *     )
+ * )
+ */
 
-/*
-   $table->string('nombre_participant');
-            $table->string('regles');
-            $table->date('date_de_debut');
-            $table->enum('periode',['hebdomaire','mensuel','quotidien','annuel']);
-*/
+
+
 
     public function gestionCycle(Request $request,Tontine $tontine)
     {
+
         $cyclesList = []; 
        $datesList = [];
            
@@ -143,6 +165,16 @@ $participationTontines = $tontines->participationTontines()
 
 
 
+       $user = Auth::user();
+           if ($user->id !== $tontines->user_id) {
+               return response()->json([
+                   'status'=>false,
+                   'status_message'=>'vous êtes pas le créateur de cette tontine,vous n\'êtes pas le créateur de cette tontine '
+               ]);
+       
+           }
+
+
 
     if($tontine->statutTontine === 'accepte')
    {  
@@ -156,10 +188,9 @@ $participationTontines = $tontines->participationTontines()
             $cycles ->nombre_de_cycle = $i;
             $cycles->statut = $request->statut;
 
-    //         $participantsList = [];
           
     foreach ($participationTontines as $participationTontine) {
-        $participantsList[] = $participationTontine->toArray(); // Stocker chaque participant dans le tableau
+        $participantsList[] = $participationTontine->toArray(); 
     }
             $tontine->update(['etat'=>'en_cours']);
 
