@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('nombre_de_cycle');
             $table->date('date_cycle');
-            $table->enum('statut',['termine','a_venir']);
+            $table->enum('statut',['termine','a_venir'])->default('a_venir');
             $table->timestamps();
         });
     }
