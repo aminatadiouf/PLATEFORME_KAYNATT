@@ -186,7 +186,7 @@ $participationTontines = $tontines->participationTontines()
             $cycles -> tontine_id = $tontine->id;
             $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
             $cycles ->nombre_de_cycle = $i;
-            $cycles->statut = $request->statut;
+            $cycles->statut = 'a_venir';
 
           
     foreach ($participationTontines as $participationTontine) {
