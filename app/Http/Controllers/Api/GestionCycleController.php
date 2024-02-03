@@ -202,7 +202,15 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
         $participantsList[] = $participationTontine->toArray(); 
     }
             $tontine->update(['etat'=>'en_cours']);
-
+if($tontines->gestion_cycles)
+// dd($tontines->gestion_cycles);
+{
+    return response()->json([
+        'status_code'=> false,
+        'status_message'=>'cette tontine a déjà ses cycles'
+    ]);
+    
+}
 
             $cycles->save();
 
