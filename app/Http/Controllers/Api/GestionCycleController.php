@@ -175,7 +175,14 @@ class GestionCycleController extends Controller
        
            }
           
-         
+           $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
+
+           if ($existingCyclesCount > 0) {
+               return response()->json([
+                   'status_code' => false,
+                   'status_message' => 'cette tontine a déjà ses cycles'
+               ]);
+           }    
 
 if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
 {
@@ -185,7 +192,9 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
     ]);
 }
 
-     For($i=1; $i <=$nbre_participantTontine + 1; $i++)
+    if($tontine->statutTontine === 'accepte')
+   {  
+       For($i=1; $i <=$nbre_participantTontine + 1; $i++)
         {
             
            
@@ -201,7 +210,6 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
     }
             $tontine->update(['etat'=>'en_cours']);
 
-
             $cycles->save();
 
             $cyclesList[] = $cycles->fresh()->toArray(); 
@@ -210,9 +218,7 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
 
         } 
     
-if(!$cycles)
-{
-       
+
         return response()->json([
             'status_code'=>200,
             'status_message'=>'les cycles du tontine',
@@ -220,17 +226,11 @@ if(!$cycles)
             'dates' => $datesList,
             'nombre_participants'=>$participantsList
         ]);
-    }
-
-  else{
-        return response()->json([
-            'status_code'=> false,
-            'status_message'=>'cette tontine a déjà ses cycles'
-        ]);
-    }
+   
+      
 
 
-
+}
 }
 
 
