@@ -193,7 +193,14 @@ $participationTontines = $tontines->participationTontines()
         $participantsList[] = $participationTontine->toArray(); 
     }
             $tontine->update(['etat'=>'en_cours']);
-
+if($cycles)
+{
+    return response()->json([
+        'status_code'=> false,
+        'status_message'=>'cette tontine a déjà ses cycles'
+    ]);
+    
+}
             $cycles->save();
 
             $cyclesList[] = $cycles->fresh()->toArray(); 
