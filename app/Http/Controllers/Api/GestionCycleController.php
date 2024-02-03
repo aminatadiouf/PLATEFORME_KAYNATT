@@ -154,18 +154,19 @@ class GestionCycleController extends Controller
             }
 
 
-$tontines = Tontine::findOrFail($tontine->id);
-$nbre_participantTontine = $tontines->participationTontines()
-->where('statutParticipation','accepte')
-->count(); 
+            $tontines = Tontine::findOrFail($tontine->id);
+            $nbre_participantTontine = $tontines->participationTontines()
+            ->where('statutParticipation','accepte')
+            ->count(); 
 
-$participantsList = [];
-$participationTontines = $tontines->participationTontines()
-->where('statutParticipation','accepte')->get();
-
+            $participantsList = [];
+            $participationTontines = $tontines->participationTontines()
+            ->where('statutParticipation','accepte')->get();
 
 
        $user = Auth::user();
+      
+      
            if ($user->id !== $tontines->user_id) {
                return response()->json([
                    'status'=>false,
@@ -173,8 +174,16 @@ $participationTontines = $tontines->participationTontines()
                ]);
        
            }
+          
+         
 
-
+if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
+{
+    return response()->json([
+        'status_code'=> false,
+        'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
+    ]);
+}
 
     if($tontine->statutTontine === 'accepte')
    {  
@@ -193,14 +202,8 @@ $participationTontines = $tontines->participationTontines()
         $participantsList[] = $participationTontine->toArray(); 
     }
             $tontine->update(['etat'=>'en_cours']);
-if($cycles)
-{
-    return response()->json([
-        'status_code'=> false,
-        'status_message'=>'cette tontine a déjà ses cycles'
-    ]);
-    
-}
+
+
             $cycles->save();
 
             $cyclesList[] = $cycles->fresh()->toArray(); 
@@ -209,7 +212,8 @@ if($cycles)
 
         } 
     
-
+if(!$cycles)
+       { 
         return response()->json([
             'status_code'=>200,
             'status_message'=>'les cycles du tontine',
@@ -217,15 +221,16 @@ if($cycles)
             'dates' => $datesList,
             'nombre_participants'=>$participantsList
         ]);
-    
-    } else {
+    }
+     else {
         return response()->json([
             'status_code'=> false,
-            'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
+            'status_message'=>'cette tontine a déjà ses cycles'
         ]);
     }
 
 
+}
 }
 
 
