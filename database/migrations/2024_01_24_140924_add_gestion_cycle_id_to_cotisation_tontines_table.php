@@ -15,7 +15,7 @@ return new class extends Migration
             
             $table->unsignedBigInteger('gestion_cycle_id')->after('id');
 
-            $table->foreign('gestion_cycle_id')->references('id')->on('cotisation_tontines')
+            $table->foreign('gestion_cycle_id')->references('id')->on('gestion_cycles')
             ->constrained()
             ->onUpdate('cascade')
            ->onDelete('cascade');
@@ -29,15 +29,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        
         Schema::table('cotisation_tontines', function (Blueprint $table) {
-
-
-            
-            Schema::table('cotisation_tontines', function (Blueprint $table) {
-                $table->dropForeign(['gestion_cycle_id']);
-                $table->dropColumn('gestion_cycle_id'); 
-            });
-
+            $table->dropForeign(['gestion_cycle_id']);
+            $table->dropColumn('gestion_cycle_id'); 
         });
+
+ 
     }
 };

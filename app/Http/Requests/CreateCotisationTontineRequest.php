@@ -30,7 +30,7 @@ class CreateCotisationTontineRequest extends FormRequest
     {
         return [
             
-                'montant_paiement'=>'required|string|',
+                'montant_paiement'=>'required|integer|',
                 'date_paiement'=>'required|date|',
                 //'participationTontine_id'=>'required|',
         ];
@@ -56,7 +56,7 @@ class CreateCotisationTontineRequest extends FormRequest
     
 
             'date_paiement.required'=>'le date_paiement doit être fourni',
-            'date_paiement.string'=>'le date_paiement doit être une chaîne de caractére',
+            'date_paiement.integer'=>'le date_paiement doit être une chaîne de caractére',
         ];
     }
 }

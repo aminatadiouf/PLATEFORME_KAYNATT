@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('libelle');
             $table->string('description');
-            $table->string('montant');
+            $table->integer('montant');
              $table->integer('nombre_participant');
             $table->string('regles');
             $table->date('date_de_debut');

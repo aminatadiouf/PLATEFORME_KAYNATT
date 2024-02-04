@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\Api\PaymentController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
 class VerifyCsrfToken extends Middleware
@@ -12,6 +13,13 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
-    ];
+        
+            'payment',
+            'checkout',
+            'ipn',
+            'payment-success/*',
+            'payment/*/success',
+            'payment-cancel',
+        ];
+   
 }

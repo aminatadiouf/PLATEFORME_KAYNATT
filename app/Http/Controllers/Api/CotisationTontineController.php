@@ -11,8 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateCotisationTontineRequest;
-
-
+use App\Models\Payment;
 
 class CotisationTontineController extends Controller
 {
@@ -89,7 +88,6 @@ class CotisationTontineController extends Controller
         $user = Auth::user();
 
        $participationTontine = ParticipationTontine::FindOrFail($participationTontines->id);
-    //   $participationTontine = ParticipationTontine::FindOrFail(4);
     
        $montantUser = $participationTontine->tontine->montant;
 
@@ -105,10 +103,10 @@ class CotisationTontineController extends Controller
         }
 
 
-        $cycle = $participationTontine->tontine->gestion_cycles()
-        ->orderBy('id', 'asc')
-            ->first()
-            ->id;
+        $cycles = $participationTontine->tontine->gestion_cycles()
+        ->get();
+           //dd($cycles);
+            
 
             if($participationTontine->tontine->etat ==='en_attente')
             {
@@ -124,7 +122,7 @@ class CotisationTontineController extends Controller
             {
                 return response()->json([
                     'statut_code'=> false,
-                    'statut_message'=> 'l\'utilisateur n\'est pas un participant de la tontine ',
+                    'statut_message'=> 'l\'utilisateur connecté n\'est pas un participant de la tontine ',
                    
                 ]);
             }
@@ -136,32 +134,66 @@ class CotisationTontineController extends Controller
            
         ]);
        }
+       foreach ($cycles as $cycle) {
+        $cotisationExistante = Payment::where('participation_Tontine_id', $participationTontine->id)
+           ->where('gestion_cycle_id', $request->gestion_cycle_id)
+            ->count();
+
+        if ($cotisationExistante >0) {
+            return response()->json([
+                'statut_code' => false,
+                'statut_message' => 'L\'utilisateur a déjà cotisé pour ce cycle de tontine.',
+            ]);
+        }
+   
+    
+
 // dd(       $participationTontine->tontine->etat ==='en_cours')
 // ;
-            
        if ($participationTontine->user_id === $user->id &&  $participationTontine->statutParticipation ==='accepte' &&
        $participationTontine->tontine->etat ==='en_cours')
-
        {
-       $cotisations = new CotisationTontine();
+       
+  
+        $cotisations = new CotisationTontine();
 
        
-       $cotisations ->date_paiement = $request->date_paiement;
-       $cotisations->montant_paiement = $request->montant_paiement;
-       $cotisations->participation_Tontine_id = $user->id;
-       $cotisations->gestion_cycle_id = $cycle;
+        $cotisations ->date_paiement = $request->date_paiement;
+        $cotisations->montant_paiement = $request->montant_paiement;
+        $cotisations->participation_Tontine_id = $user->id;
+        $cotisations->gestion_cycle_id = $request->gestion_cycle_id;
+ 
+       
+ 
+          $cotisations->save();
+          
 
-       $cotisations->save();
+          $participationTontine->update(['statutCotisation' => 'cotise']);
 
-       return response()->json([
-                                'statut_code'=> 200,
-                                'statut_message'=> 'votre cotisation a été effectué avec succés',
-                                'data'=>$cotisations
-                            ]);
-    }
+            $paymentController = new PaymentController();
+        $participation_Tontine_id = $participationTontine->id;
+        $price =$montantUser;
+        $gestion_cycle_id = $request->gestion_cycle_id;
+    
+        return view('index', compact('participation_Tontine_id', 'price', 'gestion_cycle_id'));
+   
+       
+      
+
+     
+     
+ 
+      //  Effectuer le paiement
+    }  
+
+    } 
+     
+
+}
 
 
-    }
+
+    
 
     
 
@@ -188,64 +220,6 @@ class CotisationTontineController extends Controller
 
 
    
-
-    // public function effectuerCotisation(Request $request, ParticipationTontine $participationTontine, Tontine $tontine, GestionCycle $gestionCycle)
-    // {
-    //     $user = Auth::user();
-    
-    //     // Trouver le dernier cycle de gestion pour cette tontine
-    //     $cycle = Tontine::FindOrFail($tontine->id);
-    //     $dernierCycle = $cycle->gestion_cycles()->orderBy('nombre_de_cycle', 'desc')->first();
-    // dd($dernierCycle);
-    //     if (!$dernierCycle) {
-    //         // Aucun cycle de gestion trouvé, renvoyer une réponse d'erreur
-    //         return response()->json([
-    //             'statut_code' => false,
-    //             'statut_message' => 'Aucun cycle de gestion trouvé pour cette tontine.',
-    //         ]);
-    //     }
-    
-    //     // Utiliser la date du dernier cycle de gestion pour la date de paiement
-    //     $datePaiement = $dernierCycle->date_cycle;
-    
-    //     // Vérifier si l'utilisateur a une participation acceptée à cette tontine
-    //     $participationTontine = ParticipationTontine::FindOrFail($participationTontine->id);
-    //     $participation = $participationTontine->where('user_id', $user->id)
-    //                                           ->where('statutParticipation', 'accepte')
-    //                                           ->first();
-    
-    //     if (!$participation) {
-    //         // Aucune participation acceptée trouvée pour cet utilisateur, renvoyer une réponse d'erreur
-    //         return response()->json([
-    //             'statut_code' => false,
-    //             'statut_message' => 'Vous n\'êtes pas autorisé à effectuer une cotisation pour cette tontine.',
-    //         ]);
-    //     }
-    
-    //     // Comparer le montant de la cotisation avec le montant de la tontine
-    //     if ($request->montant_paiement != $tontine->montant) {
-    //         return response()->json([
-    //             'statut_code' => false,
-    //             'statut_message' => 'Le montant de la cotisation est différent du montant de la tontine.',
-    //         ]);
-    //     }
-    
-    //     // Enregistrer la cotisation pour le dernier cycle de gestion
-    //     $cotisation = new CotisationTontine();
-    //     $cotisation->date_paiement = $datePaiement;
-    //     $cotisation->montant_paiement = $request->montant_paiement;
-    //     $cotisation->participationTontine_id = $participation->id;
-    //     $cotisation->gestion_cycle_id = $dernierCycle->id;
-    //     $cotisation->save();
-    
-    //     // Retourner une réponse de succès
-    //     return response()->json([
-    //         'statut_code' => 200,
-    //         'statut_message' => 'Votre cotisation a été effectuée avec succès.',
-    //         'data' => $cotisation,
-    //     ]);
-    // }
-    
 
 
         public function listeCotisation()

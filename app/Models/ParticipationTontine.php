@@ -42,7 +42,11 @@ public function tontine()
 {
     return $this->belongsTo(Tontine::class);
 }
-
+//cycle par utilisateur
+public function gestion_cycle()
+{
+    return $this->belongsTo(GestionCycle::class);
+}
 
 
 }

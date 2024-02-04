@@ -16,6 +16,7 @@ class Payment extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        
         'participation_Tontine_id',
         'gestion_cycle_id',
         'amount',

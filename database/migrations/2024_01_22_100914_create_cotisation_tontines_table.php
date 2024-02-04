@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cotisation_tontines', function (Blueprint $table) {
             $table->id();
-            $table->string('montant_paiement');
+            $table->integer('montant_paiement');
             $table->date('date_paiement');
             $table->timestamps();
             $table->enum('statut',['gagnant','pas_gagnant'])->default('pas_gagnant');

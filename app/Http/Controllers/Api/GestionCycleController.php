@@ -338,7 +338,10 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
           
     
 
-
+public function gestionCycleParUtilisateur()
+{
+    
+}
 
 
 
