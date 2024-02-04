@@ -190,6 +190,56 @@
                 ]
             }
         },
+        "/createur_tontine/listeCycle/{tontine}": {
+            "get": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Liste des cycles pour une tontine spécifique",
+                "operationId": "171a8024ec278d10b627af40d4298fec",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La liste des cycles pour la tontine spécifiée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "la liste des cycles pour chaque tontine"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La tontine spécifiée n'existe pas"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/auth/ParticiperTontine": {
             "post": {
                 "tags": [

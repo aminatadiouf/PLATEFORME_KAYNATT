@@ -69,6 +69,9 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
 
     Route::POST('RefuseParticipationUser/{participationTontines}',[ParticipationTontineController::class,'refuseParticipation']);
     Route::POST('gererCycle/{tontine}',[GestionCycleController::class,'gestionCycle']);
+    Route::GET('listeCycle/{tontine}',[GestionCycleController::class,'listeCycle']);
+
+
 
     //participationTontineAccepte
  });

@@ -232,6 +232,56 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
 
 }
 }
+/**
+ * @OA\Get(
+ *     path="/createur_tontine/listeCycle/{tontine}",
+ *     summary="Liste des cycles pour une tontine spécifique",
+ *     tags={"CreateurTontine"},
+ *  security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="tontine",
+ *         in="path",
+ *         description="ID de la tontine",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="La liste des cycles pour la tontine spécifiée",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="integer",
+ *                 example=200
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="la liste des cycles pour chaque tontine"
+ *             ),
+ *            
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="La tontine spécifiée n'existe pas"
+ *     )
+ * )
+ */
+
+        public function listeCycle(Tontine $tontine)
+        {
+            $tontines = Tontine::FindOrFail($tontine->id);
+            $cycle = $tontines->gestion_cycles()->get();
+            return response()->json([
+                'status_code'=>200,
+                'status_message'=>'la liste des cycles pour chaque tontine',
+                'data'=>$cycle
+            ]);
+        }
 
 
     public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)
