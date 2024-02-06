@@ -95,6 +95,276 @@
                     }
                 ]
             }
+        },
+        "/createur_tontine/AcceptedParticipationUser/{participationTontines}": {
+            "post": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Accepter la participation d'un utilisateur à une tontine",
+                "description": "Accepter la participation d'un utilisateur à une tontine par le créateur de la tontine.",
+                "operationId": "accepteParticipation",
+                "parameters": [
+                    {
+                        "name": "participationTontines",
+                        "in": "path",
+                        "description": "L'ID de la participation à la tontine à accepter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès - La demande de participation à la tontine a été acceptée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Indique si l'opération a réussi ou non",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Message indiquant le résultat de l'opération",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé - L'utilisateur n'est pas le créateur de la tontine",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Indique si l'opération a réussi ou non",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Message d'erreur indiquant l'accès non autorisé",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/createur_tontine/RefuseParticipationUser/{participationTontines}": {
+            "post": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Refuser la participation d'un utilisateur à une tontine",
+                "description": "Refuser la participation d'un utilisateur à une tontine par le créateur de la tontine.",
+                "operationId": "refuseParticipation",
+                "parameters": [
+                    {
+                        "name": "participationTontines",
+                        "in": "path",
+                        "description": "L'ID de la participation à la tontine à accepter",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès - La demande de participation à la tontine a été acceptée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Indique si l'opération a réussi ou non",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Message indiquant le résultat de l'opération",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé - L'utilisateur n'est pas le créateur de la tontine",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Indique si l'opération a réussi ou non",
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "description": "Message d'erreur indiquant l'accès non autorisé",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/createur_tontine/ListeparticipationEnattentePartontine/{tontine}": {
+            "get": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Liste des participations en attente pour une tontine",
+                "description": "Récupère la liste des participations en attente pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
+                "operationId": "listeParticipationsEnAttente",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès - La liste des participations en attente a été récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "la liste de tous les cotisations de cette tontine"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "statutParticipation": {
+                                                        "type": "string",
+                                                        "example": "en_attente"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/createur_tontine/ListeparticipationAcceptePartontine/{tontine}": {
+            "get": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Liste des participations acceptées pour une tontine",
+                "description": "Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
+                "operationId": "listeParticipationsAcceptees",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès - La liste des participations acceptées a été récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "la liste de tous les cotisations de cette tontine"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "statutParticipation": {
+                                                        "type": "string",
+                                                        "example": "accepte"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     }
 }

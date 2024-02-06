@@ -25,10 +25,7 @@ public function users()
     return $this->hasMany(User::class);
 }
 
-// public function user()
-// {
-//     return $this->belongsTo(User::class);
-// }
+
 
 public function cotisationTontines()
 {
@@ -45,5 +42,11 @@ public function tontine()
 {
     return $this->belongsTo(Tontine::class);
 }
+//cycle par utilisateur
+public function gestion_cycle()
+{
+    return $this->belongsTo(GestionCycle::class);
+}
+
 
 }

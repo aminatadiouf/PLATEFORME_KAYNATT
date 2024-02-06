@@ -1,0 +1,145 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kaynatt API",
+        "description": "Mon API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "paths": {
+        "/createur_tontine/gererCycle/{tontine}": {
+            "post": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Gérer les cycles d'une tontine",
+                "description": "Crée et liste les cycles d'une tontine en fonction de sa période.",
+                "operationId": "gestionCycle",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Données requises pour gérer les cycles de la tontine",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "statut": {
+                                        "description": "Statut des cycles",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succès - Les cycles de la tontine ont été gérés avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "les cycles du tontine"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé - L'utilisateur n'est pas le créateur de la tontine"
+                    },
+                    "400": {
+                        "description": "Requête incorrecte - La tontine n'est pas dans un état accepté"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/createur_tontine/listeCycle/{tontine}": {
+            "get": {
+                "tags": [
+                    "CreateurTontine"
+                ],
+                "summary": "Liste des cycles pour une tontine spécifique",
+                "operationId": "171a8024ec278d10b627af40d4298fec",
+                "parameters": [
+                    {
+                        "name": "tontine",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "La liste des cycles pour la tontine spécifiée",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "la liste des cycles pour chaque tontine"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "La tontine spécifiée n'existe pas"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

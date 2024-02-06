@@ -41,7 +41,7 @@ class TontineCreateRequest extends FormRequest
         return [
             'libelle'=>'required|string|max:55|unique:tontines',
             'description'=>'required|string|',
-            'montant'=>'required|string',
+            'montant'=>'required|integer',
 
             'nombre_participant' => 'required|integer',
             'regles' => 'required|',
@@ -77,7 +77,7 @@ class TontineCreateRequest extends FormRequest
         'description.string'=>'la description doit être une chaîne de caractére',
         
         'montant.required'=>'le montant doit être fourni',
-        'montant.string'=>'le montant doit être une chaîne de caractére',
+        'montant.integer'=>'le montant doit être une chaîne de caractére',
 
         
         'nombre_participant.required'=>'le nombre de participant doit être fourni',

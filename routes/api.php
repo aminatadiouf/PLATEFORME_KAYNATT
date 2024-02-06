@@ -63,15 +63,25 @@ Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'
 Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'createur_tontine'], function () {
     Route::GET('ListeTontineparCreateur/{user}',[TontineController::class,'alltontineparcreateur']);
     Route::GET('ListeparticipationEnattentePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineEnAttente']);
+    Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
+
     Route::POST('AcceptedParticipationUser/{participationTontines}',[ParticipationTontineController::class,'accepteParticipation']);
 
     Route::POST('RefuseParticipationUser/{participationTontines}',[ParticipationTontineController::class,'refuseParticipation']);
-      
+   // Route::POST('gererCycle/{tontine}',[GestionCycleController::class,'gestionCycle']);
+   // Route::GET('listeCycle/{tontine}',[GestionCycleController::class,'listeCycle']);
+
+    //gestionCycleParUtilisateur
+
+
+    //participationTontineAccepte
  });
     Route::GET('ListeparticipationAlltontine',[ParticipationTontineController::class,'allParticipation']);
 
+    Route::POST('gererCycleParUser/{participationTontines}',[GestionCycleController::class,'gestionCycleParUtilisateur']);
 
-
+    //getListeCycle
+    Route::GET('ListeCycleAlltontine/{tontine}',[GestionCycleController::class,'ListeCycle']);
 
 
 Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
@@ -94,7 +104,6 @@ Route::group(['middleware' => [ 'jwt.auth','acces:admin'],'prefix'=>'admin'], fu
     Route::POST('RefuseTontine/{tontines}',[TontineController::class,'CreationTontineRefuse']);
 });
 
-Route::POST('gererCycle/{tontine}',[GestionCycleController::class,'gestionCycle']);
 
 
 
@@ -119,6 +128,7 @@ Route::GET('ListeCotisationParTontine/{tontines}',[TontineController::class,'all
 //mail pour date de notification
 Route::GET('notifierDateNotification/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
+Route::GET('/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
 
 
