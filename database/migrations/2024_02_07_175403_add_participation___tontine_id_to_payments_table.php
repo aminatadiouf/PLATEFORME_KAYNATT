@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cotisation_tontines', function (Blueprint $table) {
-            $table->unsignedBigInteger('participation_Tontine_id')->after('id');
-     
-            $table->foreign('participation_Tontine_id')->references('id')->on('participation_tontines')
-             ->constrained()
-             ->onUpdate('cascade')
-            ->onDelete('cascade');
-        });
+        Schema::table('payments', function (Blueprint $table) {
+                $table->unsignedBigInteger('participation_Tontine_id')->after('id');
+         
+                $table->foreign('participation_Tontine_id')->references('id')->on('participation_tontines');
+            });
         
     }
 
@@ -27,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cotisation_tontines', function (Blueprint $table) {
+        Schema::table('payments', function (Blueprint $table) {
             $table->dropForeign(['participation_Tontine_id']);
             $table->dropColumn('participation_Tontine_id'); 
         });

@@ -100,6 +100,23 @@ class ParticipationTontineController extends Controller
     {
         try {
             //code...
+            $tontine = Tontine::findOrFail($request->tontine_id);
+
+            // if($tontine->participationTontines()->count()==$tontine->nombre_participant)
+            // {
+            //     return response()->json([
+            //         "status" => false,
+            //         'status_message' => 'Le nombre de participants de cette tontine a été atteint.',
+            //     ]);
+            // }
+
+            if($tontine->etat ==='en_cours'){
+                
+                return response()->json([
+                    "status" => false,
+                    'status_message' => 'vous ne pouvez pas vous inscrire à cette tontine,elle est en cours.',
+                ]);
+            }
      
         $participations = new ParticipationTontine();
         $participations->user_id = auth()->user()->id;

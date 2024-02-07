@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('amount');
             $table->integer('token')->unique()->nullable();
-            $table->foreignIdFor(ParticipationTontine::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
+
+           // $table->foreignIdFor(ParticipationTontine::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
             $table->foreignIdFor(GestionCycle::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
             $table->timestamps();
             $table->softDeletes();

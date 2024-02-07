@@ -40,15 +40,16 @@ public function payment(PaymentRequest $request)
     // $amount = $validated['price'];
     // $participation_Tontine_id = $validated['participation_Tontine_id'];
     $amount = $request->input('price');
-    $participation_Tontine_id = $request->input('participation_Tontine_id');
+   $participation_Tontine_id = $request->input('participation_Tontine_id');
     $gestion_cycle_id = $request->input('gestion_cycle_id');
+
     $code = "47"; // This can be the product id
 
     $success_url = route('payment.success', [
         'code' => $code,
         'data' => [
             'amount' => $request->price,
-            'participation_Tontine_id' => $participation_Tontine_id,
+           'participation_Tontine_id' => $participation_Tontine_id,
             'gestion_cycle_id' => $gestion_cycle_id,
         ],
     ]);
@@ -60,7 +61,7 @@ public function payment(PaymentRequest $request)
 
     $jsonResponse = $paymentService->setQuery([
         'item_price' => $amount,
-        'participation_Tontine_id' => $participation_Tontine_id,
+       'participation_Tontine_id' => $participation_Tontine_id,
         'gestion_cycle_id' => $gestion_cycle_id,
         'command_name' => "Votre paiement tontine a été effectué avec succès",
     ])
@@ -109,7 +110,7 @@ public function payment(PaymentRequest $request)
             'token' => 1,
         ], [
             'amount' => $data['amount'],
-            'participation_Tontine_id' => $data['participation_Tontine_id'],
+           'participation_Tontine_id' => $data['participation_Tontine_id'],
             'gestion_cycle_id' => $data['gestion_cycle_id'],
         ]);
 

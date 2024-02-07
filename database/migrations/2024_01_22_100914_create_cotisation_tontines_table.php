@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('montant_paiement');
             $table->date('date_paiement');
             $table->timestamps();
+
             $table->enum('statut',['gagnant','pas_gagnant'])->default('pas_gagnant');
 
         });

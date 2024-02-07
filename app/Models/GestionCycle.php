@@ -15,7 +15,9 @@ class GestionCycle extends Model
         'tontine_id',
         'nombre_de_cycle',
         'date_cycle',
-        'statut'
+        'statut',
+        'statutCotisation',
+        'statutTirage'
     ];
 
     public function tontine()
@@ -36,6 +38,6 @@ public function payments()
 
 public function participationTontines()
 {
-    return $this->hasMany(ParticipationTontine::class );
+    return $this->hasMany(ParticipationTontine::class , 'participation_Tontine_id' );
 }
 }

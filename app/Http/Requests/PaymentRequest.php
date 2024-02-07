@@ -29,7 +29,7 @@ class PaymentRequest extends FormRequest
         return [
             'price' => 'required',
             'participation_Tontine_id' => 'required',
-            'gestion_cycle_id' => 'required'
+            'gestion_cycle_id' => 'required',
         ];
     }
 
