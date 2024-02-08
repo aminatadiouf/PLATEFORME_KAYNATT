@@ -34,8 +34,8 @@ public function payments()
     return $this->hasMany(Payment::class );
 }
 
-public function participationTontines()
-{
-    return $this->hasMany(ParticipationTontine::class );
-}
+// public function participationTontines()
+// {
+//     return $this->hasMany(ParticipationTontine::class );
+// }
 }

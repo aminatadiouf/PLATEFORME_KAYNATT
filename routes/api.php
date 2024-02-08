@@ -65,6 +65,8 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
     Route::GET('ListeparticipationEnattentePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineEnAttente']);
     Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
 
+    Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
+
     Route::POST('AcceptedParticipationUser/{participationTontines}',[ParticipationTontineController::class,'accepteParticipation']);
 
     Route::POST('RefuseParticipationUser/{participationTontines}',[ParticipationTontineController::class,'refuseParticipation']);
@@ -73,6 +75,9 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
 
     //gestionCycleParUtilisateur
 
+
+    //participationTontineAccepte
+    Route::POST('gererCycle/{tontine}',[GestionCycleController::class,'gestionCycle']);
 
     //participationTontineAccepte
  });
@@ -128,6 +133,7 @@ Route::GET('ListeCotisationParTontine/{tontines}',[TontineController::class,'all
 //mail pour date de notification
 Route::GET('notifierDateNotification/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
+Route::GET('/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 Route::GET('/{tontines}',[GestionCycleController::class,'notificationCotisation']);
 
 
