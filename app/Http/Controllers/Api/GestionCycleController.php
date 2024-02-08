@@ -57,7 +57,7 @@ class GestionCycleController extends Controller
 
 
 /**
- * Gérer les cycles d'une tontine.
+ * Gère les cycles d'une tontine.
  *
  * @param  \Illuminate\Http\Request  $request
  * @param  \App\Models\Tontine  $tontine
@@ -79,17 +79,6 @@ class GestionCycleController extends Controller
  *             type="integer"
  *         )
  *     ),
- *     @OA\RequestBody(
- *         required=true,
- *         description="Données requises pour gérer les cycles de la tontine",
- *         @OA\JsonContent(
- *             @OA\Property(
- *                 property="statut",
- *                 type="string",
- *                 description="Statut des cycles"
- *             )
- *         )
- *     ),
  *     @OA\Response(
  *         response=200,
  *         description="Succès - Les cycles de la tontine ont été gérés avec succès",
@@ -103,6 +92,28 @@ class GestionCycleController extends Controller
  *                 property="status_message",
  *                 type="string",
  *                 example="les cycles du tontine"
+ *             ),
+ *             @OA\Property(
+ *                 property="cycles",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object"
+ *                 )
+ *             ),
+ *             @OA\Property(
+ *                 property="dates",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="string",
+ *                     example="2024-02-10"
+ *                 )
+ *             ),
+ *             @OA\Property(
+ *                 property="nombre_participants",
+ *                 type="array",
+ *                 @OA\Items(
+ *                     type="object"
+ *                 )
  *             )
  *         )
  *     ),
@@ -112,155 +123,41 @@ class GestionCycleController extends Controller
  *     ),
  *     @OA\Response(
  *         response=400,
- *         description="Requête incorrecte - La tontine n'est pas dans un état accepté"
+ *         description="Requête incorrecte - La tontine n'est pas dans un état accepté ou a déjà des cycles"
  *     )
  * )
  */
 
 
 
+    public function gestionCycle(Request $request,Tontine $tontine)
+    {
 
-//     public function gestionCycle(Request $request,Tontine $tontine)
-//     {
-
-//         $cyclesList = []; 
-//        $datesList = [];
+        $cyclesList = []; 
+       $datesList = [];
+       $participantsList=[];
            
-//         if ($tontine->periode === 'hebdomaire')
-//         {
-            
-//                 $duree = 7;
-               
-            
-//         }
-//         elseif ($tontine->periode === 'mensuel'){
-           
-//             $duree = 30;
-
-           
-//         }
-
-//         elseif ($tontine->periode === 'quotidien'){
-            
-//              $duree = 1;
-
-            
-//         }
-//             elseif ($tontine->periode === 'annuel'){
-                 
-//                  $duree = 365;
-
-                
-//             }
-
-
-//             $tontines = Tontine::findOrFail($tontine->id);
-//             $nbre_participantTontine = $tontines->participationTontines()
-//             ->where('statutParticipation','accepte')
-//             ->count(); 
-
-//             $participantsList = [];
-//             $participationTontines = $tontines->participationTontines()
-//             ->where('statutParticipation','accepte')->get();
-
-
-//        $user = Auth::user();
-      
-      
-//            if ($user->id !== $tontines->user_id) {
-//                return response()->json([
-//                    'status'=>false,
-//                    'status_message'=>'vous êtes pas le créateur de cette tontine,vous n\'êtes pas le créateur de cette tontine '
-//                ]);
-       
-//            }
-          
-//            $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
-
-//            if ($existingCyclesCount > 0) {
-//                return response()->json([
-//                    'status_code' => false,
-//                    'status_message' => 'cette tontine a déjà ses cycles'
-//                ]);
-//            }    
-
-// if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
-// {
-//     return response()->json([
-//         'status_code'=> false,
-//         'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
-//     ]);
-// }
-
-//     if($tontine->statutTontine === 'accepte')
-//    {  
-//        For($i=1; $i <=$nbre_participantTontine + 1; $i++)
-//         {
-            
-           
-//             $cycles = new GestionCycle();
-//             $cycles -> tontine_id = $tontine->id;
-//             $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
-//             $cycles ->nombre_de_cycle = $i;
-//             $cycles->statut = 'a_venir';
-
-          
-//     foreach ($participationTontines as $participationTontine) {
-//         $participantsList[] = $participationTontine->toArray(); 
-//     }
-//             $tontine->update(['etat'=>'en_cours']);
-
-//             $cycles->save();
-
-//             $cyclesList[] = $cycles->fresh()->toArray(); 
-//             $datesList[] = $cycles->date_cycle->format('Y-m-d');
-
-
-//         } 
-    
-
-//         return response()->json([
-//             'status_code'=>200,
-//             'status_message'=>'les cycles du tontine',
-//             'cycles' => $cyclesList, 
-//             'dates' => $datesList,
-//             'nombre_participants'=>$participantsList
-//         ]);
-   
-      
-
-
-// }
-// }
-
-public function gestionCycleParUtilisateur(ParticipationTontine $participationTontines)
-{
-        $participationTontine = ParticipationTontine::FindOrFail($participationTontines->id);
-
-        $tontines = $participationTontine->tontine;
-       // dd($tontines);
-
-        if ($tontines->periode === 'hebdomaire')
+        if ($tontine->periode === 'hebdomaire')
         {
             
                 $duree = 7;
                
             
         }
-        elseif ($tontines->periode === 'mensuel'){
+        elseif ($tontine->periode === 'mensuel'){
            
             $duree = 30;
 
            
         }
 
-        elseif ($tontines->periode === 'quotidien'){
+        elseif ($tontine->periode === 'quotidien'){
             
              $duree = 1;
 
             
         }
-            elseif ($tontines->periode === 'annuel'){
+            elseif ($tontine->periode === 'annuel'){
                  
                  $duree = 365;
 
@@ -289,7 +186,14 @@ public function gestionCycleParUtilisateur(ParticipationTontine $participationTo
        
            }
           
-         
+           $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
+
+           if ($existingCyclesCount > 0) {
+               return response()->json([
+                   'status_code' => false,
+                   'status_message' => 'cette tontine a déjà ses cycles'
+               ]);
+           }    
 
 if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
 {
@@ -299,8 +203,8 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
     ]);
 }
 
-    if($tontine->statutTontine === 'accepte')
-   {  
+   
+     foreach ($participationTontines as $participationTontine) {
        For($i=1; $i <=$nbre_participantTontine + 1; $i++)
         {
             
@@ -309,77 +213,151 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
             $cycles -> tontine_id = $tontine->id;
             $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
             $cycles ->nombre_de_cycle = $i;
+            $cycles->participation_Tontine_id=$participationTontine->id;
             $cycles->statut = 'a_venir';
 
-          
-    foreach ($participationTontines as $participationTontine) {
-        $participantsList[] = $participationTontine->toArray(); 
-    }
-            $tontine->update(['etat'=>'en_cours']);
-if($tontines->gestion_cycles)
-// dd($tontines->gestion_cycles);
-{
-    return response()->json([
-        'status_code'=> false,
-        'status_message'=>'cette tontine a déjà ses cycles'
-    ]);
-    
-}
-
-            // $user = Auth::user();
-      
-      
+            $cyclesList[] = $cycles->toArray(); 
             
-
-            
-        if($participationTontine->statutParticipation === 'en_attente'|| $participationTontine->statutParticipation === 'refuse' )
-        {
-            return response()->json([
-                'status_code'=> false,
-                'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
-            ]);
-        }
-
-        $cyclesListe = []; 
-        $dateliste =[];
-    if($tontines->statutTontine === 'accepte')
-    {  
-       
-        For($i=1; $i <=$nbre_participantTontine + 1; $i++)
-         {
-             
-            
-             $cycles = new GestionCycle();
-             $cycles -> tontine_id = $tontines->id;
-             $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
-             $cycles ->nombre_de_cycle = $i;
-             $cycles->participation_Tontine_id=$participationTontine->id;
-             $cycles->statut = 'a_venir';  
-             $cycles->save(); 
-
-             $cyclesListe[]=$cycles;
-             $dateliste []= $cycles->date_cycle->format('Y-m-d');
-        }
-
+            $datesList[] = $cycles->date_cycle->format('Y-m-d');
+            $participantsList[] = $participationTontine->toArray();
+            $cycles->save();
+   }
   
+}   
+
+           
+
+         
+
+            $tontine->update(['etat'=>'en_cours']);
+        
+    
+
         return response()->json([
             'status_code'=>200,
-            'status_message'=>'les cycles de l\'utilisateur',
-            'data' => $cyclesListe, 
-            'dates' => $dateliste,
+            'status_message'=>'les cycles du tontine',
+            'cycles' => $cyclesList, 
+            'dates' => $datesList,
+            'nombre_participants'=>$participantsList
         ]);
-        
-    // }else{
-    //     return response()->json([
-    //         'status_code' => false,
-    //         'status_message' => 'Une erreur est survenue lors du traitement de la tontine.'
-    //     ]);
-    // }
+   
       
-}
 
 
+
 }
+
+// public function gestionCycleParUtilisateur(ParticipationTontine $participationTontines)
+// {
+//         $participationTontine = ParticipationTontine::FindOrFail($participationTontines->id);
+
+//         $tontines = $participationTontine->tontine;
+//        // dd($tontines);
+
+//         if ($tontines->periode === 'hebdomaire')
+//         {
+            
+//                 $duree = 7;
+               
+            
+//         }
+//         elseif ($tontines->periode === 'mensuel'){
+           
+//             $duree = 30;
+
+           
+//         }
+
+//         elseif ($tontines->periode === 'quotidien'){
+            
+//              $duree = 1;
+
+            
+//         }
+//             elseif ($tontines->periode === 'annuel'){
+                 
+//                  $duree = 365;
+
+                
+//             }
+
+           
+           
+//             $nbre_participantTontine = $tontines->participationTontines()
+//             ->where('statutParticipation','accepte')
+//             ->count();
+
+//             $user = Auth::user();
+//     //   dd($user);
+//       if($user->id!==$tontines->user_id)
+//       {
+//         return response()->json([
+//             'status_code'=> false,
+//             'status_message'=>'vous ne pouvez pas effectuer cette action, vous n\'êtes pas le créateur de cette tontine'
+//         ]);
+//       }
+//     //   dd($tontines->user_id);     
+//     $existingCyclesCount = GestionCycle::where('participation_Tontine_id', $participationTontine->id)->count();
+
+//     if ($existingCyclesCount>0) {
+//         return response()->json([
+//             'status_code' => false,
+//             'status_message' => 'Les cycles pour cette participation à la tontine ont déjà été créés.'
+//         ]);
+//     }    
+
+//         if($participationTontine->statutParticipation === 'en_attente'|| $participationTontine->statutParticipation === 'refuse' )
+//         {
+//             return response()->json([
+//                 'status_code'=> false,
+//                 'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
+//             ]);
+//         }
+
+//         $cyclesListe = []; 
+//         $dateliste =[];
+//     if($tontines->statutTontine === 'accepte')
+//     {  
+       
+//         For($i=1; $i <=$nbre_participantTontine + 1; $i++)
+//          {
+             
+            
+//              $cycles = new GestionCycle();
+//              $cycles -> tontine_id = $tontines->id;
+//              $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
+//              $cycles ->nombre_de_cycle = $i;
+//              $cycles->participation_Tontine_id=$participationTontine->id;
+//              $cycles->statut = 'a_venir';
+
+//              $cycles->save(); 
+
+//              $cyclesListe[]=$cycles;
+//              $dateliste []= $cycles->date_cycle->format('Y-m-d');
+//         }
+//         $tontines->update(['etat' => 'en_cours']);
+
+  
+//         return response()->json([
+//             'status_code'=>200,
+//             'status_message'=>'les cycles de l\'utilisateur',
+//             'data' => $cyclesListe, 
+//             'dates' => $dateliste,
+//         ]);
+        
+//     // }else{
+//     //     return response()->json([
+//     //         'status_code' => false,
+//     //         'status_message' => 'Une erreur est survenue lors du traitement de la tontine.'
+//     //     ]);
+//     // }
+      
+// }
+
+
+
+
+// }
 
 
 
@@ -493,6 +471,21 @@ if($tontines->gestion_cycles)
         }
 
     
-          
+        public function tirage($nombreCycle)
+        {
+            
+    $cycles = GestionCycle::where('nombre_de_cycle', $nombreCycle)->get();
+    
+   
+       
+
   
-}
+            return response()->json([
+                'statut_code'=> 200,
+                    'statut_message'=> 'liste participation de cette cycle',
+                    'data'=>$cycles  
+            ]);
+        }
+       
+    }  
+  
