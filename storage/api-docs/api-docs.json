@@ -677,7 +677,7 @@
                 ]
             }
         },
-        "/createur_tontine/faireTirage/{tontines}": {
+        "/createur_tontine/faireTirage/{tontine}": {
             "post": {
                 "tags": [
                     "Tirage"

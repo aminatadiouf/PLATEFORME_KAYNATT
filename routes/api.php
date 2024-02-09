@@ -79,7 +79,7 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
    Route::POST('gererCycle/{tontine}',[GestionCycleController::class,'gestionCycle']);
    Route::GET('listeCycle/{tontine}',[GestionCycleController::class,'listeCycle']);
 
-   Route::POST('faireTirage/{tontines}', [ParticipationTontineController::class, 'EffectuerTirage']);
+   Route::POST('faireTirage/{tontine}', [ParticipationTontineController::class, 'EffectuerTirage']);
 
 
     //gestionCycleParUtilisateur
