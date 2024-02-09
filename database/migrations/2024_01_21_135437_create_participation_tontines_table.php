@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('participation_tontines', function (Blueprint $table) {
             $table->id();
             $table->enum('statutParticipation',['en_attente','accepte','refuse'])->default('en_attente');
-           
+            $table->enum('statutTirage',['gagnant','pasgagnant'])->default('pasgagnant');
+
             $table->date('date');
             $table->timestamps();
         });

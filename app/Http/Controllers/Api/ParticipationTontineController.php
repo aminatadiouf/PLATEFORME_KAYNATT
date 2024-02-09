@@ -578,4 +578,98 @@ public function participationTontineAccepte(Tontine $tontine)
 
 }
 
+
+
+
+
+
+/**
+ * Effectue un tirage dans une tontine pour désigner un participant gagnant.
+ *
+ * @param \App\Models\Tontine $tontines Instance de la tontine pour laquelle le tirage doit être effectué.
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @OA\Post(
+ *     path="/createur_tontine/faireTirage/{tontines}",
+ *     summary="Effectuer un tirage dans une tontine",
+ *     description="Effectue un tirage dans une tontine pour désigner un participant gagnant.",
+ *     operationId="EffectuerTirage",
+ *     tags={"Tirage"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="tontines",
+ *         in="path",
+ *         description="ID de la tontine",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Succès - Le tirage a été effectué avec succès",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="statut_code",
+ *                 type="integer",
+ *                 example=200
+ *             )
+ *            
+ *                     
+ *                 )
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Requête incorrecte - L'utilisateur n'est pas le créateur de la tontine"
+ *     )
+ * )
+ */
+
+
+
+
+
+
+public function EffectuerTirage(Tontine $tontines)
+{
+    $tontines = Tontine::where('etat', 'en_cours')->get();
+
+    $user = Auth::user();
+    
+
+    $participants=[];
+    foreach($tontines as $tontine)
+    {
+            if($user->id !== $tontine->user_id)
+            {
+                return response()->json([
+                    'status'=>false,
+                    'status_message'=>'vous êtes pas le créateur de cette tontine '
+                ]);
+            }
+
+        $participantTontine = $tontine->participationTontines()
+        ->where('statutTirage','pasgagnant')
+        ->where('statutParticipation','accepte')
+        ->get();
+
+        if($participantTontine->count() > 0)
+                {
+                $gagnant = $participantTontine->random();
+                $gagnant->statutTirage = 'gagnant';
+                    $gagnant->save(); 
+                }
+
+            $participants[]=$gagnant->toArray();
+   }
+    return response()->json([
+        'statut_code'=> 200,
+        'statut_message'=> 'l\'utilisateur gagnant est',
+        'data'=>$participants,
+    ]);
+
+}
+
 }

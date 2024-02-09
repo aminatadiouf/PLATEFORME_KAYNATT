@@ -17,7 +17,6 @@ class GestionCycle extends Model
         'date_cycle',
         'statut',
         'statutCotisation',
-        'statutTirage'
     ];
 
     public function tontine()

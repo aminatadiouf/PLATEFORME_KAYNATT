@@ -15,7 +15,8 @@ class ParticipationTontine extends Model
         'tontine_id',
         'statutParticipation',
         'date',
-        
+        'statutTirage'
+
 
 ];
 

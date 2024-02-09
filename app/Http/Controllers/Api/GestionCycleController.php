@@ -471,21 +471,23 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
         }
 
     
-        public function tirage($nombreCycle)
-        {
+    //     public function tirage($nombreCycle)
+    //     {
             
-    $cycles = GestionCycle::where('nombre_de_cycle', $nombreCycle)->get();
+    // $cycles = GestionCycle::where('nombre_de_cycle', $nombreCycle)->get();
     
    
        
 
   
-            return response()->json([
-                'statut_code'=> 200,
-                    'statut_message'=> 'liste participation de cette cycle',
-                    'data'=>$cycles  
-            ]);
-        }
+    //         return response()->json([
+    //             'statut_code'=> 200,
+    //                 'statut_message'=> 'liste participation de cette cycle',
+    //                 'data'=>$cycles  
+    //         ]);
+    //     }
        
+
+
     }  
   

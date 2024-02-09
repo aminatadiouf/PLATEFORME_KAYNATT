@@ -207,28 +207,28 @@ class CotisationTontineController extends Controller
     
     
 
-    public function faireTirage(User $user)
-    {
-        // Récupérer la liste des utilisateurs non-gagnants
-        $nonGagnants = User::where('gagnant', false)->get();
+    // public function faireTirage(GestionCycle $nonGagnants)
+    // {
+    //     // Récupérer la liste des utilisateurs non-gagnants
+    //     $nonGagnants = GestionCycle::where(['statutTirage'=>'pasgagnant'])->get();
 
-        if ($nonGagnants->isEmpty()) {
-            return response()->json(['message' => 'Il n\'y a pas de non-gagnants pour le moment.'], 404);
-        }
+    //     if ($nonGagnants->isEmpty()) {
+    //         return response()->json(['message' => 'Il n\'y a pas de non-gagnants pour le moment.'], 404);
+    //     }
 
-        // Effectuer le tirage au sort
-        $gagnant = $nonGagnants->random();
+    //     // Effectuer le tirage au sort
+    //     $gagnant = $nonGagnants->random();
 
-        // Mettre à jour le statut du gagnant dans la base de données
-        $gagnant->update(['gagnant' => true]);
+    //     // Mettre à jour le statut du gagnant dans la base de données
+    //     $gagnant->update(['statutTirage' => 'gagnant']);
 
-        // Notifier le gagnant (vous devrez implémenter la logique de notification)
-        $this->notifierGagnant($gagnant);
+    //     // Notifier le gagnant (vous devrez implémenter la logique de notification)
+    //     $this->notifierGagnant($gagnant);
 
-        return response()->json(['gagnant' => $gagnant, 'message' => 'Le tirage au sort a été effectué avec succès.']);
-    }
+    //     return response()->json(['gagnant' => $gagnant, 'message' => 'Le tirage au sort a été effectué avec succès.']);
+    // }
 
-
+      
    
 
 
@@ -242,10 +242,7 @@ class CotisationTontineController extends Controller
         }
 
         
-    // public function userNonCotise(Tontine $tontine)
-    // {
-    //     $to
-    // }
+  
 
 
         public function cotisationParparticipation(ParticipationTontine $participations)

@@ -677,6 +677,50 @@
                 ]
             }
         },
+        "/createur_tontine/faireTirage/{tontines}": {
+            "post": {
+                "tags": [
+                    "Tirage"
+                ],
+                "summary": "Effectuer un tirage dans une tontine",
+                "description": "Effectue un tirage dans une tontine pour désigner un participant gagnant.",
+                "operationId": "EffectuerTirage",
+                "parameters": [
+                    {
+                        "name": "tontines",
+                        "in": "path",
+                        "description": "ID de la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès - Le tirage a été effectué avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statut_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/auth/ajouterTontine": {
             "post": {
                 "tags": [
@@ -1382,6 +1426,11 @@
         }
     },
     "components": {
+        "responses": {
+            "400": {
+                "description": "Requête incorrecte - L'utilisateur n'est pas le créateur de la tontine"
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
