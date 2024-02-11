@@ -262,7 +262,7 @@ public function listeTontineGestionCycle(Tontine $tontine)
  * @OA\Get(
  *     path="/participant_tontine/ListeCycleParparticipant/{participationTontine}",
  *     summary="Obtenir la liste des cycles pour une participation à une tontine donnée.",
- *     tags={"Participant Tontine"},
+ *    tags={"ParticipationTontines"},
  *     security={{ "jwt":{} }},
  *     @OA\Parameter(
  *         name="participationTontine",

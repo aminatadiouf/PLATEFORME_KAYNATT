@@ -87,7 +87,7 @@
         "/participant_tontine/ListeCycleParparticipant/{participationTontine}": {
             "get": {
                 "tags": [
-                    "Participant Tontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Obtenir la liste des cycles pour une participation à une tontine donnée.",
                 "operationId": "436ee9bfb984457795f6845b61e25ffd",

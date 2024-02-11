@@ -334,7 +334,7 @@
         "/participant_tontine/Tontineparticipe/{user}": {
             "get": {
                 "tags": [
-                    "Participant Tontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Obtenir les tontines auxquelles un utilisateur a participé.",
                 "operationId": "43db359bf4315d76b34327ff7af93322",

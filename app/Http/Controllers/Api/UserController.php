@@ -424,7 +424,7 @@ class UserController extends Controller
  * @OA\Get(
  *     path="/participant_tontine/Tontineparticipe/{user}",
  *     summary="Obtenir les tontines auxquelles un utilisateur a participé.",
- *     tags={"Participant Tontine"},
+ *     tags={"ParticipationTontines"},
  *     security={{ "jwt":{} }},
  *     @OA\Parameter(
  *         name="user",

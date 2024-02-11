@@ -302,7 +302,7 @@
         "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
-                    "CreateurTontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Liste des participations acceptées pour une tontine",
                 "description": "Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",

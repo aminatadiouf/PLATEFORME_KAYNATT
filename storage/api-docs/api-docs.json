@@ -275,7 +275,7 @@
         "/participant_tontine/ListeCycleParparticipant/{participationTontine}": {
             "get": {
                 "tags": [
-                    "Participant Tontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Obtenir la liste des cycles pour une participation à une tontine donnée.",
                 "operationId": "436ee9bfb984457795f6845b61e25ffd",
@@ -676,7 +676,7 @@
         "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
-                    "CreateurTontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Liste des participations acceptées pour une tontine",
                 "description": "Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
@@ -1490,7 +1490,7 @@
         "/participant_tontine/Tontineparticipe/{user}": {
             "get": {
                 "tags": [
-                    "Participant Tontine"
+                    "ParticipationTontines"
                 ],
                 "summary": "Obtenir les tontines auxquelles un utilisateur a participé.",
                 "operationId": "43db359bf4315d76b34327ff7af93322",

@@ -502,7 +502,7 @@ public function participationTontineEnAttente(Tontine $tontine)
  *     description="Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
  *     operationId="listeParticipationsAcceptees",
  *     security={{"bearerAuth":{}}},
- *     tags={"CreateurTontine"},
+ *     tags={"ParticipationTontines"},
  *     @OA\Parameter(
  *         name="tontine",
  *         in="path",
