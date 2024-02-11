@@ -50,7 +50,6 @@ Route::POST('ajouterTontine',[TontineController::class,'demandeCreationTontine']
 Route::POST('ParticiperTontine',[ParticipationTontineController::class,'demandeParticipationTontine']);
 //Route::POST('faireCotisationTontine/{participationTontines}',[CotisationTontineController::class,'effectuerCotisation']);
 Route::GET('ListeparticipationPartontine/{tontine}',[ParticipationTontineController::class,'allParticipationParTontine']);
-Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
 
 
 
@@ -63,6 +62,10 @@ Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class,
 
 //participationTontineEnAttente
 Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'=>'participant_tontine'], function () {
+    Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
+    Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
+    Route::GET('ListeCycleParparticipant/{participationTontine}',[GestionCycleController::class,'listeParticipantGestionCycle']);
+    Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
 
     });
 
@@ -71,7 +74,6 @@ Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'
 Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'createur_tontine'], function () {
     Route::GET('ListeTontineparCreateur/{user}',[TontineController::class,'alltontineparcreateur']);
     Route::GET('ListeparticipationEnattentePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineEnAttente']);
-    Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
 
     Route::POST('AcceptedParticipationUser/{participationTontines}',[ParticipationTontineController::class,'accepteParticipation']);
 
@@ -92,9 +94,9 @@ Route::group(['middleware' => [ 'jwt.auth','acces:createur_tontine'],'prefix'=>'
 
     //getListeCycle
     Route::GET('ListeCycleAlltontine/{tontine}',[GestionCycleController::class,'ListeCycle']);
+    Route::GET('ListeCyclePartontine/{tontine}',[GestionCycleController::class,'listeTontineGestionCycle']);
 
 
-Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
 Route::GET('ListeTontineAccepte',[TontineController::class,'tontineAccepte']);
 
 

@@ -84,6 +84,69 @@
                 ]
             }
         },
+        "/participant_tontine/ListeCycleParparticipant/{participationTontine}": {
+            "get": {
+                "tags": [
+                    "Participant Tontine"
+                ],
+                "summary": "Obtenir la liste des cycles pour une participation à une tontine donnée.",
+                "operationId": "436ee9bfb984457795f6845b61e25ffd",
+                "parameters": [
+                    {
+                        "name": "participationTontine",
+                        "in": "path",
+                        "description": "ID de la participation à la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opération réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "les cycles de l\\'utilisateur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Non trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
         "/createur_tontine/listeCycle/{tontine}": {
             "get": {
                 "tags": [

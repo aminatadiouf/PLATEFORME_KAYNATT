@@ -122,7 +122,7 @@
                 }
             }
         },
-        "/auth/fairePaiement/{gestionCycle}": {
+        "/participant_tontine/fairePaiement/{gestionCycle}": {
             "post": {
                 "tags": [
                     "Paiement Participant"
@@ -268,6 +268,69 @@
                 "security": [
                     {
                         "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/participant_tontine/ListeCycleParparticipant/{participationTontine}": {
+            "get": {
+                "tags": [
+                    "Participant Tontine"
+                ],
+                "summary": "Obtenir la liste des cycles pour une participation à une tontine donnée.",
+                "operationId": "436ee9bfb984457795f6845b61e25ffd",
+                "parameters": [
+                    {
+                        "name": "participationTontine",
+                        "in": "path",
+                        "description": "ID de la participation à la tontine",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opération réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "les cycles de l\\'utilisateur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Non trouvé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
                     }
                 ]
             }
@@ -610,7 +673,7 @@
                 ]
             }
         },
-        "/createur_tontine/ListeparticipationAcceptePartontine/{tontine}": {
+        "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
                     "CreateurTontine"
@@ -1420,6 +1483,69 @@
                 "security": [
                     {
                         "jwt_token": []
+                    }
+                ]
+            }
+        },
+        "/participant_tontine/Tontineparticipe/{user}": {
+            "get": {
+                "tags": [
+                    "Participant Tontine"
+                ],
+                "summary": "Obtenir les tontines auxquelles un utilisateur a participé.",
+                "operationId": "43db359bf4315d76b34327ff7af93322",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Opération réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "status_message": {
+                                            "type": "string",
+                                            "example": "les tontines que l'utilisateur a participé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Non autorisé"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
                     }
                 ]
             }

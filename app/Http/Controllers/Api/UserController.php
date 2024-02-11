@@ -417,15 +417,70 @@ class UserController extends Controller
     }
 
 
+
+
+
+/**
+ * @OA\Get(
+ *     path="/participant_tontine/Tontineparticipe/{user}",
+ *     summary="Obtenir les tontines auxquelles un utilisateur a participé.",
+ *     tags={"Participant Tontine"},
+ *     security={{ "jwt":{} }},
+ *     @OA\Parameter(
+ *         name="user",
+ *         in="path",
+ *         required=true,
+ *         description="ID de l'utilisateur",
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Opération réussie",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="integer",
+ *                 example=200
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="les tontines que l'utilisateur a participé"
+ *             ),
+ *            
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Non autorisé",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="error",
+ *                 type="string",
+ *                 example="Non autorisé"
+ *             )
+ *         )
+ *     )
+ * )
+ */
+
+
+
         public function tontineparticipeParUser(User $user)
 
         {
             $tontineParticipe = User::FindOrFail($user->id);
-            $tontineParticipe -> participacipationTontines;
+           
+           $listeTontine= $tontineParticipe -> participationTontines;
+
             return response()->json([
                 'status_code'=>200,
-                'status_message'=>'la tontine a été supprimée avec succés',
-                'data'=>$tontineParticipe
+                'status_message'=>'les tontines que l\'utilisateur a participé ',
+                'data'=>$listeTontine
             ]);
         }
 }

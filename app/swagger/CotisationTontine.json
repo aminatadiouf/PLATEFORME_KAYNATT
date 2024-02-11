@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-        "/auth/fairePaiement/{gestionCycle}": {
+        "/participant_tontine/fairePaiement/{gestionCycle}": {
             "post": {
                 "tags": [
                     "Paiement Participant"

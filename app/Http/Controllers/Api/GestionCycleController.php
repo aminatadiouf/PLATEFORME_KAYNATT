@@ -186,14 +186,14 @@ class GestionCycleController extends Controller
        
            }
           
-           $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
+        //    $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
 
-           if ($existingCyclesCount > 0) {
-               return response()->json([
-                   'status_code' => false,
-                   'status_message' => 'cette tontine a déjà ses cycles'
-               ]);
-           }    
+        //    if ($existingCyclesCount > 0) {
+        //        return response()->json([
+        //            'status_code' => false,
+        //            'status_message' => 'cette tontine a déjà ses cycles'
+        //        ]);
+        //    }    
 
 if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
 {
@@ -242,8 +242,83 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
         ]);
    
       
+}
+
+public function listeTontineGestionCycle(Tontine $tontine)
+{
+   $tontines = Tontine::FindOrFail($tontine->id);
+   $gestionCycle = GestionCycle::where('tontine_id',$tontines->id);
+
+   return response()->json([
+    'status_code' => true,
+    'status_message' => 'cette tontine a ses cycles',
+    'data'=>$gestionCycle
+]);
+
+}
 
 
+/**
+ * @OA\Get(
+ *     path="/participant_tontine/ListeCycleParparticipant/{participationTontine}",
+ *     summary="Obtenir la liste des cycles pour une participation à une tontine donnée.",
+ *     tags={"Participant Tontine"},
+ *     security={{ "jwt":{} }},
+ *     @OA\Parameter(
+ *         name="participationTontine",
+ *         in="path",
+ *         required=true,
+ *         description="ID de la participation à la tontine",
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Opération réussie",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="status_code",
+ *                 type="boolean",
+ *                 example=true
+ *             ),
+ *             @OA\Property(
+ *                 property="status_message",
+ *                 type="string",
+ *                 example="les cycles de l\'utilisateur"
+ *             ),
+ *         
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Non trouvé",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(
+ *                 property="error",
+ *                 type="string",
+ *                 example="Non trouvé"
+ *             )
+ *         )
+ *     )
+ * )
+ */
+
+
+
+public function listeParticipantGestionCycle(ParticipationTontine $participationTontine)
+{
+   $participationTontines = ParticipationTontine::FindOrFail($participationTontine->id);
+   $gestionCycle = GestionCycle::where('participation_Tontine_id',$participationTontines->id)
+                                  ->where('tontine_id',$participationTontines->tontine_id)->get();
+
+   return response()->json([
+    'status_code' => true,
+    'status_message' => 'les cycles de l\'utilisateur',
+    'data'=>$gestionCycle
+]);
 
 }
 

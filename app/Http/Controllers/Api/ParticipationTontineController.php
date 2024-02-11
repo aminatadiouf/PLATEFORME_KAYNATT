@@ -497,7 +497,7 @@ public function participationTontineEnAttente(Tontine $tontine)
  * @return \Illuminate\Http\JsonResponse
  *
  * @OA\Get(
- *     path="/createur_tontine/ListeparticipationAcceptePartontine/{tontine}",
+ *     path="/participant_tontine/ListeparticipationAcceptePartontine/{tontine}",
  *     summary="Liste des participations acceptées pour une tontine",
  *     description="Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
  *     operationId="listeParticipationsAcceptees",
@@ -557,15 +557,15 @@ public function participationTontineEnAttente(Tontine $tontine)
 public function participationTontineAccepte(Tontine $tontine)
 {
     $tontines =Tontine :: FindOrFail($tontine->id);
-    $user = Auth::user();
+    // $user = Auth::user();
 
-    if ($user->id !== $tontine->user_id) {
-        return response()->json([
-            'status'=>false,
-            'status_message'=>'vous êtes pas le créateur de cette tontine '
-        ]);
+    // if ($user->id !== $tontine->user_id) {
+    //     return response()->json([
+    //         'status'=>false,
+    //         'status_message'=>'vous êtes pas le créateur de cette tontine '
+    //     ]);
 
-    }
+    // }
     $participations = $tontines->participationTontines()->where('statutParticipation','accepte')->get() ;
 
 
@@ -677,6 +677,7 @@ public function EffectuerTirage(Tontine $tontine)
             ]);
         }
     
+        $participantGagnant =[];
 
         $participantTontine = $tontine->participationTontines()
         ->where('statutTirage','pasgagnant')
@@ -687,6 +688,7 @@ public function EffectuerTirage(Tontine $tontine)
                 $gagnant = $participantTontine->random();
                 $gagnant->statutTirage = 'gagnant';
                     $gagnant->save(); 
+                    $participantGagnant[]=$gagnant;
             }
 
               
@@ -695,10 +697,24 @@ public function EffectuerTirage(Tontine $tontine)
                 return response()->json([
                     'statut_code'=> 200,
                     'statut_message'=> 'l\'utilisateur gagnant est',
-                    'data'=>$gagnant
+                    'data'=>$participantGagnant
                 ]);
     
  
+}
+
+
+public function listeTontineParParticipant(ParticipationTontine $participationTontine)
+{
+    $participant= ParticipationTontine::FindOrFail($participationTontine->id);
+        $tontineParticipants= $participant->tontine;
+
+        return response()->json([
+            'statut_code'=> 200,
+            'statut_message'=> 'l\'utilisateur gagnant est',
+            'data'=>$tontineParticipants
+        ]);
+
 }
 
 }

@@ -299,7 +299,7 @@
                 ]
             }
         },
-        "/createur_tontine/ListeparticipationAcceptePartontine/{tontine}": {
+        "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
                     "CreateurTontine"
