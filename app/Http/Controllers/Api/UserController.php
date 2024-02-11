@@ -477,10 +477,28 @@ class UserController extends Controller
            
            $listeTontine= $tontineParticipe -> participationTontines;
 
-            return response()->json([
-                'status_code'=>200,
-                'status_message'=>'les tontines que l\'utilisateur a participé ',
-                'data'=>$listeTontine
-            ]);
+           $tontines = [];
+           foreach ($listeTontine as $participation) {
+               $tontines[] = [
+                'id' => $participation->tontine_id,
+                'libelle' => $participation->tontine->libelle,
+                'description' => $participation->tontine->description,
+                'montant' => $participation->tontine->montant,
+                'nombre_participant' => $participation->tontine->nombre_participant,
+                'regles' => $participation->tontine->regles,
+                'date_de_debut' => $participation->tontine->date_de_debut,
+                'periode' => $participation->tontine->periode,
+                'etat' => $participation->tontine->etat,
+                'statutTontine' => $participation->tontine->statutTontine,
+                'user_id' => $participation->tontine->user_id,
+            ];
+               
+           }
+       
+           return response()->json([
+               'status_code' => 200,
+               'status_message' => 'les tontines que l\'utilisateur a participé ',
+               'data' => $tontines,
+           ]);
         }
 }
