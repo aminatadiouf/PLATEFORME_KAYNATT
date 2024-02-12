@@ -122,7 +122,7 @@
                 }
             }
         },
-        "/participant_tontine/fairePaiement/{gestionCycle}": {
+        "/auth/fairePaiement/{gestionCycle}": {
             "post": {
                 "tags": [
                     "Paiement Participant"
@@ -673,7 +673,7 @@
                 ]
             }
         },
-        "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
+        "/auth/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
                     "ParticipationTontines"
@@ -1355,14 +1355,14 @@
                 }
             }
         },
-        "/modifierUser": {
+        "/auth/modifierUser": {
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Mise à jour des informations de l'utilisateur que ce soit participant ou createur",
                 "description": "Update user information.",
-                "operationId": "c216d4d722627b505420c516ed822c29",
+                "operationId": "a156de39b6749b78842119a2c488c2f8",
                 "requestBody": {
                     "required": true,
                     "content": {

@@ -289,7 +289,7 @@ class UserController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="/modifierUser",
+ *     path="/auth/modifierUser",
  *     summary="Mise à jour des informations de l'utilisateur que ce soit participant ou createur",
  *     tags={"Users"},
  *     @OA\RequestBody(
@@ -332,7 +332,7 @@ class UserController extends Controller
       
       
             $users->name = $request->name;
-            $users->email = $request->email;
+            // $users->email = $request->email;
             $users->password = Hash::make($request->password);
             $users->adresse = $request->adresse;
 
@@ -341,7 +341,7 @@ class UserController extends Controller
             $users->telephone_d_un_proche= $request->telephone_d_un_proche;
 
 
-            $users->role = $request->role;
+            // $users->role = $request->role;
           
                  $users->save();
        

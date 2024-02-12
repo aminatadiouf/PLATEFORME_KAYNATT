@@ -497,7 +497,7 @@ public function participationTontineEnAttente(Tontine $tontine)
  * @return \Illuminate\Http\JsonResponse
  *
  * @OA\Get(
- *     path="/participant_tontine/ListeparticipationAcceptePartontine/{tontine}",
+ *     path="/auth/ListeparticipationAcceptePartontine/{tontine}",
  *     summary="Liste des participations acceptées pour une tontine",
  *     description="Récupère la liste des participations acceptées pour une tontine donnée, accessible uniquement par le créateur de la tontine.",
  *     operationId="listeParticipationsAcceptees",
@@ -571,7 +571,8 @@ public function participationTontineAccepte(Tontine $tontine)
     $user = [];
     foreach($participations as $participation){
         $user []=[
-        'id'=>$participation->user_id,
+
+        'user_id'=>$participation->user_id,
         'name'=>$participation->user->name,
          'email'=>$participation->user->email,
         'password'=>$participation->user->password,
@@ -579,7 +580,9 @@ public function participationTontineAccepte(Tontine $tontine)
         'telephone'=>$participation->user->telephone,
         'num_carte_d_identite'=>$participation->user->num_carte_d_identite,
         'telephone_d_un_proche'=>$participation->user->telephone_d_un_proche,
-        'role'=>$participation->user->role
+        'role'=>$participation->user->role,
+        'tontine_id'=>$participation->tontine_id,
+        'participation_Tontine_id '=>$participation->id
         ];
 
     }

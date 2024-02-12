@@ -27,7 +27,7 @@ class EditUserRequest extends FormRequest
 
         return [
             'name'=>'required|string|max:255',
-            'email'=>'required|string|email|',
+            // 'email'=>'required|string|email|',
             'password'=>'required|min:4',
 
             'adresse' => 'required|string',

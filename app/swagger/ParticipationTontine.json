@@ -299,7 +299,7 @@
                 ]
             }
         },
-        "/participant_tontine/ListeparticipationAcceptePartontine/{tontine}": {
+        "/auth/ListeparticipationAcceptePartontine/{tontine}": {
             "get": {
                 "tags": [
                     "ParticipationTontines"

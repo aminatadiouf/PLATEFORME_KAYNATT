@@ -65,7 +65,7 @@ class CotisationTontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="/participant_tontine/fairePaiement/{gestionCycle}",
+ *     path="/auth/fairePaiement/{gestionCycle}",
  *     summary="Effectuer un paiement pour un cycle de gestion donné",
  *     description="Effectue un paiement pour un cycle de gestion donné dans le système.",
  *     operationId="effectuerPaiement",

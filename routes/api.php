@@ -28,7 +28,6 @@ use App\Http\Controllers\Api\ParticipationTontineController;
 
 Route::POST('registerUser',[UserController::class,'register']);
 Route::POST('loginUser',[UserController::class,'login']);
-Route::POST('modifierUser',[UserController::class,'update']);
 Route::POST('logoutUser',[UserController::class,'logoutUser']);
 
 Route::GET('ListeUser',[UserController::class,'touslesUtilisateurs']);
@@ -50,6 +49,9 @@ Route::POST('ajouterTontine',[TontineController::class,'demandeCreationTontine']
 Route::POST('ParticiperTontine',[ParticipationTontineController::class,'demandeParticipationTontine']);
 //Route::POST('faireCotisationTontine/{participationTontines}',[CotisationTontineController::class,'effectuerCotisation']);
 Route::GET('ListeparticipationPartontine/{tontine}',[ParticipationTontineController::class,'allParticipationParTontine']);
+Route::POST('modifierUser/{users}',[UserController::class,'update']);
+Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
+Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
 
 
 
@@ -63,9 +65,7 @@ Route::GET('ListeparticipationPartontine/{tontine}',[ParticipationTontineControl
 //participationTontineEnAttente
 Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'=>'participant_tontine'], function () {
     Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
-    Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
     Route::GET('ListeCycleParparticipant/{participationTontine}',[GestionCycleController::class,'listeParticipantGestionCycle']);
-    Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
 
     });
 
