@@ -556,4 +556,8 @@ public function tontineEnAttente(Tontine $tontines)
         'data'=>$tontines,
     ]);
 }
+
+
+
+
 }

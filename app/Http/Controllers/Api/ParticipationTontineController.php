@@ -568,11 +568,27 @@ public function participationTontineAccepte(Tontine $tontine)
     // }
     $participations = $tontines->participationTontines()->where('statutParticipation','accepte')->get() ;
 
+    $user = [];
+    foreach($participations as $participation){
+        $user []=[
+        'id'=>$participation->user_id,
+        'name'=>$participation->user->name,
+         'email'=>$participation->user->email,
+        'password'=>$participation->user->password,
+        'adresse'=>$participation->user->adresse,
+        'telephone'=>$participation->user->telephone,
+        'num_carte_d_identite'=>$participation->user->num_carte_d_identite,
+        'telephone_d_un_proche'=>$participation->user->telephone_d_un_proche,
+        'role'=>$participation->user->role
+        ];
+
+    }
+
 
     return response()->json([
         'status_code'=>200,
         'status_message'=>'la liste de tous les cotisations de cette tontine',
-        'data'=> $participations
+        'data'=> $user
     ]);
 
 
