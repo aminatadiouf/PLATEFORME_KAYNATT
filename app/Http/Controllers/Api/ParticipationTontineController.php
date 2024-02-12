@@ -571,10 +571,10 @@ public function participationTontineAccepte(Tontine $tontine)
     $user = [];
     foreach($participations as $participation){
         $user []=[
-
+        'id'=>$participation->id,
         'user_id'=>$participation->user_id,
         'name'=>$participation->user->name,
-         'email'=>$participation->user->email,
+        'email'=>$participation->user->email,
         'password'=>$participation->user->password,
         'adresse'=>$participation->user->adresse,
         'telephone'=>$participation->user->telephone,
@@ -582,7 +582,6 @@ public function participationTontineAccepte(Tontine $tontine)
         'telephone_d_un_proche'=>$participation->user->telephone_d_un_proche,
         'role'=>$participation->user->role,
         'tontine_id'=>$participation->tontine_id,
-        'participation_Tontine_id '=>$participation->id
         ];
 
     }
@@ -735,5 +734,7 @@ public function listeTontineParParticipant(ParticipationTontine $participationTo
         ]);
 
 }
+
+
 
 }
