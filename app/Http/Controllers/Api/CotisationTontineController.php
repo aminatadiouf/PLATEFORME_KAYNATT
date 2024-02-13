@@ -142,14 +142,14 @@ class CotisationTontineController extends Controller
             $montantTontine =$participationTontine->tontine->montant;
 
 
-            if($montantTontine != $request->montant_paiement)
+            // if($montantTontine != $request->montant_paiement)
            
-            {
-                return response()->json([
-                    'statut_code'=> false,
-                    'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
-                ]);
-            }
+            // {
+            //     return response()->json([
+            //         'statut_code'=> false,
+            //         'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
+            //     ]);
+            // }
 
             if($request->date_paiement < $gestionCycle->date_cycle || $request->date_paiement > $gestionCycle->date_cycle)
             {
