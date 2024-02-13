@@ -445,7 +445,7 @@ public function listeParticipantGestionCycle(ParticipationTontine $participation
 
 /**
  * @OA\Get(
- *     path="/createur_tontine/listeCycle/{tontine}",
+ *     path="/auth/listeCycle/{tontine}",
  *     summary="Liste des cycles pour une tontine spécifique",
  *     tags={"CreateurTontine"},
  *  security={{"bearerAuth":{}}},
@@ -564,5 +564,39 @@ public function listeParticipantGestionCycle(ParticipationTontine $participation
        
 
 
+    public function tirage(Tontine $tontine, GestionCycle $gestionCycle)
+    {
+        $tontines = Tontine::FindOrFail($tontine->id);
+
+        $gestionCycle = GestionCycle::where('tontine_id', $tontines->id)
+        ->where('statut', 'a_venir')
+        ->get();
+        dd($gestionCycle);
+        $participantGagnant =[];
+        $participants = $tontines->participationTontines()
+        ->where('statutTirage','pasgagnant')
+        ->where('statutParticipation','accepte')
+        ->get();
+
+       
+
+      
+        if($participants->count() > 0)
+                {
+                $gagnant = $participants->random();
+                $gagnant->statutTirage = 'gagnant';
+                    $gagnant->save(); 
+                    $participantGagnant[]=$gagnant;
+            }
+
+              
+            
+           
+                return response()->json([
+                    'statut_code'=> 200,
+                    'statut_message'=> 'l\'utilisateur gagnant est',
+                    'data'=>$participantGagnant
+                ]);
+    }
     }  
   
