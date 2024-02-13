@@ -186,14 +186,14 @@ class GestionCycleController extends Controller
        
            }
           
-        //    $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
+           $existingCyclesCount = GestionCycle::where('tontine_id', $tontine->id)->count();
 
-        //    if ($existingCyclesCount > 0) {
-        //        return response()->json([
-        //            'status_code' => false,
-        //            'status_message' => 'cette tontine a déjà ses cycles'
-        //        ]);
-        //    }    
+           if ($existingCyclesCount > 0) {
+               return response()->json([
+                   'status_code' => false,
+                   'status_message' => 'cette tontine a déjà ses cycles'
+               ]);
+           }    
 
 if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
 {
