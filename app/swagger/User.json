@@ -389,7 +389,7 @@
                 },
                 "security": [
                     {
-                        "jwt": []
+                        "bearerAuth": []
                     }
                 ]
             }

@@ -21,6 +21,7 @@ class Payment extends Model
         'gestion_cycle_id',
         'amount',
         'token',
+        'statutCotisation',
        
     ];
 
@@ -36,4 +37,10 @@ class Payment extends Model
         return $this->belongsTo(GestionCycle::class );
     }
 
+     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+   
 }

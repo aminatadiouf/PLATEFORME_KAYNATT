@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->enum('statut',['gagnant','pas_gagnant'])->default('pas_gagnant');
+            $table->enum('statutCotisation',['cotise','Noncotise'])->default('Noncotise');
 
         });
     }

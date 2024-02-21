@@ -12,26 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Notifications\RappelCotisation;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Info(
- *      title="Kaynatt API",
- *      version="1.0",
- *      description="Mon API"
- * )
- * 
- * @OA\Server(
- *      url="http://localhost:8000/api"
- * )
- 
-
- * @OA\SecurityScheme(
- *      securityScheme="bearerAuth",
- *      type="http",
- *      scheme="bearer",
- *      bearerFormat="JWT",
- * )
- */
-
 
 class GestionCycleController extends Controller
 {
@@ -135,7 +115,7 @@ class GestionCycleController extends Controller
 
         $cyclesList = []; 
        $datesList = [];
-       $participantsList=[];
+    //    $participantsList=[];
            
         if ($tontine->periode === 'hebdomaire')
         {
@@ -170,9 +150,9 @@ class GestionCycleController extends Controller
             ->where('statutParticipation','accepte')
             ->count(); 
 
-            $participantsList = [];
-            $participationTontines = $tontines->participationTontines()
-            ->where('statutParticipation','accepte')->get();
+            // $participantsList = [];
+            // $participationTontines = $tontines->participationTontines()
+            // ->where('statutParticipation','accepte')->get();
 
 
        $user = Auth::user();
@@ -202,9 +182,15 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
         'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
     ]);
 }
-
-   
-     foreach ($participationTontines as $participationTontine) {
+    if($nbre_participantTontine<2){
+        // dd($nbre_participantTontine<=2);
+        return response()->json([
+            'status_code'=> false,
+            'status_message' => 'Le cycle ne peut pas être généré, le nombre de participants est inférieur  à 2.'
+        ]);
+    }
+    
+    //  foreach ($participationTontines as $participationTontine) {
        For($i=1; $i <=$nbre_participantTontine + 1; $i++)
         {
             
@@ -213,16 +199,15 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
             $cycles -> tontine_id = $tontine->id;
             $cycles->date_cycle = carbon::now()->addDays($duree * ($i - 1));
             $cycles ->nombre_de_cycle = $i;
-            $cycles->participation_Tontine_id=$participationTontine->id;
+            // $cycles->participation_Tontine_id=$participationTontine->id;
             $cycles->statut = 'a_venir';
 
             $cyclesList[] = $cycles->toArray(); 
             
             $datesList[] = $cycles->date_cycle->format('Y-m-d');
-            $participantsList[] = $participationTontine->toArray();
+            // $participantsList[] = $participationTontine->toArray();
             $cycles->save();
-   }
-  
+//    }
 }   
 
            
@@ -235,10 +220,10 @@ if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refus
 
         return response()->json([
             'status_code'=>200,
-            'status_message'=>'les cycles du tontine',
+            'status_message'=>'les cycles de la tontine',
             'cycles' => $cyclesList, 
             'dates' => $datesList,
-            'nombre_participants'=>$participantsList
+            // 'nombre_participants'=>$participantsList
         ]);
    
       
@@ -263,7 +248,7 @@ public function listeTontineGestionCycle(Tontine $tontine)
  *     path="/participant_tontine/ListeCycleParparticipant/{participationTontine}",
  *     summary="Obtenir la liste des cycles pour une participation à une tontine donnée.",
  *    tags={"ParticipationTontines"},
- *     security={{ "jwt":{} }},
+ *     security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="participationTontine",
  *         in="path",
@@ -564,39 +549,6 @@ public function listeParticipantGestionCycle(ParticipationTontine $participation
        
 
 
-    public function tirage(Tontine $tontine, GestionCycle $gestionCycle)
-    {
-        $tontines = Tontine::FindOrFail($tontine->id);
-
-        $gestionCycle = GestionCycle::where('tontine_id', $tontines->id)
-        ->where('statut', 'a_venir')
-        ->get();
-        dd($gestionCycle);
-        $participantGagnant =[];
-        $participants = $tontines->participationTontines()
-        ->where('statutTirage','pasgagnant')
-        ->where('statutParticipation','accepte')
-        ->get();
-
-       
-
-      
-        if($participants->count() > 0)
-                {
-                $gagnant = $participants->random();
-                $gagnant->statutTirage = 'gagnant';
-                    $gagnant->save(); 
-                    $participantGagnant[]=$gagnant;
-            }
-
-              
-            
-           
-                return response()->json([
-                    'statut_code'=> 200,
-                    'statut_message'=> 'l\'utilisateur gagnant est',
-                    'data'=>$participantGagnant
-                ]);
-    }
+   
     }  
   

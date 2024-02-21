@@ -11,12 +11,11 @@ class GestionCycle extends Model
     use HasFactory,Notifiable;
 
     protected $fillable = [
-        'participation_Tontine_id',
+        // 'participation_Tontine_id',
         'tontine_id',
         'nombre_de_cycle',
         'date_cycle',
-        'statut',
-        'statutCotisation',
+       
     ];
 
     public function tontine()

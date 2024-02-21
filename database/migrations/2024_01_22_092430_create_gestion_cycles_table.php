@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('nombre_de_cycle');
             $table->date('date_cycle');
             $table->enum('statut',['termine','a_venir'])->default('a_venir');
-            $table->enum('statutCotisation',['cotise','Noncotise'])->default('Noncotise');
 
             $table->timestamps();
         });

@@ -11,20 +11,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ParticipationCreateRequest;
+use App\Models\GestionCycle;
 use App\Notifications\RefuseParticipationTontine;
 use App\Notifications\AcceptedParticipationTontine;
-
-/**
- * @OA\Info(
- *      title="Kaynatt API",
- *      version="1.0",
- *      description="Mon API"
- * )
- * 
- * @OA\Server(
- *      url="http://localhost:8000/api"
- * )
- */
 
 
 class ParticipationTontineController extends Controller
@@ -608,7 +597,7 @@ public function participationTontineAccepte(Tontine $tontine)
  * @return \Illuminate\Http\JsonResponse
  *
  * @OA\Post(
- *     path="/createur_tontine/faireTirage/{tontine}",
+ *     path="/createur_tontine/faireTirage/{gestionCycle}",
  *     summary="Effectuer un tirage dans une tontine",
  *     description="Effectue un tirage dans une tontine pour désigner un participant gagnant.",
  *     operationId="EffectuerTirage",
@@ -650,12 +639,21 @@ public function participationTontineAccepte(Tontine $tontine)
 
 
 
-public function EffectuerTirage(Tontine $tontine)
+public function EffectuerTirage(GestionCycle $gestionCycle)
 {
-    $tontine = Tontine::FindOrFail($tontine->id);
-                    
+    $gestionCycles =GestionCycle::FindOrFail($gestionCycle->id);
+              
+    $tontines = $gestionCycles->tontine()->get();
+    if ($gestionCycles->statut != 'a_venir') {
+        return response()->json([
+            'status' => false,
+            'status_message' => 'Le tirage est déjà  effectué pour ce cycle.'
+        ]);
+    }
 
-// dd($tontines);
+// dd($tontine);
+
+foreach($tontines as $tontine){
     $user = Auth::user();
     
 
@@ -665,7 +663,6 @@ public function EffectuerTirage(Tontine $tontine)
 
         if($tontine->etat != 'en_cours') { 
            
-            
                
                 return response()->json([
                     'status'=>false,
@@ -684,7 +681,7 @@ public function EffectuerTirage(Tontine $tontine)
             ->where('statutTirage', 'pasgagnant')
             ->where('statutParticipation', 'accepte')
             ->count();
-    
+    // dd($participantsRestants);
         if ($participantsRestants == 0) {
             $tontine->etat = 'termine';
             $tontine->save();
@@ -695,22 +692,39 @@ public function EffectuerTirage(Tontine $tontine)
             ]);
         }
     
-        $participantGagnant =[];
+      
+         
+    $participantGagnant =[];
+    
+        // foreach($cycles as $cycle){
+        // if ($cycle ->nombre_de_cycle !=1 && now()->isSameDay($cycle->date_cycle))
+        // {
+            //dd($cycle ->nombre_de_cycle !=1);
 
+
+    
         $participantTontine = $tontine->participationTontines()
         ->where('statutTirage','pasgagnant')
         ->where('statutParticipation','accepte')
         ->get();
-        if($participantTontine->count() > 0)
+        if($participantTontine->count() > 0 )
                 {
+                    
                 $gagnant = $participantTontine->random();
                 $gagnant->statutTirage = 'gagnant';
                     $gagnant->save(); 
                     $participantGagnant[]=$gagnant;
-            }
+                // break;
+                $gestionCycles->statut ='termine';
+        $gestionCycles->save();
+        }
 
-              
-            
+      
+    }
+           
+        // } 
+      
+    // }
            
                 return response()->json([
                     'statut_code'=> 200,
@@ -722,18 +736,7 @@ public function EffectuerTirage(Tontine $tontine)
 }
 
 
-public function listeTontineParParticipant(ParticipationTontine $participationTontine)
-{
-    $participant= ParticipationTontine::FindOrFail($participationTontine->id);
-        $tontineParticipants= $participant->tontine;
 
-        return response()->json([
-            'statut_code'=> 200,
-            'statut_message'=> 'l\'utilisateur gagnant est',
-            'data'=>$tontineParticipants
-        ]);
-
-}
 
 
 

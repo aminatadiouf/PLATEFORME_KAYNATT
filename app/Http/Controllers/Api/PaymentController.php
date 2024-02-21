@@ -19,11 +19,14 @@ class PaymentController extends Controller
      *
      */
 
-    public function index()
-    {
+     public function index($price, $participation_Tontine_id, $gestion_cycle_id)
+
+     { 
         
-         return view('index');
-    }
+
+    return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
+}
+
 
 
 
@@ -42,6 +45,8 @@ public function payment(PaymentRequest $request)
     $amount = $request->input('price');
    $participation_Tontine_id = $request->input('participation_Tontine_id');
     $gestion_cycle_id = $request->input('gestion_cycle_id');
+
+    
 
     $code = "47"; // This can be the product id
 
@@ -86,7 +91,9 @@ public function payment(PaymentRequest $request)
             // Redirection to Paytech website for completing checkout
             $token = $jsonResponse['token'];
             session(['token' => $token]);
-            return redirect($jsonResponse['redirect_url']);
+            
+        return redirect($jsonResponse['redirect_url']);
+
         }
 }
 
@@ -110,8 +117,11 @@ public function payment(PaymentRequest $request)
             'token' => 1,
         ], [
             'amount' => $data['amount'],
-           'participation_Tontine_id' => $data['participation_Tontine_id'],
+            'participation_Tontine_id' => $data['participation_Tontine_id'],
             'gestion_cycle_id' => $data['gestion_cycle_id'],
+            'statutCotisation' => 'cotise',
+
+
         ]);
 
         if (!$payment) {

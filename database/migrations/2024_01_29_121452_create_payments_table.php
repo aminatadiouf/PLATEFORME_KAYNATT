@@ -20,6 +20,9 @@ return new class extends Migration
 
            // $table->foreignIdFor(ParticipationTontine::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
             $table->foreignIdFor(GestionCycle::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
+
+            $table->enum('statutCotisation',['cotise','Noncotise'])->default('Noncotise');
+
             $table->timestamps();
             $table->softDeletes();
         });

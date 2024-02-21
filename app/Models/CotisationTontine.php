@@ -13,7 +13,9 @@ class CotisationTontine extends Model
         'participation_Tontine_id',
         'montant_paiement',
         'date_paiement',
-        'gestion_cycle_id'
+        'gestion_cycle_id',
+        'statut',
+        'statutCotisation',
 ];
 
 //ça conccerne les paiements

@@ -8,24 +8,6 @@
     "servers": [
         {
             "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
-        },
-        {
-            "url": "http://localhost:8000/api"
         }
     ],
     "paths": {
@@ -330,7 +312,7 @@
                 },
                 "security": [
                     {
-                        "jwt": []
+                        "bearerAuth": []
                     }
                 ]
             }
@@ -740,7 +722,7 @@
                 ]
             }
         },
-        "/createur_tontine/faireTirage/{tontine}": {
+        "/createur_tontine/faireTirage/{gestionCycle}": {
             "post": {
                 "tags": [
                     "Tirage"
@@ -1545,7 +1527,7 @@
                 },
                 "security": [
                     {
-                        "jwt": []
+                        "bearerAuth": []
                     }
                 ]
             }

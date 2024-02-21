@@ -14,18 +14,6 @@ use App\Http\Requests\AdminCreateRequest;
 use App\Notifications\AccepteCreationTontine;
 use OpenApi\Annotations as OA;
 
-/**
- * @OA\Info(
- *      title="Kaynatt API",
- *      version="1.0",
- *      description="Mon API"
- * )
- * 
- * @OA\Server(
- *      url="http://localhost:8000/api"
- * )
- */
-
 
 class AdminController extends Controller
 {
@@ -43,7 +31,7 @@ class AdminController extends Controller
             $admins->name_admin = $request->name_admin;
             $admins->email_admin = $request->email_admin;
             $admins->password = Hash::make($request->password);
-            $admins->role = $request->role;
+            $admins->role = 'admin';
             $admins->save();
        
             return response()->json([

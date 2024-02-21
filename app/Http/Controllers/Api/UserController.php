@@ -13,17 +13,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UserCreateRequest;
 
-/**
- * @OA\Info(
- *      title="Kaynatt API",
- *      version="1.0",
- *      description="Mon API"
- * )
- * 
- * @OA\Server(
- *      url="http://localhost:8000/api"
- * )
- */
 
 
 
@@ -347,7 +336,7 @@ class UserController extends Controller
        
             return response()->json([
                 'status_code'=>200,
-                'status_message'=>'les informations cooncernant l\'utilisateur ont été modifiés avec succés',
+                'status_message'=>'les informations concernant l\'utilisateur ont été modifiés avec succés',
                 'data'=>$users
             ]);
         } catch (Exception $e) {
@@ -425,7 +414,7 @@ class UserController extends Controller
  *     path="/participant_tontine/Tontineparticipe/{user}",
  *     summary="Obtenir les tontines auxquelles un utilisateur a participé.",
  *     tags={"ParticipationTontines"},
- *     security={{ "jwt":{} }},
+ *     security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="user",
  *         in="path",

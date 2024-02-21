@@ -9,16 +9,23 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(
- *      title="Admin API",
+ *      title="Kaynatt API",
  *      version="1.0",
- *      description="API for managing admin users"
+ *      description="Mon API"
  * )
  * 
  * @OA\Server(
  *      url="http://localhost:8000/api"
  * )
- */
+ 
 
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ * )
+ */
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;

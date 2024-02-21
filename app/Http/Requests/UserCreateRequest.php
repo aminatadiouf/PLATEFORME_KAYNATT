@@ -31,10 +31,11 @@ class UserCreateRequest extends FormRequest
             'password'=>'required|min:4',
 
             'adresse' => 'required|string',
-            'telephone' => 'required|string',
-            'telephone_d_un_proche' => 'required|string',
-            'num_carte_d_identite'=>'required|', 
-            //'role'=>'required|in:participant_tontine,createur_tontine',
+            'telephone' => ['required', 'regex:/^(77|78|76|70)\d{7}$/'],
+            'telephone_d_un_proche' =>['required', 'regex:/^(77|78|76|70)\d{7}$/'],
+            'num_carte_d_identite'=>['required','regex:/^[0-9]{13}$/'],
+             
+            // 'role'=>'required|in:participant_tontine',
           
 
            ];
@@ -67,20 +68,21 @@ class UserCreateRequest extends FormRequest
         'adresse.string' => 'L\'adresse doit être une chaîne de caractères',
 
         'telephone.required'=>'le numéro de telephone doit être fourni',
-        'telephone.string'=>'le numéro de telephone doit être une chaîne de caractére',
+        'telephone.regex'=>'le numéro de telephone doit commencer par ses chiffres 77|78|76|70 ',
 
         
         'telephone_d_un_proche.required'=>'le numéro de telephone d\'un proche  doit être fourni',
-        'telephone_d_un_proche.string'=>'le numéro de telephone doit être une chaîne de caractére',
+        'telephone_d_un_proche.regex'=>'le numéro de telephone doit commencer par ses chiffres 77|78|76|70 ',
 
         'num_carte_d_identite.required'=>'le numéro de la carte d\'identité doit être fourni',
+        'num_carte_d_identite.regex'=>'le numéro de la carte d\'identité doit contenir 13 chiffres',
 
 
         'password.required' => 'Le mot de passe doit être fourni',
         'password.min' => 'Le mot de passe doit comporter au moins 4 caractères',
 
         // 'role.required'=>'le role doit être fourni',
-        //  'role.in' => 'Le role doit être l\'un des suivants : participant_tontine,createur_tontine',
+        //  'role.participant_tontine' => 'Le role doit être  participant_tontine',
         
         
         ];

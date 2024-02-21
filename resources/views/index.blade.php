@@ -142,9 +142,9 @@
                         <form class="login-form" action="{{ route('payment.submit') }}" method="POST">
                             @csrf
                             <div class="form-group">
+
                                 <input type="number" name="participation_Tontine_id"  value="{{$participation_Tontine_id}}" class="form-control"  readonly>
                             </div>
-                            
                             <div class="form-group">
                                 <input type="number" name="price" value="{{ $price }}" class="form-control"  readonly>
                             </div>

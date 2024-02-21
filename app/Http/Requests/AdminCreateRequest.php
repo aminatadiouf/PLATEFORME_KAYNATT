@@ -29,7 +29,7 @@ class AdminCreateRequest extends FormRequest
             'name_admin'=>'required|string|max:55',
             'email_admin'=>'required|string|email|unique:admins',
             'password'=>'required|min:4',
-            'role'=>'required|admin',
+            'role'=>'required|in:admin',
 
            ];
     }

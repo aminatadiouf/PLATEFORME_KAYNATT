@@ -20,7 +20,13 @@ Route::get('/', function () {
 
 Route::group(['middleware' => [ 'jwt.auth'],'prefix'=>'auth'], function () {
 });
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+Route::GET('vue',function(){
+    return view('index', [
+        'price' => request('price'),
+        'gestion_cycle_id' => request('gestion_cycle_id'),
+        'participation_Tontine_id' => request('participation_Tontine_id')
+    ]);
+})->name('payment.index');
 Route::post('/checkout', [PaymentController::class, 'payment'])->name('payment.submit');
 
 Route::get('ipn', [PaymentController::class, 'ipn'])->name('paytech-ipn');
