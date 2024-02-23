@@ -190,13 +190,17 @@ foreach ($participants as $participant) {
         //  'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
         //  ]);
         //  }
+        $montantDejaCotise = CotisationTontine::where('gestion_cycle_id', $gestionCycle->id)
+        ->sum('montant_paiement');
+    //    dd($montantDejaCotise);
            $cotisations = new CotisationTontine();
 
      
          $cotisations ->date_paiement = $date;
-         $cotisations->montant_paiement =$montantTontine;
+         $cotisations->montant_paiement =intval($montantTontine);
         $cotisations->gestion_cycle_id =$gestionCycles->id;
         $cotisations->participation_Tontine_id = $participant->id;
+        $cotisations->montant_a_gagner=$montantDejaCotise + intval($montantTontine)  ; 
 
          $cotisations->save();
         

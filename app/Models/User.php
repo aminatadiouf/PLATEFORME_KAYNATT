@@ -74,5 +74,9 @@ public function participationTontines()
     return $this->hasMany(ParticipationTontine::class);
 }
 
+public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
 
 }

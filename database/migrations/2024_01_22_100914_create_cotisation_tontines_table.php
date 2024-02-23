@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->enum('statut',['gagnant','pas_gagnant'])->default('pas_gagnant');
             $table->enum('statutCotisation',['cotise','Noncotise'])->default('Noncotise');
-
+            $table->integer('montant_a_gagner')->default(0);
         });
     }
 

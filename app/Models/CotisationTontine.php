@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CotisationTontine extends Model
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
 
     protected $fillable = [
         'participation_Tontine_id',
@@ -16,6 +17,7 @@ class CotisationTontine extends Model
         'gestion_cycle_id',
         'statut',
         'statutCotisation',
+        'montant_a_gagner'
 ];
 
 //ça conccerne les paiements

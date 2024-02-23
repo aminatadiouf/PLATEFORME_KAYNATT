@@ -22,7 +22,7 @@ class Payment extends Model
         'amount',
         'token',
         'statutCotisation',
-       
+        'montant_a_gagner',
     ];
 
     protected $table = 'payments';

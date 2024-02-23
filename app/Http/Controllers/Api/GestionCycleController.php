@@ -480,37 +480,37 @@ public function listeParticipantGestionCycle(ParticipationTontine $participation
         }
 
 
-    public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)
-    {
+    // public function notificationCotisation(GestionCycle $gestion_cycles,Tontine $tontines)
+    // {
        
-        $tontine = Tontine::FindOrFail($tontines->id);
+    //     $tontine = Tontine::FindOrFail($tontines->id);
       
-        $participationTontines =$tontine->participationTontines()->Where('statutParticipation','accepte')
-        ->get();
+    //     $participationTontines =$tontine->participationTontines()->Where('statutParticipation','accepte')
+    //     ->get();
         
        
        
-        $gestions= $tontine->gestion_cycles;
+    //     $gestions= $tontine->gestion_cycles;
        
-        foreach($gestions as $gestion)
-        {
-            $dateNotification = Carbon::parse($gestion->date_cycle)->subDays(5);
+    //     foreach($gestions as $gestion)
+    //     {
+    //         $dateNotification = Carbon::parse($gestion->date_cycle)->subDays(5);
 
             
-                if($dateNotification)
-                {
-                    foreach($participationTontines as $participationTontine)
-                   {
-                     $participationTontine->user->notify(new RappelCotisation);
-                    }
-                }
+    //             if($dateNotification)
+    //             {
+    //                 foreach($participationTontines as $participationTontine)
+    //                {
+    //                  $participationTontine->user->notify(new RappelCotisation);
+    //                 }
+    //             }
             
-        }
-        return response()->json([
-            'status_code'=>200,
-            'status_message'=>'la tontine est à  5 jours',
-        ]);
-    }
+    //     }
+    //     return response()->json([
+    //         'status_code'=>200,
+    //         'status_message'=>'la tontine est à  5 jours',
+    //     ]);
+    // }
 
         public function listeUserparCycle(GestionCycle $cycle)
         {

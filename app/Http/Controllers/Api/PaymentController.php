@@ -46,7 +46,7 @@ public function payment(PaymentRequest $request)
    $participation_Tontine_id = $request->input('participation_Tontine_id');
     $gestion_cycle_id = $request->input('gestion_cycle_id');
 
-    
+ 
 
     $code = "47"; // This can be the product id
 
@@ -57,6 +57,9 @@ public function payment(PaymentRequest $request)
            'participation_Tontine_id' => $participation_Tontine_id,
             'gestion_cycle_id' => $gestion_cycle_id,
         ],
+
+        'gestion_cycle_id' => $gestion_cycle_id,
+
     ]);
 
     // The success_url takes two parameters: the first one can be product id and the other all data retrieved from the form
@@ -91,7 +94,20 @@ public function payment(PaymentRequest $request)
             // Redirection to Paytech website for completing checkout
             $token = $jsonResponse['token'];
             session(['token' => $token]);
+
+
+        // $montantDejaCotise = Payment::where('gestion_cycle_id', $gestion_cycle_id)
+        //     ->sum('amount');
+        //      $payment = new Payment();
             
+
+        // $payment->amount = $amount;
+        // $payment->participation_Tontine_id = $participation_Tontine_id;
+        // $payment->gestion_cycle_id = $gestion_cycle_id;
+        // $payment->statutCotisation = 'cotise';
+        // $payment->montant_a_gagner = $montantDejaCotise + $amount;
+
+        // $payment->save();
         return redirect($jsonResponse['redirect_url']);
 
         }
@@ -101,28 +117,35 @@ public function payment(PaymentRequest $request)
 
     public function success(Request $request, $code)
     {
-        
-
-
-        $token = session('token') ?? '';
         $data = $request->query('data');
+      
+        $gestion_cycle_id = $data['gestion_cycle_id'];
+
+        $montantDejaCotise = Payment::where('gestion_cycle_id', $gestion_cycle_id)
+            ->sum('amount');
+        
+        $token = session('token') ?? '';
+      
 
         if (!$token || !$data) {
             return redirect()->route('payment.index')->withErrors('Token ou données manquants');
         }
 
-        $data['token'] = $token;
+        $data['token'] = uniqid(); // Utiliser uniqid() pour générer un token unique
 
-        $payment = Payment::firstOrCreate([
-            'token' => 1,
-        ], [
-            'amount' => $data['amount'],
-            'participation_Tontine_id' => $data['participation_Tontine_id'],
-            'gestion_cycle_id' => $data['gestion_cycle_id'],
-            'statutCotisation' => 'cotise',
+    $payment = new Payment([
+        'token' => $data['token'],
+    
+        'amount' => $data['amount'],
+        'participation_Tontine_id' => $data['participation_Tontine_id'],
+        'gestion_cycle_id' => $data['gestion_cycle_id'],
+        'statutCotisation' => 'cotise',
+        
+       
+'montant_a_gagner'=>$montantDejaCotise +  $data['amount'],
 
-
-        ]);
+    ]);
+        $payment->save();
 
         if (!$payment) {
             return redirect()->route('payment.index')->withErrors('Échec de la sauvegarde du paiement');

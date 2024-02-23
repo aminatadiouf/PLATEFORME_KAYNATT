@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
-            $table->integer('token')->unique()->nullable();
+            $table->string('token')->unique()->nullable();
 
            // $table->foreignIdFor(ParticipationTontine::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
             $table->foreignIdFor(GestionCycle::class)->constrained()->onDelete('Cascade')->onUpdate('Cascade');
 
             $table->enum('statutCotisation',['cotise','Noncotise'])->default('Noncotise');
+            $table->integer('montant_a_gagner')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

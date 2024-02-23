@@ -4,16 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Tontine;
+use App\Models\GestionCycle;
 use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
 use App\Models\ParticipationTontine;
+use App\Notifications\notifierAdmin;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\notifierGagnant;
 use App\Http\Requests\ParticipationCreateRequest;
-use App\Models\GestionCycle;
+use App\Notifications\notifierAdminPourLeGagnant;
 use App\Notifications\RefuseParticipationTontine;
 use App\Notifications\AcceptedParticipationTontine;
+use App\Notifications\notifierParticipantPourLeGagnant;
 
 
 class ParticipationTontineController extends Controller
@@ -642,12 +647,24 @@ public function participationTontineAccepte(Tontine $tontine)
 public function EffectuerTirage(GestionCycle $gestionCycle)
 {
     $gestionCycles =GestionCycle::FindOrFail($gestionCycle->id);
-              
+
+    $montantTotal = $gestionCycles->payments->sum('amount');
+   
+
     $tontines = $gestionCycles->tontine()->get();
+    
+  
     if ($gestionCycles->statut != 'a_venir') {
         return response()->json([
             'status' => false,
             'status_message' => 'Le tirage est déjà  effectué pour ce cycle.'
+        ]);
+    }
+
+    if($gestionCycles->nombre_de_cycle ==1){
+        return response()->json([
+            'status' => false,
+            'status_message' => 'Le tirage ne peut être fait pour le cycle 1 .'
         ]);
     }
 
@@ -657,7 +674,7 @@ foreach($tontines as $tontine){
     $user = Auth::user();
     
 
-    
+   
 
 
 
@@ -691,9 +708,7 @@ foreach($tontines as $tontine){
                 'status_message' => 'Tous les utilisateurs ont été tirés, la tontine est terminée.'
             ]);
         }
-    
-      
-         
+  
     $participantGagnant =[];
     
         // foreach($cycles as $cycle){
@@ -709,14 +724,38 @@ foreach($tontines as $tontine){
         ->get();
         if($participantTontine->count() > 0 )
                 {
-                    
+                    // dd($gagnant);
                 $gagnant = $participantTontine->random();
                 $gagnant->statutTirage = 'gagnant';
-                    $gagnant->save(); 
+
+                $gagnant->user->notify(new notifierGagnant($gagnant,$montantTotal));
+
+            //     $admin = Admin::first();               
+            //     //  dd($admin);
+
+            //    $admin->notify(new notifierAdmin($tontine,$gestionCycles,$gagnant,$admin));
+            
+                $gagnant->save(); 
+                
+            $participantsPasGagnants = $tontine->participationTontines()
+            ->where('statutTirage', 'pasgagnant')
+            ->where('statutParticipation', 'accepte')
+            ->get(); 
+            // dd($participantsPasGagnants);
+            foreach($participantsPasGagnants as $participantsPasGagnant)
+                    {
+                        $participantsPasGagnant->user->notify(new notifierParticipantPourLeGagnant($tontine,$gestionCycles,$gagnant,$montantTotal)); 
+                    
+                }
+                    
                     $participantGagnant[]=$gagnant;
-                // break;
+              
+
+
                 $gestionCycles->statut ='termine';
         $gestionCycles->save();
+
+       
         }
 
       
