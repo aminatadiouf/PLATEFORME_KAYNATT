@@ -51,6 +51,8 @@ Route::group(['middleware' => [ 'jwt.auth'],'prefix'=>'auth'], function () {
     Route::GET('ListeparticipationPartontine/{tontine}',[ParticipationTontineController::class,'allParticipationParTontine']);
     Route::POST('modifierUser/{users}',[UserController::class,'update']);
     Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
+    Route::GET('listeCotisationUser/{gestioncycle}', [CotisationTontineController::class, 'listeCotisation']);
+
     Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
     Route::GET('listeCycle/{tontine}',[GestionCycleController::class,'listeCycle']);
    
@@ -78,7 +80,7 @@ Route::GET('vue',function(){
 //participationTontineEnAttente
 Route::group(['middleware' => [ 'jwt.auth','acces:participant_tontine'],'prefix'=>'participant_tontine'], function () {
     Route::GET('Tontineparticipe/{user}',[UserController::class,'tontineparticipeParUser']);
-    Route::GET('ListeCycleParparticipant/{participationTontine}',[GestionCycleController::class,'listeParticipantGestionCycle']);
+    // Route::GET('ListeCycleParparticipant/{participationTontine}',[GestionCycleController::class,'listeParticipantGestionCycle']);
 
     });
 

@@ -181,6 +181,53 @@
                 ]
             }
         },
+        "/auth/listeCotisationUser/{gestioncycle}": {
+            "get": {
+                "tags": [
+                    "Liste Cotisation Tontine par cycle"
+                ],
+                "summary": "Liste des participants ayant cotisé pour un cycle donné",
+                "operationId": "860082cf4c2725f175fd3a4767e8e8b6",
+                "parameters": [
+                    {
+                        "name": "gestioncycle",
+                        "in": "path",
+                        "description": "ID du cycle de gestion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des participants ayant cotisé pour le cycle donné",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statut_code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "statut_message": {
+                                            "type": "string",
+                                            "example": "la liste des participants côtisés"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/createur_tontine/gererCycle/{tontine}": {
             "post": {
                 "tags": [
@@ -245,69 +292,6 @@
                     },
                     "400": {
                         "description": "Requête incorrecte - La tontine n'est pas dans un état accepté ou a déjà des cycles"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/participant_tontine/ListeCycleParparticipant/{participationTontine}": {
-            "get": {
-                "tags": [
-                    "ParticipationTontines"
-                ],
-                "summary": "Obtenir la liste des cycles pour une participation à une tontine donnée.",
-                "operationId": "436ee9bfb984457795f6845b61e25ffd",
-                "parameters": [
-                    {
-                        "name": "participationTontine",
-                        "in": "path",
-                        "description": "ID de la participation à la tontine",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Opération réussie",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status_code": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "status_message": {
-                                            "type": "string",
-                                            "example": "les cycles de l\\'utilisateur"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Non trouvé",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Non trouvé"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
                 },
                 "security": [

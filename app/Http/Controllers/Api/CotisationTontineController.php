@@ -123,34 +123,40 @@ class CotisationTontineController extends Controller
      $montantTontine =$tontine->montant;
 // dd($montantTontine);
 
-if(intval($montantTontine) != intval($request->montant_paiement))
-     {
-         return response()->json([
-             'statut_code'=> false,
-             'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
-         ]);
-     }
+
      
  //    return response()->json(["date"=>$date]);
  $date =  date("Y-m-d", strtotime($request->date_paiement));
-     if($date < $gestionCycle->date_cycle || $date > $gestionCycle->date_cycle)
+     if($date < $gestionCycle->date_cycle)
      {
          return response()->json([
              'statut_code'=> false,
              'statut_message'=> 'veuillez effectuer votre cotisation à la date du cycle requis', 
          ]);   
      }
+if($date > $gestionCycle->date_cycle)
+{
+    foreach($tontines  as $tontine){
+        $montantTontine =$tontine->montant+500;
+}
+}
+if($date> $gestionCycle->date_cycle && intval($tontine->montant+500) != intval($request->montant_paiement))
+{
+    return response()->json([
+        'statut_code'=> false,
+        'statut_message'=> 'veuillez ajouter 500 à la cotisation,vous avez une amende. ', 
+    ]);
+}
 
+if($date == $gestionCycle->date_cycle && intval($montantTontine) != intval($request->montant_paiement))
+     {
+         return response()->json([
+             'statut_code'=> false,
+             'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
+         ]);
+     }
 
-        //   if ($user->id != $user->$participation->user_id)
-        //  {
-        //     // dd($user->id);
-        //     dd( $user->$participation->user_id);
-        //    return response()->json([
-        //          'statut_code'=> false,
-        //          'statut_message'=> 'vous n\'êtes pas participant qui doit effectuer le paiement à cette tontine', 
-        //      ]);
-        //  }
+   
         $participants = ParticipationTontine::where('user_id', $user->id)
         ->where('tontine_id', $tontine->id)
         ->where('statutParticipation', 'accepte')
@@ -167,16 +173,16 @@ foreach ($participants as $participant) {
         ]);
     }
 
-        $cotisationExistant = CotisationTontine::where('gestion_cycle_id', $gestionCycles->id)
-        ->where('participation_Tontine_id', $participant->id)
-        ->first();
+        // $cotisationExistant = CotisationTontine::where('gestion_cycle_id', $gestionCycles->id)
+        // ->where('participation_Tontine_id', $participant->id)
+        // ->first();
 
-        if ($cotisationExistant) {
-        return response()->json([
-        'statut_code' => false,
-        'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
-        ]);
-        }
+        // if ($cotisationExistant) {
+        // return response()->json([
+        // 'statut_code' => false,
+        // 'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
+        // ]);
+        // }
 
 
          $cotisationExistante = Payment::where('gestion_cycle_id', $gestionCycles->id)
@@ -225,11 +231,11 @@ foreach ($participants as $participant) {
             //         ]);
             
                    
-             return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
+            //  return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
 
-            // return response()->json([
-            //     "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
-            // ]);
+            return response()->json([
+                "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
+            ]);
         
 
            
@@ -239,39 +245,61 @@ foreach ($participants as $participant) {
 
  }
     
-    
+/**
+ * @OA\Get(
+ *     path="/auth/listeCotisationUser/{gestioncycle}",
+ *     summary="Liste des participants ayant cotisé pour un cycle donné",
+ *     tags={"Liste Cotisation Tontine par cycle"},
+ *  *     security={{"bearerAuth":{}}},
 
-    // public function faireTirage(GestionCycle $nonGagnants)
-    // {
-    //     // Récupérer la liste des utilisateurs non-gagnants
-    //     $nonGagnants = GestionCycle::where(['statutTirage'=>'pasgagnant'])->get();
-
-    //     if ($nonGagnants->isEmpty()) {
-    //         return response()->json(['message' => 'Il n\'y a pas de non-gagnants pour le moment.'], 404);
-    //     }
-
-    //     // Effectuer le tirage au sort
-    //     $gagnant = $nonGagnants->random();
-
-    //     // Mettre à jour le statut du gagnant dans la base de données
-    //     $gagnant->update(['statutTirage' => 'gagnant']);
-
-    //     // Notifier le gagnant (vous devrez implémenter la logique de notification)
-    //     $this->notifierGagnant($gagnant);
-
-    //     return response()->json(['gagnant' => $gagnant, 'message' => 'Le tirage au sort a été effectué avec succès.']);
-    // }
+ *     @OA\Parameter(
+ *         name="gestioncycle",
+ *         in="path",
+ *         description="ID du cycle de gestion",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Liste des participants ayant cotisé pour le cycle donné",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="statut_code", type="integer", example=200),
+ *             @OA\Property(property="statut_message", type="string", example="la liste des participants côtisés")
+ *         )
+ *     )
+ * )
+ */
 
       
    
 
 
-        public function listeCotisation()
+        public function listeCotisation(GestionCycle $gestioncycle)
         {
+            $userCotises = Payment::where('gestion_cycle_id' , $gestioncycle->id)->get();
+            // dd($userCotises);
+
+            $participantsCotises= [];
+            foreach ($userCotises as $userCotise)
+            {
+                $participant = ParticipationTontine::find($userCotise->participation_Tontine_id)->user;
+
+                $participantsCotises[] = [
+                    'participant_id' => $participant->id,
+                    'gestion_cycle_id'=>$userCotise->gestion_cycle_id,
+                    'name' => $participant->name,
+                    'montant_paiement' => $userCotise->amount,
+                    'date_paiement' => $userCotise->created_at,
+                    'montant_a_gagner'=>$userCotise->montant_a_gagner,
+                ];
+            }
+            
             return response()->json([
                 'statut_code'=> 200,
-                'statut_message'=> 'votre cotisation a été effectué avec succés',
-                'data'=>CotisationTontine::all(),
+                'statut_message'=> 'la liste des participants côtisés',
+                'data'=>$participantsCotises,
             ]);
         }
 
