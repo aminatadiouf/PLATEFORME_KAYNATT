@@ -119,42 +119,41 @@ class CotisationTontineController extends Controller
 
      $tontines =$gestionCycles->tontine()->get();
     //  dd( $tontines );
-     foreach($tontines  as $tontine){
-     $montantTontine =$tontine->montant;
-// dd($montantTontine);
+    foreach($tontines  as $tontine){
+        $montantTontine =$tontine->montant;
+        // dd($montantTontine);
 
 
      
- //    return response()->json(["date"=>$date]);
- $date =  date("Y-m-d", strtotime($request->date_paiement));
-     if($date < $gestionCycle->date_cycle)
-     {
-         return response()->json([
-             'statut_code'=> false,
-             'statut_message'=> 'veuillez effectuer votre cotisation à la date du cycle requis', 
-         ]);   
-     }
-if($date > $gestionCycle->date_cycle)
-{
-    foreach($tontines  as $tontine){
-        $montantTontine =$tontine->montant+500;
-}
-}
-if($date> $gestionCycle->date_cycle && intval($tontine->montant+500) != intval($request->montant_paiement))
-{
-    return response()->json([
-        'statut_code'=> false,
-        'statut_message'=> 'veuillez ajouter 500 à la cotisation,vous avez une amende. ', 
-    ]);
-}
+        //return response()->json(["date"=>$date]);
+        $date =  date("Y-m-d", strtotime($request->date_paiement));
+            if($date < $gestionCycle->date_cycle)
+            {
+                return response()->json([
+                    'statut_code'=> false,
+                    'statut_message'=> 'veuillez effectuer votre cotisation à la date du cycle requis', 
+                ]);   
+            }
+            if($date > $gestionCycle->date_cycle)
+            {
+                    $montantTontine =$tontine->montant+500;
+            
+            }
+            if($date> $gestionCycle->date_cycle && intval($tontine->montant+500) != intval($request->montant_paiement))
+            {
+                return response()->json([
+                    'statut_code'=> false,
+                    'statut_message'=> 'veuillez ajouter 500 à la cotisation,vous avez une amende. ', 
+                ]);
+            }
 
-if($date == $gestionCycle->date_cycle && intval($montantTontine) != intval($request->montant_paiement))
-     {
-         return response()->json([
-             'statut_code'=> false,
-             'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
-         ]);
-     }
+            if($date == $gestionCycle->date_cycle && intval($montantTontine) != intval($request->montant_paiement))
+                {
+                    return response()->json([
+                        'statut_code'=> false,
+                        'statut_message'=> 'cette montant n\'est pas celle du tontine ', 
+                    ]);
+                }
 
    
         $participants = ParticipationTontine::where('user_id', $user->id)
@@ -162,16 +161,16 @@ if($date == $gestionCycle->date_cycle && intval($montantTontine) != intval($requ
         ->where('statutParticipation', 'accepte')
         ->get(); 
 
-// dd($participants);
-foreach ($participants as $participant) {
-    // dd($participant->user_id);
-    if ($user->id != $participant->user_id) {
-       
-        return response()->json([
-            'statut_code' => false,
-            'statut_message' => 'vous n\'êtes pas participant qui doit effectuer le paiement à cette tontine', 
-        ]);
-    }
+    // dd($participants);
+        foreach ($participants as $participant) {
+            // dd($participant->user_id);
+            if ($user->id != $participant->user_id) {
+            
+                return response()->json([
+                    'statut_code' => false,
+                    'statut_message' => 'vous n\'êtes pas participant qui doit effectuer le paiement à cette tontine', 
+                ]);
+            }
 
         // $cotisationExistant = CotisationTontine::where('gestion_cycle_id', $gestionCycles->id)
         // ->where('participation_Tontine_id', $participant->id)
@@ -204,9 +203,9 @@ foreach ($participants as $participant) {
      
          $cotisations ->date_paiement = $date;
          $cotisations->montant_paiement =intval($montantTontine);
-        $cotisations->gestion_cycle_id =$gestionCycles->id;
-        $cotisations->participation_Tontine_id = $participant->id;
-        $cotisations->montant_a_gagner=$montantDejaCotise + intval($montantTontine)  ; 
+         $cotisations->gestion_cycle_id =$gestionCycles->id;
+         $cotisations->participation_Tontine_id = $participant->id;
+         $cotisations->montant_a_gagner=$montantDejaCotise + intval($montantTontine)  ; 
 
          $cotisations->save();
         
@@ -224,22 +223,20 @@ foreach ($participants as $participant) {
              $price =$montantTontine;
              $gestion_cycle_id = $gestionCycles->id;
 
-            //  return view('index',[
-            //             'price' =>$montantTontine,
-            //             'gestion_cycle_id' => $gestionCycles->id,
-            //             'participation_Tontine_id' =>  $participant->id
-            //         ]);
+             return view('index',[
+                        'price' =>$montantTontine,
+                        'gestion_cycle_id' => $gestionCycles->id,
+                        'participation_Tontine_id' =>  $participant->id
+                    ]);
             
                    
             //  return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
 
-            return response()->json([
-                "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
-            ]);
+            // return response()->json([
+            //     "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
+            // ]);
         
 
-           
-            // $gestionCycles->update(['statut'=>'termine']);
 }
 }
 

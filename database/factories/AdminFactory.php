@@ -21,7 +21,7 @@ class AdminFactory extends Factory
         return [
             'name_admin' => fake()->name(),
             'email_admin' => fake()->unique()->safeEmail(),
-            'password' => Hash::make('0000'), 
+            'password' => Hash::make('pass@1234'), 
             'role' => 'admin'
 
         ];

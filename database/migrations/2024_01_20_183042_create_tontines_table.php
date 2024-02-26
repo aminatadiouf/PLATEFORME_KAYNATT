@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('periode',['hebdomaire','mensuel','quotidien','annuel']);
             $table->enum('etat',['en_attente','en_cours','termine'])->default('en_attente');
             $table->enum('statutTontine',['en_attente','accepte','refuse'])->default('en_attente');
+            $table->integer('nombreParticipantsAccepte')->default(0);
 
 
             $table->timestamps();

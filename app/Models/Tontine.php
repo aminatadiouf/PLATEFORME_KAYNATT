@@ -20,7 +20,8 @@ class Tontine extends Model
         'date_de_debut',
         'periode',
         'etat', 
-        'statutTontine' 
+        'statutTontine' ,
+        'nombreParticipantsAccepte'
     ];
 
     public function user()

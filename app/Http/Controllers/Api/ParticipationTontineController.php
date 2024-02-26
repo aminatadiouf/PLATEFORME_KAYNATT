@@ -250,7 +250,8 @@ class ParticipationTontineController extends Controller
               $participationTontine->update(['statutParticipation' => 'accepte']);
               $participeUser = User::find($participationTontine->user_id);
 
-                
+              $participationTontine->tontine->update(['nombreParticipantsAccepte'=>$participationTontine->tontine->nombreParticipantsAccepte +1])  ;
+
 
               $participeUser->notify(new AcceptedParticipationTontine());
         

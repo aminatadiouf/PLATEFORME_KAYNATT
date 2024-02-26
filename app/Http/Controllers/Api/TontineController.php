@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Models\User;
 use App\Models\Tontine;
+use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditTontineRequest;
 use App\Http\Requests\TontineCreateRequest;
 use App\Notifications\RefuseDemandeTontine;
 use App\Notifications\AccepteDemandeTontine;
-use OpenApi\Annotations as OA;
+use App\Notifications\UneNouvelleTontineaetecree;
 
 
 
@@ -332,7 +333,7 @@ class TontineController extends Controller
  */
 
 
-    public function CreationTontineAccepted(Tontine $tontines,User $user)
+    public function CreationTontineAccepted(Tontine $tontines)
 { 
 
     try {
@@ -353,6 +354,11 @@ class TontineController extends Controller
             $tontines->user->update(['role' => 'createur_tontine']);
         }
        
+        $users= User::all();
+        foreach($users as $user)
+        {
+            $user->notify(new UneNouvelleTontineAEteCree($user,$tontines));
+        }
     
         $createurTontine = $tontines->user; 
             $createurTontine->notify(new AccepteDemandeTontine());
