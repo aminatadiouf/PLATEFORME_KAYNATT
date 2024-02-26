@@ -218,14 +218,14 @@ foreach ($participants as $participant) {
              $price =$montantTontine;
              $gestion_cycle_id = $gestionCycles->id;
 
-             return view('index',[
-                        'price' =>$montantTontine,
-                        'gestion_cycle_id' => $gestionCycles->id,
-                        'participation_Tontine_id' =>  $participant->id
-                    ]);
+            //  return view('index',[
+            //             'price' =>$montantTontine,
+            //             'gestion_cycle_id' => $gestionCycles->id,
+            //             'participation_Tontine_id' =>  $participant->id
+            //         ]);
             
                    
-            //  return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
+             return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
 
             // return response()->json([
             //     "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"

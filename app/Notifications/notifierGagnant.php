@@ -39,13 +39,12 @@ class notifierGagnant extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // $nomGagnant = $this->gagnant->nom;
-        // $emailGagnant = $this->gagnant->email;
+       
 
         return (new MailMessage)
         ->line('Félicitations ' . $this->gagnant->user->name . '!')
-        ->line(' vous êtes le gagnant de la tontine ')
-        ->line(' vous avez gagné '. $this->montantTotal .' fcfa')
+        ->line(' vous êtes le/la gagnant(e) de la tontine ')
+        ->line(' vous avez gagné(e) '. $this->montantTotal .' fcfa')
         ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

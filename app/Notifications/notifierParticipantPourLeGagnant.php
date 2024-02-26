@@ -54,8 +54,8 @@ class notifierParticipantPourLeGagnant extends Notification
         return (new MailMessage)
                     ->line('Le tirage au sort de la tontine '. $this->tontine->libelle . '!')
                     ->line('pour le cycle noméro '. $this->gestionCycles->nombre_de_cycle .' a été effectué .!')
-                    ->line('le participant '. $this->gagnant->user->name . ' est le gagné. ')
-                    ->line('il a gagné '. $this->montantTotal .' fcfa')
+                    ->line('le/la participant(e) '. $this->gagnant->user->name . ' est le gagnant(e). ')
+                    ->line('il/elle a gagné(e) '. $this->montantTotal .' fcfa')
 
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
