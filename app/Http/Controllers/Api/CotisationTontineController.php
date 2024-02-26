@@ -167,29 +167,29 @@ foreach ($participants as $participant) {
         ]);
     }
 
-        // $cotisationExistant = CotisationTontine::where('gestion_cycle_id', $gestionCycles->id)
-        // ->where('participation_Tontine_id', $participant->id)
-        // ->first();
+        $cotisationExistant = CotisationTontine::where('gestion_cycle_id', $gestionCycles->id)
+        ->where('participation_Tontine_id', $participant->id)
+        ->first();
 
-        // if ($cotisationExistant) {
-        // return response()->json([
-        // 'statut_code' => false,
-        // 'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
-        // ]);
-        // }
+        if ($cotisationExistant) {
+        return response()->json([
+        'statut_code' => false,
+        'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
+        ]);
+        }
 
 
-        //  $cotisationExistante = Payment::where('gestion_cycle_id', $gestionCycles->id)
-        //  ->where('participation_Tontine_id', $participant->id)
+         $cotisationExistante = Payment::where('gestion_cycle_id', $gestionCycles->id)
+         ->where('participation_Tontine_id', $participant->id)
 
-        //  ->first();
+         ->first();
 
-        //  if ($cotisationExistante) {
-        //  return response()->json([
-        //  'statut_code' => false,
-        //  'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
-        //  ]);
-        //  }
+         if ($cotisationExistante) {
+         return response()->json([
+         'statut_code' => false,
+         'statut_message' => 'Vous avez déjà effectué un paiement pour ce cycle.',
+         ]);
+         }
         $montantDejaCotise = CotisationTontine::where('gestion_cycle_id', $gestionCycle->id)
         ->sum('montant_paiement');
     //    dd($montantDejaCotise);
