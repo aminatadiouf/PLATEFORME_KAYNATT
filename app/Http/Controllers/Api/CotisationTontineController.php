@@ -298,12 +298,25 @@ class CotisationTontineController extends Controller
                 'statut_code'=> 200,
                 'statut_message'=> 'la liste des participants côtisés',
                 'data'=>$participantsCotises,
+                'montant_a_gagner'=>$userCotise->montant_a_gagner
             ]);
         }
 
         
   
+        public function UsersNoncotises(GestionCycle $gestionCycle)
+        {
+            
+            $usersNonCotises = ParticipationTontine::whereHas('tontine_id', function ($query) {
+                $query->whereDoesntHave('payments');
+            })->get();
 
+            return response()->json([
+                'statut_code'=> 200,
+                'statut_message'=> 'la liste des participants côtisés',
+                'data'=>$usersNonCotises,
+            ]);
+        }
 
         public function cotisationParparticipation(ParticipationTontine $participations)
         {
