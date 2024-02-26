@@ -223,18 +223,18 @@ class CotisationTontineController extends Controller
              $price =$montantTontine;
              $gestion_cycle_id = $gestionCycles->id;
 
-             return view('index',[
-                        'price' =>$montantTontine,
-                        'gestion_cycle_id' => $gestionCycles->id,
-                        'participation_Tontine_id' =>  $participant->id
-                    ]);
+            //  return view('index',[
+            //             'price' =>$montantTontine,
+            //             'gestion_cycle_id' => $gestionCycles->id,
+            //             'participation_Tontine_id' =>  $participant->id
+            //         ]);
             
                    
             //  return view('index', compact( 'price', 'gestion_cycle_id','participation_Tontine_id'));
 
-            // return response()->json([
-            //     "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
-            // ]);
+            return response()->json([
+                "url"=>"http://localhost:8000/api/vue?price=$price&gestion_cycle_id=$gestion_cycle_id&participation_Tontine_id=$participation_Tontine_id"
+            ]);
         
 
 }
@@ -290,6 +290,7 @@ class CotisationTontineController extends Controller
                     'montant_paiement' => $userCotise->amount,
                     'date_paiement' => $userCotise->created_at,
                     'montant_a_gagner'=>$userCotise->montant_a_gagner,
+                    'statutCotisation'=>$userCotise->statutCotisation
                 ];
             }
             
