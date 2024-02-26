@@ -289,7 +289,8 @@ class CotisationTontineController extends Controller
                     'name' => $participant->name,
                     'montant_paiement' => $userCotise->amount,
                     'date_paiement' => $userCotise->created_at,
-                    'montant_a_gagner'=>$userCotise->montant_a_gagner,
+                    'role'=>$participant->role,
+                    // 'montant_a_gagner'=>$userCotise->montant_a_gagner,
                     'statutCotisation'=>$userCotise->statutCotisation
                 ];
             }
