@@ -304,20 +304,22 @@ class CotisationTontineController extends Controller
         }
 
         
-  
-        public function UsersNoncotises(GestionCycle $gestionCycle)
+       
+        
+       
+        
+        public function participantsNonCotises(GestionCycle $gestionCycle)
         {
-            
-            $usersNonCotises = ParticipationTontine::whereHas('tontine_id', function ($query) {
-                $query->whereDoesntHave('payments');
-            })->get();
-
+            $participantsWithNoPayments = ParticipationTontine::whereHas('payments', function ($query) {
+                $query->where('id', null);
+            })->where('statutParticipation', 'accepte')->get();
             return response()->json([
-                'statut_code'=> 200,
-                'statut_message'=> 'la liste des participants côtisés',
-                'data'=>$usersNonCotises,
+                'statut_code' => 200,
+                'statut_message' => 'Liste des participants n\'ayant pas cotisé pour ce cycle de la tontine donnée',
+                'data' => $participantsWithNoPayments,
             ]);
         }
+        
 
         public function cotisationParparticipation(ParticipationTontine $participations)
         {

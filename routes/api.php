@@ -52,6 +52,7 @@ Route::group(['middleware' => [ 'jwt.auth'],'prefix'=>'auth'], function () {
     Route::POST('modifierUser/{users}',[UserController::class,'update']);
     Route::POST('fairePaiement/{gestionCycle}', [CotisationTontineController::class, 'effectuerPaiement']);
     Route::GET('listeCotisationUser/{gestioncycle}', [CotisationTontineController::class, 'listeCotisation']);
+    Route::GET('listeUserNonCotises/{gestioncycle}', [CotisationTontineController::class, 'UsersNoncotises']);
 
     Route::GET('ListeparticipationAcceptePartontine/{tontine}',[ParticipationTontineController::class,'participationTontineAccepte']);
     Route::GET('listeCycle/{tontine}',[GestionCycleController::class,'listeCycle']);
