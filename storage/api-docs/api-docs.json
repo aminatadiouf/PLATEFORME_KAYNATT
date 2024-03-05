@@ -1410,7 +1410,7 @@
                 "parameters": [
                     {
                         "name": "users",
-                        "in": "query",
+                        "in": "path",
                         "description": "ID de l'utilisateur à supprimer",
                         "required": true,
                         "schema": {
@@ -1448,7 +1448,7 @@
                 },
                 "security": [
                     {
-                        "jwt_token": []
+                        "bearerAuth": []
                     }
                 ]
             }

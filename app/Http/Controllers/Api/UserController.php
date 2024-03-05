@@ -358,10 +358,10 @@ class UserController extends Controller
  *     path="/admin/supprimerUser/{users}",
  *     summary="Supprimer un utilisateur ",
  *     tags={"Admins"},
- *     security={{"jwt_token":{}}},
+ *      security={{"bearerAuth":{}}},
  *     @OA\Parameter(
  *         name="users",
- *         in="query",
+ *         in="path",
  *         required=true,
  *         description="ID de l'utilisateur à supprimer",
  *         @OA\Schema(
@@ -396,7 +396,7 @@ class UserController extends Controller
                    
                    return response()->json([
                        'status_code'=>200,
-                       'status_message'=>'la tontine a été supprimée avec succés',
+                       'status_message'=>'l\'utilisateur a été supprimé avec succés',
                        'data'=>$users
                    ]);
                }
