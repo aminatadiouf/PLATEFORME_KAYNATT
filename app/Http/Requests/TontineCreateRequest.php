@@ -46,7 +46,7 @@ class TontineCreateRequest extends FormRequest
             'nombre_participant' => 'required|integer',
             'regles' => 'required|',
             'date_de_debut' => 'required|date',
-            'periode'=>'required|in:hebdomaire,mensuel,quotidien,annuel', 
+            'periode'=>'required|in:hebdomadaire,mensuel,quotidien,annuel', 
             'etat'=>'required|in:en_attente,en_cours,termine',
             'statutTontine'=>'|in:en_attente,accepte,refuse',
             
@@ -93,7 +93,7 @@ class TontineCreateRequest extends FormRequest
 
 
         'periode.required'=>'la periode  doit être fourni',
-        'periode.in' => 'La periode doit être l\'un des suivants : hebdomaire,mensuel,quotidien,annuel',
+        'periode.in' => 'La periode doit être l\'un des suivants : hebdomadaire,mensuel,quotidien,annuel',
 
      
         'etat.required'=>'l\'etat doit être fourni',

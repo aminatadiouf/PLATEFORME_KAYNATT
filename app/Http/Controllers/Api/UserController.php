@@ -278,21 +278,30 @@ class UserController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Post(
- *     path="/auth/modifierUser",
+ *     path="/auth/modifierUser/{users}",
  *     summary="Mise à jour des informations de l'utilisateur que ce soit participant ou createur",
  *     tags={"Users"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Parameter(
+ *         name="users",
+ *         in="path",
+ *         required=true,
+ *         description="ID de l'utilisateur à supprimer",
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
  *             type="object",
  *             @OA\Property(property="name", type="string"),
- *             @OA\Property(property="email", type="string"),
  *             @OA\Property(property="password", type="string"),
  *             @OA\Property(property="adresse", type="string"),
  *             @OA\Property(property="num_carte_d_identite", type="string"),
  *             @OA\Property(property="telephone", type="string"),
  *             @OA\Property(property="telephone_d_un_proche", type="string"),
- *             @OA\Property(property="role", type="string", enum={"participant_tontine", "createur_tontine"})
  *         )
  *     ),
  *     @OA\Response(

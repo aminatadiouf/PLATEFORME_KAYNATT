@@ -716,9 +716,9 @@
                 "operationId": "EffectuerTirage",
                 "parameters": [
                     {
-                        "name": "tontines",
+                        "name": "gestionCycle",
                         "in": "path",
-                        "description": "ID de la tontine",
+                        "description": "ID du gestion cycle",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -824,17 +824,22 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/ListeTontine": {
+        "/admin/ListeTontine": {
             "get": {
                 "tags": [
                     "Tontines"
                 ],
                 "summary": " la liste de toutes les tontines",
                 "description": "Obtenir la liste de toutes les tontines.",
-                "operationId": "f6d46ca092b5a56d94cf71a9b4ba028e",
+                "operationId": "7dac5e251d78b8cd002b3cf39c564128",
                 "responses": {
                     "200": {
                         "description": "Liste de toutes les tontines récupérée avec succès",
@@ -859,7 +864,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/createur_tontine/ListeTontineparCreateur/{user}": {
@@ -1321,14 +1331,25 @@
                 }
             }
         },
-        "/auth/modifierUser": {
+        "/auth/modifierUser/{users}": {
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Mise à jour des informations de l'utilisateur que ce soit participant ou createur",
                 "description": "Update user information.",
-                "operationId": "a156de39b6749b78842119a2c488c2f8",
+                "operationId": "fc61d5e9c5156999925df12192d83c17",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "ID de l'utilisateur à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1336,9 +1357,6 @@
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
                                         "type": "string"
                                     },
                                     "password": {
@@ -1355,13 +1373,6 @@
                                     },
                                     "telephone_d_un_proche": {
                                         "type": "string"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "enum": [
-                                            "participant_tontine",
-                                            "createur_tontine"
-                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -1396,7 +1407,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/admin/supprimerUser/{users}": {

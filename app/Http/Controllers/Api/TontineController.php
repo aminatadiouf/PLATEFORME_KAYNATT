@@ -48,6 +48,8 @@ class TontineController extends Controller
  *     path="/auth/ajouterTontine",
  *     summary="Demande de creation d'une tontine",
  *     tags={"Tontines"},
+ *    security={{"bearerAuth":{}}},
+
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
@@ -128,9 +130,11 @@ class TontineController extends Controller
  * @return \Illuminate\Http\Response
  *
  * @OA\Get(
- *     path="/ListeTontine",
+ *     path="/admin/ListeTontine",
  *     summary=" la liste de toutes les tontines",
  *     tags={"Tontines"},
+ *   security={{"bearerAuth":{}}},
+
  *     @OA\Response(
  *         response=200,
  *         description="Liste de toutes les tontines récupérée avec succès",

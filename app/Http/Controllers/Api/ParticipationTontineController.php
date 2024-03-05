@@ -610,9 +610,9 @@ public function participationTontineAccepte(Tontine $tontine)
  *     tags={"Tirage"},
  *     security={{"bearerAuth":{}}},
  *     @OA\Parameter(
- *         name="tontines",
+ *         name="gestionCycle",
  *         in="path",
- *         description="ID de la tontine",
+ *         description="ID du gestion cycle",
  *         required=true,
  *         @OA\Schema(
  *             type="integer"
@@ -712,10 +712,7 @@ foreach($tontines as $tontine){
   
     $participantGagnant =[];
     
-        // foreach($cycles as $cycle){
-        // if ($cycle ->nombre_de_cycle !=1 && now()->isSameDay($cycle->date_cycle))
-        // {
-            //dd($cycle ->nombre_de_cycle !=1);
+      
 
 
     
@@ -762,9 +759,7 @@ foreach($tontines as $tontine){
       
     }
            
-        // } 
-      
-    // }
+     
            
                 return response()->json([
                     'statut_code'=> 200,

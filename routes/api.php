@@ -41,7 +41,6 @@ Route::POST('logoutAdmin',[AdminController::class,'logoutAdmin']);
 Route::GET('indexAdmin',[AdminController::class,'index']);
 
 
-Route::GET('ListeTontine',[TontineController::class,'tousLesTontines']);
 
 Route::group(['middleware' => [ 'jwt.auth'],'prefix'=>'auth'], function () {
 
@@ -131,6 +130,8 @@ Route::group(['middleware' => [ 'jwt.auth','acces:admin'],'prefix'=>'admin'], fu
     Route::POST('AcceptedTontine/{tontines}',[TontineController::class,'CreationTontineAccepted']);
 
     Route::POST('RefuseTontine/{tontines}',[TontineController::class,'CreationTontineRefuse']);
+    Route::GET('ListeTontine',[TontineController::class,'tousLesTontines']);
+
 });
 
 
