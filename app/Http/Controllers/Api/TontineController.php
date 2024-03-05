@@ -173,6 +173,8 @@ class TontineController extends Controller
  *     path="/createur_tontine/ListeTontineparCreateur/{user}",
  *     summary="Obtenir la liste de toutes les tontines créées par un créateur_tontine",
  *     tags={"CreateurTontine"},
+ *   security={{"bearerAuth":{}}},
+
  *     @OA\Parameter(
  *         name="user",
  *         in="path",

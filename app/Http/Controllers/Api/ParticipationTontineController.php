@@ -477,7 +477,7 @@ public function participationTontineEnAttente(Tontine $tontine)
 
     return response()->json([
         'status_code'=>200,
-        'status_message'=>'la liste de tous les cotisations de cette tontine',
+        'status_message'=>'la liste de tous les participants de cette tontine qui sont en attente',
         'data'=> $participations
     ]);
 

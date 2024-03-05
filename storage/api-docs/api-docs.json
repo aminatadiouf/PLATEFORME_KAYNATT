@@ -917,7 +917,12 @@
                     "500": {
                         "description": "Erreur interne du serveur"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/admin/AcceptedTontine/{tontines}": {

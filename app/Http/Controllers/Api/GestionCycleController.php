@@ -175,13 +175,13 @@ class GestionCycleController extends Controller
                ]);
            }    
 
-if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
-{
-    return response()->json([
-        'status_code'=> false,
-        'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
-    ]);
-}
+    if($tontine->statutTontine === 'en_attente'|| $tontine->statutTontine === 'refuse' )
+    {
+        return response()->json([
+            'status_code'=> false,
+            'status_message'=>'vous ne pouvez pas effectuer cette action, la tontine n\'est pas encore accepte'
+        ]);
+    }
     if($nbre_participantTontine<2){
         // dd($nbre_participantTontine<=2);
         return response()->json([
